@@ -55,7 +55,7 @@
   #header{
     background:linear-gradient(135deg, var(--brown) 0%, var(--brown-light) 60%, var(--brown-soft) 100%);
     color:var(--cream);
-    padding:16px 18px;
+    padding:22px 22px;
     position:relative;
     flex-shrink:0;
   }
@@ -370,13 +370,10 @@ const LANGS = [
   {code:"es", flag:"🇪🇸", label:"ES"},
   {code:"fr", flag:"🇫🇷", label:"FR"},
   {code:"en", flag:"🇬🇧", label:"EN"},
-  {code:"nl", flag:"🇳🇱", label:"NL"},
   {code:"de", flag:"🇩🇪", label:"DE"},
   {code:"it", flag:"🇮🇹", label:"IT"},
   {code:"pt", flag:"🇵🇹", label:"PT"},
-  {code:"ar", flag:"🇸🇦", label:"AR"},
-  {code:"zh", flag:"🇨🇳", label:"ZH"},
-  {code:"ru", flag:"🇷🇺", label:"RU"}
+  {code:"ar", flag:"🇸🇦", label:"AR"}
 ];
 
 const CITY_CHIPS = ["Casablanca","Rabat","Marrakech","Tánger","Agadir","Fès","Meknès","Tétouan","Essaouira","Chefchaouen"];
@@ -422,12 +419,11 @@ I18N.es = {
       {id:"comprar_terreno", label:"Comprar un terreno", ic:"🗺️"},
       {id:"alquilar", label:"Alquilar una propiedad", ic:"🔑"},
       {id:"vender", label:"Vender una propiedad", ic:"💰"},
-      {id:"invertir", label:"Invertir (rentabilidad locativa)", ic:"📈"},
-      {id:"estimacion", label:"Estimación gratuita", ic:"📋"},
-      {id:"gestion_locativa", label:"Gestión locativa", ic:"🗂️"},
-      {id:"asesoria", label:"Asesoramiento jurídico/administrativo", ic:"⚖️"}
+      {id:"invertir", label:"Invertir (rentabilidad locativa)", ic:"📈"}
     ]},
     tipoPropiedad:{q:"¿Qué tipo de propiedad te interesa?", opts:[
+      {id:"villas", label:"Villas", ic:"🏡"},
+      {id:"apartamentos", label:"Apartamentos", ic:"🏙️"},
       {id:"vivienda", label:"Vivienda", ic:"🏠"},
       {id:"terreno", label:"Terreno", ic:"🗺️"},
       {id:"comercial", label:"Local comercial", ic:"🏢"},
@@ -454,7 +450,7 @@ I18N.es = {
     viviendaBanos:{q:"¿Cuántos baños?", opts:[
       {id:"1", label:"1 baño"},{id:"2", label:"2 baños"},{id:"3", label:"3 baños"},{id:"4+", label:"4 o más"}
     ]},
-    viviendaSuperficie:{q:"¿Qué superficie aproximada buscas (m²)?"},
+    viviendaSuperficie:{q:"¿Qué superficie aproximada buscas (m²)?", opts:[{id:"s1", label:"Menos de 50 m²"}, {id:"s2", label:"50 – 100 m²"}, {id:"s3", label:"100 – 200 m²"}, {id:"s4", label:"200 – 500 m²"}, {id:"s5", label:"Más de 500 m²"}, {id:"s6", label:"Aún no lo sé"}]},
     viviendaExtras:{q:"¿Qué características te interesan?", opts:[
       {id:"piscina", label:"Piscina", ic:"🏊"},{id:"jardin", label:"Jardín", ic:"🌳"},{id:"terraza", label:"Terraza", ic:"🌇"},
       {id:"garaje_incl", label:"Garaje", ic:"🚗"},{id:"ascensor", label:"Ascensor", ic:"🛗"},{id:"amueblado", label:"Amueblado", ic:"🛋️"},
@@ -467,7 +463,7 @@ I18N.es = {
       {id:"residencial", label:"Residencial", ic:"🏠"},{id:"comercial", label:"Comercial", ic:"🏬"},
       {id:"industrial", label:"Industrial", ic:"🏭"},{id:"inversion", label:"Inversión", ic:"📈"}
     ]},
-    terrenoSuperficie:{q:"¿Qué superficie buscas (m²)?"},
+    terrenoSuperficie:{q:"¿Qué superficie buscas (m²)?", opts:[{id:"s1", label:"Menos de 50 m²"}, {id:"s2", label:"50 – 100 m²"}, {id:"s3", label:"100 – 200 m²"}, {id:"s4", label:"200 – 500 m²"}, {id:"s5", label:"Más de 500 m²"}, {id:"s6", label:"Aún no lo sé"}]},
     terrenoTitulado:{q:"¿El terreno debe estar titulado (registrado)?", opts:[
       {id:"si", label:"Sí, imprescindible"},{id:"no", label:"No es necesario"},{id:"no_seguro", label:"No estoy seguro"}
     ]},
@@ -475,7 +471,7 @@ I18N.es = {
       {id:"local", label:"Local comercial", ic:"🏬"},{id:"oficina", label:"Oficina", ic:"🏢"},
       {id:"nave", label:"Nave industrial", ic:"🏭"},{id:"edificio_rendimiento", label:"Edificio de rendimiento", ic:"🏗️"}
     ]},
-    comercialSuperficie:{q:"¿Qué superficie necesitas (m²)?"},
+    comercialSuperficie:{q:"¿Qué superficie necesitas (m²)?", opts:[{id:"s1", label:"Menos de 50 m²"}, {id:"s2", label:"50 – 100 m²"}, {id:"s3", label:"100 – 200 m²"}, {id:"s4", label:"200 – 500 m²"}, {id:"s5", label:"Más de 500 m²"}, {id:"s6", label:"Aún no lo sé"}]},
     comercialPlanta:{q:"¿Qué ubicación prefieres?", opts:[
       {id:"baja", label:"Planta baja"},{id:"alta", label:"Planta alta"},{id:"independiente", label:"Edificio independiente"}
     ]},
@@ -552,12 +548,11 @@ I18N.fr = {
       {id:"comprar_terreno", label:"Acheter un terrain", ic:"🗺️"},
       {id:"alquilar", label:"Louer un bien", ic:"🔑"},
       {id:"vender", label:"Vendre un bien", ic:"💰"},
-      {id:"invertir", label:"Investir (rentabilité locative)", ic:"📈"},
-      {id:"estimacion", label:"Estimation gratuite", ic:"📋"},
-      {id:"gestion_locativa", label:"Gestion locative", ic:"🗂️"},
-      {id:"asesoria", label:"Conseils juridiques/administratifs", ic:"⚖️"}
+      {id:"invertir", label:"Investir (rentabilité locative)", ic:"📈"}
     ]},
     tipoPropiedad:{q:"Quel type de bien vous intéresse ?", opts:[
+      {id:"villas", label:"Villas", ic:"🏡"},
+      {id:"apartamentos", label:"Appartements", ic:"🏙️"},
       {id:"vivienda", label:"Logement", ic:"🏠"},
       {id:"terreno", label:"Terrain", ic:"🗺️"},
       {id:"comercial", label:"Local commercial", ic:"🏢"},
@@ -584,7 +579,7 @@ I18N.fr = {
     viviendaBanos:{q:"Combien de salles de bain ?", opts:[
       {id:"1", label:"1 salle de bain"},{id:"2", label:"2 salles de bain"},{id:"3", label:"3 salles de bain"},{id:"4+", label:"4 ou plus"}
     ]},
-    viviendaSuperficie:{q:"Quelle superficie recherchez-vous (m²) ?"},
+    viviendaSuperficie:{q:"Quelle superficie recherchez-vous (m²) ?", opts:[{id:"s1", label:"Moins de 50 m²"}, {id:"s2", label:"50 – 100 m²"}, {id:"s3", label:"100 – 200 m²"}, {id:"s4", label:"200 – 500 m²"}, {id:"s5", label:"Plus de 500 m²"}, {id:"s6", label:"Je ne sais pas encore"}]},
     viviendaExtras:{q:"Quelles caractéristiques vous intéressent ?", opts:[
       {id:"piscina", label:"Piscine", ic:"🏊"},{id:"jardin", label:"Jardin", ic:"🌳"},{id:"terraza", label:"Terrasse", ic:"🌇"},
       {id:"garaje_incl", label:"Garage", ic:"🚗"},{id:"ascensor", label:"Ascenseur", ic:"🛗"},{id:"amueblado", label:"Meublé", ic:"🛋️"},
@@ -597,7 +592,7 @@ I18N.fr = {
       {id:"residencial", label:"Résidentiel", ic:"🏠"},{id:"comercial", label:"Commercial", ic:"🏬"},
       {id:"industrial", label:"Industriel", ic:"🏭"},{id:"inversion", label:"Investissement", ic:"📈"}
     ]},
-    terrenoSuperficie:{q:"Quelle superficie recherchez-vous (m²) ?"},
+    terrenoSuperficie:{q:"Quelle superficie recherchez-vous (m²) ?", opts:[{id:"s1", label:"Moins de 50 m²"}, {id:"s2", label:"50 – 100 m²"}, {id:"s3", label:"100 – 200 m²"}, {id:"s4", label:"200 – 500 m²"}, {id:"s5", label:"Plus de 500 m²"}, {id:"s6", label:"Je ne sais pas encore"}]},
     terrenoTitulado:{q:"Le terrain doit-il être titré (immatriculé) ?", opts:[
       {id:"si", label:"Oui, indispensable"},{id:"no", label:"Ce n'est pas nécessaire"},{id:"no_seguro", label:"Je ne suis pas sûr"}
     ]},
@@ -605,7 +600,7 @@ I18N.fr = {
       {id:"local", label:"Local commercial", ic:"🏬"},{id:"oficina", label:"Bureau", ic:"🏢"},
       {id:"nave", label:"Entrepôt", ic:"🏭"},{id:"edificio_rendimiento", label:"Immeuble de rapport", ic:"🏗️"}
     ]},
-    comercialSuperficie:{q:"Quelle superficie vous faut-il (m²) ?"},
+    comercialSuperficie:{q:"Quelle superficie vous faut-il (m²) ?", opts:[{id:"s1", label:"Moins de 50 m²"}, {id:"s2", label:"50 – 100 m²"}, {id:"s3", label:"100 – 200 m²"}, {id:"s4", label:"200 – 500 m²"}, {id:"s5", label:"Plus de 500 m²"}, {id:"s6", label:"Je ne sais pas encore"}]},
     comercialPlanta:{q:"Quel emplacement préférez-vous ?", opts:[
       {id:"baja", label:"Rez-de-chaussée"},{id:"alta", label:"Étage"},{id:"independiente", label:"Immeuble indépendant"}
     ]},
@@ -682,12 +677,11 @@ I18N.en = {
       {id:"comprar_terreno", label:"Buy land", ic:"🗺️"},
       {id:"alquilar", label:"Rent a property", ic:"🔑"},
       {id:"vender", label:"Sell a property", ic:"💰"},
-      {id:"invertir", label:"Invest (rental yield)", ic:"📈"},
-      {id:"estimacion", label:"Free valuation", ic:"📋"},
-      {id:"gestion_locativa", label:"Rental management", ic:"🗂️"},
-      {id:"asesoria", label:"Legal/administrative advice", ic:"⚖️"}
+      {id:"invertir", label:"Invest (rental yield)", ic:"📈"}
     ]},
     tipoPropiedad:{q:"What type of property are you interested in?", opts:[
+      {id:"villas", label:"Villas", ic:"🏡"},
+      {id:"apartamentos", label:"Apartments", ic:"🏙️"},
       {id:"vivienda", label:"Home", ic:"🏠"},
       {id:"terreno", label:"Land", ic:"🗺️"},
       {id:"comercial", label:"Commercial premises", ic:"🏢"},
@@ -714,7 +708,7 @@ I18N.en = {
     viviendaBanos:{q:"How many bathrooms?", opts:[
       {id:"1", label:"1 bathroom"},{id:"2", label:"2 bathrooms"},{id:"3", label:"3 bathrooms"},{id:"4+", label:"4 or more"}
     ]},
-    viviendaSuperficie:{q:"What surface area are you looking for (m²)?"},
+    viviendaSuperficie:{q:"What surface area are you looking for (m²)?", opts:[{id:"s1", label:"Less than 50 m²"}, {id:"s2", label:"50 – 100 m²"}, {id:"s3", label:"100 – 200 m²"}, {id:"s4", label:"200 – 500 m²"}, {id:"s5", label:"More than 500 m²"}, {id:"s6", label:"Not sure yet"}]},
     viviendaExtras:{q:"Which features interest you?", opts:[
       {id:"piscina", label:"Pool", ic:"🏊"},{id:"jardin", label:"Garden", ic:"🌳"},{id:"terraza", label:"Terrace", ic:"🌇"},
       {id:"garaje_incl", label:"Garage", ic:"🚗"},{id:"ascensor", label:"Elevator", ic:"🛗"},{id:"amueblado", label:"Furnished", ic:"🛋️"},
@@ -727,7 +721,7 @@ I18N.en = {
       {id:"residencial", label:"Residential", ic:"🏠"},{id:"comercial", label:"Commercial", ic:"🏬"},
       {id:"industrial", label:"Industrial", ic:"🏭"},{id:"inversion", label:"Investment", ic:"📈"}
     ]},
-    terrenoSuperficie:{q:"What surface area are you looking for (m²)?"},
+    terrenoSuperficie:{q:"What surface area are you looking for (m²)?", opts:[{id:"s1", label:"Less than 50 m²"}, {id:"s2", label:"50 – 100 m²"}, {id:"s3", label:"100 – 200 m²"}, {id:"s4", label:"200 – 500 m²"}, {id:"s5", label:"More than 500 m²"}, {id:"s6", label:"Not sure yet"}]},
     terrenoTitulado:{q:"Does the land need to be titled (registered)?", opts:[
       {id:"si", label:"Yes, essential"},{id:"no", label:"Not necessary"},{id:"no_seguro", label:"Not sure"}
     ]},
@@ -735,7 +729,7 @@ I18N.en = {
       {id:"local", label:"Retail unit", ic:"🏬"},{id:"oficina", label:"Office", ic:"🏢"},
       {id:"nave", label:"Warehouse", ic:"🏭"},{id:"edificio_rendimiento", label:"Income building", ic:"🏗️"}
     ]},
-    comercialSuperficie:{q:"What surface area do you need (m²)?"},
+    comercialSuperficie:{q:"What surface area do you need (m²)?", opts:[{id:"s1", label:"Less than 50 m²"}, {id:"s2", label:"50 – 100 m²"}, {id:"s3", label:"100 – 200 m²"}, {id:"s4", label:"200 – 500 m²"}, {id:"s5", label:"More than 500 m²"}, {id:"s6", label:"Not sure yet"}]},
     comercialPlanta:{q:"What location do you prefer?", opts:[
       {id:"baja", label:"Ground floor"},{id:"alta", label:"Upper floor"},{id:"independiente", label:"Standalone building"}
     ]},
@@ -776,135 +770,6 @@ I18N.en = {
   }
 };
 
-I18N.nl = {
-  dir:"ltr", name:"Nederlands",
-  ui:{
-    headerTitle:"Vastgoed Marokko", headerSubtitle:"Uw virtuele vastgoedadviseur",
-    resetBtn:"Opnieuw", resetConfirm:"Weet u zeker dat u het gesprek wilt resetten? Ingevoerde gegevens gaan verloren.",
-    yes:"Ja, resetten", no:"Annuleren", back:"Terug", send:"Verzenden", next:"Doorgaan",
-    edit:"Antwoorden bewerken", confirmSend:"Bevestigen en verzenden via WhatsApp",
-    resumeTitle:"U heeft een onvoltooid gesprek", resumeText:"Wilt u verdergaan waar u gebleven was?",
-    resumeContinue:"Doorgaan", resumeRestart:"Opnieuw beginnen",
-    otherOption:"Anders", otherPlaceholder:"Typ hier...",
-    errName:"Voer een geldige naam in (alleen letters, minimaal 2 tekens).",
-    errEmail:"Voer een geldig e-mailadres in.",
-    errPhone:"Voer een geldig telefoonnummer in (minimaal 8 cijfers).",
-    errZone:"Voer een geldig gebied in.",
-    errRequired:"Dit veld is verplicht.",
-    placeholderZone:"Typ een stad of gebied...",
-    placeholderSuperficie:"Oppervlakte in m²...",
-    placeholderName:"Uw volledige naam...",
-    placeholderEmail:"u@email.com",
-    placeholderPhone:"+31 6 00000000",
-    summaryTitle:"Overzicht van uw aanvraag",
-    progressStep:"Stap", progressOf:"van",
-    whatsappFallback:"Als WhatsApp niet automatisch opende, kopieer het bericht:",
-    copy:"Bericht kopiëren", copied:"Gekopieerd!",
-    welcomeMsg:"Hallo! Ik ben de virtuele assistent van Vastgoed Marokko. Ik stel u enkele korte vragen om te begrijpen wat u zoekt en u met ons team in contact te brengen.",
-    startBtn:"Beginnen", selectMultiHint:"U kunt meerdere opties kiezen",
-    confirmMulti:"Selectie bevestigen",
-    whatsappBtn:"Verzenden via WhatsApp",
-    typing:"Aan het typen..."
-  },
-  q:{
-    objetivo:{q:"Wat is uw doel?", opts:[
-      {id:"comprar_vivienda", label:"Een woning kopen", ic:"🏠"},
-      {id:"comprar_terreno", label:"Grond kopen", ic:"🗺️"},
-      {id:"alquilar", label:"Een woning huren", ic:"🔑"},
-      {id:"vender", label:"Een woning verkopen", ic:"💰"},
-      {id:"invertir", label:"Investeren (huurrendement)", ic:"📈"},
-      {id:"estimacion", label:"Gratis taxatie", ic:"📋"},
-      {id:"gestion_locativa", label:"Verhuurbeheer", ic:"🗂️"},
-      {id:"asesoria", label:"Juridisch/administratief advies", ic:"⚖️"}
-    ]},
-    tipoPropiedad:{q:"In welk type woning bent u geïnteresseerd?", opts:[
-      {id:"vivienda", label:"Woning", ic:"🏠"},
-      {id:"terreno", label:"Grond", ic:"🗺️"},
-      {id:"comercial", label:"Bedrijfspand", ic:"🏢"},
-      {id:"garaje", label:"Garage", ic:"🚗"}
-    ]},
-    zona:{q:"In welke stad of regio van Marokko zoekt u?"},
-    presupuesto:{q:"Wat is uw ongeveer budget?", opts:[
-      {id:"b1", label:"Minder dan €50.000"},
-      {id:"b2", label:"€50.000 – €100.000"},
-      {id:"b3", label:"€100.000 – €200.000"},
-      {id:"b4", label:"€200.000 – €500.000"},
-      {id:"b5", label:"Meer dan €500.000"},
-      {id:"b6", label:"Ik geef dit later door"}
-    ]},
-    viviendaSubtipo:{q:"Welk type woning zoekt u?", opts:[
-      {id:"casa_villa", label:"Huis / Villa", ic:"🏡"},
-      {id:"apartamento", label:"Appartement", ic:"🏢"},
-      {id:"riad", label:"Riad", ic:"🕌"},
-      {id:"edificio", label:"Beleggingspand", ic:"🏗️"}
-    ]},
-    viviendaHabitaciones:{q:"Hoeveel slaapkamers heeft u nodig?", opts:[
-      {id:"1", label:"1 slaapkamer"},{id:"2", label:"2 slaapkamers"},{id:"3", label:"3 slaapkamers"},{id:"4", label:"4 slaapkamers"},{id:"5+", label:"5 of meer"}
-    ]},
-    viviendaBanos:{q:"Hoeveel badkamers?", opts:[
-      {id:"1", label:"1 badkamer"},{id:"2", label:"2 badkamers"},{id:"3", label:"3 badkamers"},{id:"4+", label:"4 of meer"}
-    ]},
-    viviendaSuperficie:{q:"Welke oppervlakte zoekt u (m²)?"},
-    viviendaExtras:{q:"Welke kenmerken interesseren u?", opts:[
-      {id:"piscina", label:"Zwembad", ic:"🏊"},{id:"jardin", label:"Tuin", ic:"🌳"},{id:"terraza", label:"Terras", ic:"🌇"},
-      {id:"garaje_incl", label:"Garage", ic:"🚗"},{id:"ascensor", label:"Lift", ic:"🛗"},{id:"amueblado", label:"Gemeubileerd", ic:"🛋️"},
-      {id:"aire_acondicionado", label:"Airconditioning", ic:"❄️"},{id:"seguridad", label:"24-uurs beveiliging", ic:"🔒"}
-    ]},
-    viviendaEstado:{q:"Nieuwbouw of bestaande bouw?", opts:[
-      {id:"nueva", label:"Nieuwbouw"},{id:"reventa", label:"Bestaande bouw"},{id:"indiferente", label:"Maakt niet uit"}
-    ]},
-    terrenoUso:{q:"Waarvoor wordt de grond gebruikt?", opts:[
-      {id:"residencial", label:"Residentieel", ic:"🏠"},{id:"comercial", label:"Commercieel", ic:"🏬"},
-      {id:"industrial", label:"Industrieel", ic:"🏭"},{id:"inversion", label:"Investering", ic:"📈"}
-    ]},
-    terrenoSuperficie:{q:"Welke oppervlakte zoekt u (m²)?"},
-    terrenoTitulado:{q:"Moet de grond geregistreerd zijn?", opts:[
-      {id:"si", label:"Ja, essentieel"},{id:"no", label:"Niet noodzakelijk"},{id:"no_seguro", label:"Niet zeker"}
-    ]},
-    comercialSubtipo:{q:"Welk type bedrijfspand zoekt u?", opts:[
-      {id:"local", label:"Winkelruimte", ic:"🏬"},{id:"oficina", label:"Kantoor", ic:"🏢"},
-      {id:"nave", label:"Loods", ic:"🏭"},{id:"edificio_rendimiento", label:"Beleggingspand", ic:"🏗️"}
-    ]},
-    comercialSuperficie:{q:"Welke oppervlakte heeft u nodig (m²)?"},
-    comercialPlanta:{q:"Welke locatie heeft uw voorkeur?", opts:[
-      {id:"baja", label:"Begane grond"},{id:"alta", label:"Bovenverdieping"},{id:"independiente", label:"Vrijstaand gebouw"}
-    ]},
-    garajePlazas:{q:"Hoeveel plaatsen heeft u nodig?", opts:[
-      {id:"1", label:"1 plaats"},{id:"2", label:"2 plaatsen"},{id:"3+", label:"3 of meer"}
-    ]},
-    garajeTipo:{q:"Overdekt of open?", opts:[
-      {id:"cubierto", label:"Overdekt"},{id:"descubierto", label:"Open"},{id:"indiferente", label:"Maakt niet uit"}
-    ]},
-    garajeUbicacion:{q:"Waar heeft u het liefst?", opts:[
-      {id:"en_residencia", label:"Binnen een wooncomplex"},{id:"independiente", label:"Vrijstaand / op straat"}
-    ]},
-    plazo:{q:"Binnen welke termijn wilt u dit realiseren?", opts:[
-      {id:"inmediato", label:"Onmiddellijk"},{id:"1_3_meses", label:"1 tot 3 maanden"},
-      {id:"3_6_meses", label:"3 tot 6 maanden"},{id:"mas_6_meses", label:"Meer dan 6 maanden"},{id:"solo_info", label:"Alleen informatie"}
-    ]},
-    gestion:{q:"Wilt u begeleiding bij het proces (zoeken, juridische en administratieve stappen)?", opts:[
-      {id:"acompanamiento_completo", label:"Ja, volledige begeleiding"},
-      {id:"solo_info", label:"Nee, alleen informatie"},
-      {id:"ya_tengo_agente", label:"Ik heb al een agent"}
-    ]},
-    nacionalidad:{q:"Wat is uw nationaliteit?", chips:["Marokkaans","Spaans","Frans","Belgisch","Duits","Nederlands","Italiaans","Portugees","Chinees","Russisch"], other:"Anders"},
-    nombre:{q:"Wat is uw volledige naam?"},
-    email:{q:"Wat is uw e-mailadres?"},
-    telefono:{q:"Wat is uw telefoonnummer (met landcode)?"}
-  },
-  labels:{
-    objetivo:"Doel", tipoPropiedad:"Type woning", subtipo:"Subtype", zona:"Gebied", presupuesto:"Budget",
-    habitaciones:"Slaapkamers", banos:"Badkamers", superficie:"Oppervlakte", extras:"Kenmerken", estado:"Staat",
-    uso:"Gebruik", titulado:"Geregistreerde grond", planta:"Locatie", plazas:"Plaatsen", tipoGaraje:"Overdekt/open",
-    ubicacionGaraje:"Locatie", plazo:"Termijn", gestion:"Begeleiding", nacionalidad:"Nationaliteit",
-    nombre:"Naam", email:"E-mail", telefono:"Telefoon"
-  },
-  wa:{
-    title:"NIEUWE VASTGOEDAANVRAAG", origin:"Website Vastgoed Marokko", date:"Datum",
-    sectionRequest:"AANVRAAGGEGEVENS", sectionProperty:"WONINGDETAILS", sectionContact:"CONTACTGEGEVENS",
-    footer:"Aanvraag automatisch gegenereerd via de webchatbot."
-  }
-};
 
 I18N.de = {
   dir:"ltr", name:"Deutsch",
@@ -942,12 +807,11 @@ I18N.de = {
       {id:"comprar_terreno", label:"Grundstück kaufen", ic:"🗺️"},
       {id:"alquilar", label:"Eine Immobilie mieten", ic:"🔑"},
       {id:"vender", label:"Eine Immobilie verkaufen", ic:"💰"},
-      {id:"invertir", label:"Investieren (Mietrendite)", ic:"📈"},
-      {id:"estimacion", label:"Kostenlose Bewertung", ic:"📋"},
-      {id:"gestion_locativa", label:"Mietverwaltung", ic:"🗂️"},
-      {id:"asesoria", label:"Rechtliche/administrative Beratung", ic:"⚖️"}
+      {id:"invertir", label:"Investieren (Mietrendite)", ic:"📈"}
     ]},
     tipoPropiedad:{q:"An welcher Art von Immobilie sind Sie interessiert?", opts:[
+      {id:"villas", label:"Villen", ic:"🏡"},
+      {id:"apartamentos", label:"Wohnungen", ic:"🏙️"},
       {id:"vivienda", label:"Wohnimmobilie", ic:"🏠"},
       {id:"terreno", label:"Grundstück", ic:"🗺️"},
       {id:"comercial", label:"Gewerbefläche", ic:"🏢"},
@@ -974,7 +838,7 @@ I18N.de = {
     viviendaBanos:{q:"Wie viele Badezimmer?", opts:[
       {id:"1", label:"1 Badezimmer"},{id:"2", label:"2 Badezimmer"},{id:"3", label:"3 Badezimmer"},{id:"4+", label:"4 oder mehr"}
     ]},
-    viviendaSuperficie:{q:"Welche Fläche suchen Sie (m²)?"},
+    viviendaSuperficie:{q:"Welche Fläche suchen Sie (m²)?", opts:[{id:"s1", label:"Weniger als 50 m²"}, {id:"s2", label:"50 – 100 m²"}, {id:"s3", label:"100 – 200 m²"}, {id:"s4", label:"200 – 500 m²"}, {id:"s5", label:"Mehr als 500 m²"}, {id:"s6", label:"Noch unsicher"}]},
     viviendaExtras:{q:"Welche Merkmale interessieren Sie?", opts:[
       {id:"piscina", label:"Pool", ic:"🏊"},{id:"jardin", label:"Garten", ic:"🌳"},{id:"terraza", label:"Terrasse", ic:"🌇"},
       {id:"garaje_incl", label:"Garage", ic:"🚗"},{id:"ascensor", label:"Aufzug", ic:"🛗"},{id:"amueblado", label:"Möbliert", ic:"🛋️"},
@@ -987,7 +851,7 @@ I18N.de = {
       {id:"residencial", label:"Wohnnutzung", ic:"🏠"},{id:"comercial", label:"Gewerblich", ic:"🏬"},
       {id:"industrial", label:"Industriell", ic:"🏭"},{id:"inversion", label:"Investition", ic:"📈"}
     ]},
-    terrenoSuperficie:{q:"Welche Fläche suchen Sie (m²)?"},
+    terrenoSuperficie:{q:"Welche Fläche suchen Sie (m²)?", opts:[{id:"s1", label:"Weniger als 50 m²"}, {id:"s2", label:"50 – 100 m²"}, {id:"s3", label:"100 – 200 m²"}, {id:"s4", label:"200 – 500 m²"}, {id:"s5", label:"Mehr als 500 m²"}, {id:"s6", label:"Noch unsicher"}]},
     terrenoTitulado:{q:"Muss das Grundstück im Grundbuch eingetragen sein?", opts:[
       {id:"si", label:"Ja, unerlässlich"},{id:"no", label:"Nicht notwendig"},{id:"no_seguro", label:"Nicht sicher"}
     ]},
@@ -995,7 +859,7 @@ I18N.de = {
       {id:"local", label:"Ladenlokal", ic:"🏬"},{id:"oficina", label:"Büro", ic:"🏢"},
       {id:"nave", label:"Lagerhalle", ic:"🏭"},{id:"edificio_rendimiento", label:"Renditeobjekt", ic:"🏗️"}
     ]},
-    comercialSuperficie:{q:"Welche Fläche benötigen Sie (m²)?"},
+    comercialSuperficie:{q:"Welche Fläche benötigen Sie (m²)?", opts:[{id:"s1", label:"Weniger als 50 m²"}, {id:"s2", label:"50 – 100 m²"}, {id:"s3", label:"100 – 200 m²"}, {id:"s4", label:"200 – 500 m²"}, {id:"s5", label:"Mehr als 500 m²"}, {id:"s6", label:"Noch unsicher"}]},
     comercialPlanta:{q:"Welche Lage bevorzugen Sie?", opts:[
       {id:"baja", label:"Erdgeschoss"},{id:"alta", label:"Obergeschoss"},{id:"independiente", label:"Freistehendes Gebäude"}
     ]},
@@ -1072,12 +936,11 @@ I18N.it = {
       {id:"comprar_terreno", label:"Comprare un terreno", ic:"🗺️"},
       {id:"alquilar", label:"Affittare una proprietà", ic:"🔑"},
       {id:"vender", label:"Vendere una proprietà", ic:"💰"},
-      {id:"invertir", label:"Investire (rendita locativa)", ic:"📈"},
-      {id:"estimacion", label:"Stima gratuita", ic:"📋"},
-      {id:"gestion_locativa", label:"Gestione locativa", ic:"🗂️"},
-      {id:"asesoria", label:"Consulenza legale/amministrativa", ic:"⚖️"}
+      {id:"invertir", label:"Investire (rendita locativa)", ic:"📈"}
     ]},
     tipoPropiedad:{q:"A che tipo di proprietà sei interessato?", opts:[
+      {id:"villas", label:"Ville", ic:"🏡"},
+      {id:"apartamentos", label:"Appartamenti", ic:"🏙️"},
       {id:"vivienda", label:"Casa", ic:"🏠"},
       {id:"terreno", label:"Terreno", ic:"🗺️"},
       {id:"comercial", label:"Locale commerciale", ic:"🏢"},
@@ -1104,7 +967,7 @@ I18N.it = {
     viviendaBanos:{q:"Quanti bagni?", opts:[
       {id:"1", label:"1 bagno"},{id:"2", label:"2 bagni"},{id:"3", label:"3 bagni"},{id:"4+", label:"4 o più"}
     ]},
-    viviendaSuperficie:{q:"Che superficie stai cercando (m²)?"},
+    viviendaSuperficie:{q:"Che superficie stai cercando (m²)?", opts:[{id:"s1", label:"Meno di 50 m²"}, {id:"s2", label:"50 – 100 m²"}, {id:"s3", label:"100 – 200 m²"}, {id:"s4", label:"200 – 500 m²"}, {id:"s5", label:"Più di 500 m²"}, {id:"s6", label:"Non ancora sicuro"}]},
     viviendaExtras:{q:"Quali caratteristiche ti interessano?", opts:[
       {id:"piscina", label:"Piscina", ic:"🏊"},{id:"jardin", label:"Giardino", ic:"🌳"},{id:"terraza", label:"Terrazza", ic:"🌇"},
       {id:"garaje_incl", label:"Garage", ic:"🚗"},{id:"ascensor", label:"Ascensore", ic:"🛗"},{id:"amueblado", label:"Arredato", ic:"🛋️"},
@@ -1117,7 +980,7 @@ I18N.it = {
       {id:"residencial", label:"Residenziale", ic:"🏠"},{id:"comercial", label:"Commerciale", ic:"🏬"},
       {id:"industrial", label:"Industriale", ic:"🏭"},{id:"inversion", label:"Investimento", ic:"📈"}
     ]},
-    terrenoSuperficie:{q:"Che superficie stai cercando (m²)?"},
+    terrenoSuperficie:{q:"Che superficie stai cercando (m²)?", opts:[{id:"s1", label:"Meno di 50 m²"}, {id:"s2", label:"50 – 100 m²"}, {id:"s3", label:"100 – 200 m²"}, {id:"s4", label:"200 – 500 m²"}, {id:"s5", label:"Più di 500 m²"}, {id:"s6", label:"Non ancora sicuro"}]},
     terrenoTitulado:{q:"Il terreno deve essere accatastato/registrato?", opts:[
       {id:"si", label:"Sì, indispensabile"},{id:"no", label:"Non necessario"},{id:"no_seguro", label:"Non sono sicuro"}
     ]},
@@ -1125,7 +988,7 @@ I18N.it = {
       {id:"local", label:"Negozio", ic:"🏬"},{id:"oficina", label:"Ufficio", ic:"🏢"},
       {id:"nave", label:"Capannone", ic:"🏭"},{id:"edificio_rendimiento", label:"Immobile da reddito", ic:"🏗️"}
     ]},
-    comercialSuperficie:{q:"Che superficie ti serve (m²)?"},
+    comercialSuperficie:{q:"Che superficie ti serve (m²)?", opts:[{id:"s1", label:"Menos de 50 m²"}, {id:"s2", label:"50 – 100 m²"}, {id:"s3", label:"100 – 200 m²"}, {id:"s4", label:"200 – 500 m²"}, {id:"s5", label:"Mais de 500 m²"}, {id:"s6", label:"Ainda não sei"}]},
     comercialPlanta:{q:"Quale posizione preferisci?", opts:[
       {id:"baja", label:"Piano terra"},{id:"alta", label:"Piano alto"},{id:"independiente", label:"Edificio indipendente"}
     ]},
@@ -1202,12 +1065,11 @@ I18N.pt = {
       {id:"comprar_terreno", label:"Comprar um terreno", ic:"🗺️"},
       {id:"alquilar", label:"Arrendar um imóvel", ic:"🔑"},
       {id:"vender", label:"Vender um imóvel", ic:"💰"},
-      {id:"invertir", label:"Investir (rentabilidade de arrendamento)", ic:"📈"},
-      {id:"estimacion", label:"Avaliação gratuita", ic:"📋"},
-      {id:"gestion_locativa", label:"Gestão de arrendamento", ic:"🗂️"},
-      {id:"asesoria", label:"Aconselhamento jurídico/administrativo", ic:"⚖️"}
+      {id:"invertir", label:"Investir (rentabilidade de arrendamento)", ic:"📈"}
     ]},
     tipoPropiedad:{q:"Em que tipo de imóvel está interessado?", opts:[
+      {id:"villas", label:"Moradias", ic:"🏡"},
+      {id:"apartamentos", label:"Apartamentos", ic:"🏙️"},
       {id:"vivienda", label:"Casa", ic:"🏠"},
       {id:"terreno", label:"Terreno", ic:"🗺️"},
       {id:"comercial", label:"Espaço comercial", ic:"🏢"},
@@ -1234,7 +1096,7 @@ I18N.pt = {
     viviendaBanos:{q:"Quantas casas de banho?", opts:[
       {id:"1", label:"1 casa de banho"},{id:"2", label:"2 casas de banho"},{id:"3", label:"3 casas de banho"},{id:"4+", label:"4 ou mais"}
     ]},
-    viviendaSuperficie:{q:"Que área procura (m²)?"},
+    viviendaSuperficie:{q:"Que área procura (m²)?", opts:[{id:"s1", label:"Menos de 50 m²"}, {id:"s2", label:"50 – 100 m²"}, {id:"s3", label:"100 – 200 m²"}, {id:"s4", label:"200 – 500 m²"}, {id:"s5", label:"Mais de 500 m²"}, {id:"s6", label:"Ainda não sei"}]},
     viviendaExtras:{q:"Que características lhe interessam?", opts:[
       {id:"piscina", label:"Piscina", ic:"🏊"},{id:"jardin", label:"Jardim", ic:"🌳"},{id:"terraza", label:"Terraço", ic:"🌇"},
       {id:"garaje_incl", label:"Garagem", ic:"🚗"},{id:"ascensor", label:"Elevador", ic:"🛗"},{id:"amueblado", label:"Mobilado", ic:"🛋️"},
@@ -1247,7 +1109,7 @@ I18N.pt = {
       {id:"residencial", label:"Residencial", ic:"🏠"},{id:"comercial", label:"Comercial", ic:"🏬"},
       {id:"industrial", label:"Industrial", ic:"🏭"},{id:"inversion", label:"Investimento", ic:"📈"}
     ]},
-    terrenoSuperficie:{q:"Que área procura (m²)?"},
+    terrenoSuperficie:{q:"Que área procura (m²)?", opts:[{id:"s1", label:"أقل من 50 م²"}, {id:"s2", label:"50 – 100 م²"}, {id:"s3", label:"100 – 200 م²"}, {id:"s4", label:"200 – 500 م²"}, {id:"s5", label:"أكثر من 500 م²"}, {id:"s6", label:"لست متأكدًا بعد"}]},
     terrenoTitulado:{q:"O terreno precisa de estar registado?", opts:[
       {id:"si", label:"Sim, essencial"},{id:"no", label:"Não é necessário"},{id:"no_seguro", label:"Não tenho certeza"}
     ]},
@@ -1255,7 +1117,7 @@ I18N.pt = {
       {id:"local", label:"Loja", ic:"🏬"},{id:"oficina", label:"Escritório", ic:"🏢"},
       {id:"nave", label:"Armazém", ic:"🏭"},{id:"edificio_rendimiento", label:"Imóvel de rendimento", ic:"🏗️"}
     ]},
-    comercialSuperficie:{q:"Que área precisa (m²)?"},
+    comercialSuperficie:{q:"Que área precisa (m²)?", opts:[{id:"s1", label:"أقل من 50 م²"}, {id:"s2", label:"50 – 100 م²"}, {id:"s3", label:"100 – 200 م²"}, {id:"s4", label:"200 – 500 م²"}, {id:"s5", label:"أكثر من 500 م²"}, {id:"s6", label:"لست متأكدًا بعد"}]},
     comercialPlanta:{q:"Que localização prefere?", opts:[
       {id:"baja", label:"Rés-do-chão"},{id:"alta", label:"Andar superior"},{id:"independiente", label:"Edifício independente"}
     ]},
@@ -1332,12 +1194,11 @@ I18N.ar = {
       {id:"comprar_terreno", label:"شراء أرض", ic:"🗺️"},
       {id:"alquilar", label:"استئجار عقار", ic:"🔑"},
       {id:"vender", label:"بيع عقار", ic:"💰"},
-      {id:"invertir", label:"الاستثمار (عائد إيجاري)", ic:"📈"},
-      {id:"estimacion", label:"تقييم مجاني", ic:"📋"},
-      {id:"gestion_locativa", label:"إدارة الإيجار", ic:"🗂️"},
-      {id:"asesoria", label:"استشارة قانونية/إدارية", ic:"⚖️"}
+      {id:"invertir", label:"الاستثمار (عائد إيجاري)", ic:"📈"}
     ]},
     tipoPropiedad:{q:"ما نوع العقار الذي يهمك؟", opts:[
+      {id:"villas", label:"فيلات", ic:"🏡"},
+      {id:"apartamentos", label:"شقق", ic:"🏙️"},
       {id:"vivienda", label:"سكن", ic:"🏠"},
       {id:"terreno", label:"أرض", ic:"🗺️"},
       {id:"comercial", label:"محل تجاري", ic:"🏢"},
@@ -1364,7 +1225,7 @@ I18N.ar = {
     viviendaBanos:{q:"كم عدد الحمامات؟", opts:[
       {id:"1", label:"حمام واحد"},{id:"2", label:"حمامان"},{id:"3", label:"3 حمامات"},{id:"4+", label:"4 أو أكثر"}
     ]},
-    viviendaSuperficie:{q:"ما المساحة التي تبحث عنها (م²)؟"},
+    viviendaSuperficie:{q:"ما المساحة التي تبحث عنها (م²)؟", opts:[{id:"s1", label:"أقل من 50 م²"}, {id:"s2", label:"50 – 100 م²"}, {id:"s3", label:"100 – 200 م²"}, {id:"s4", label:"200 – 500 م²"}, {id:"s5", label:"أكثر من 500 م²"}, {id:"s6", label:"لست متأكدًا بعد"}]},
     viviendaExtras:{q:"ما الميزات التي تهمك؟", opts:[
       {id:"piscina", label:"مسبح", ic:"🏊"},{id:"jardin", label:"حديقة", ic:"🌳"},{id:"terraza", label:"شرفة", ic:"🌇"},
       {id:"garaje_incl", label:"مرآب", ic:"🚗"},{id:"ascensor", label:"مصعد", ic:"🛗"},{id:"amueblado", label:"مفروش", ic:"🛋️"},
@@ -1377,7 +1238,7 @@ I18N.ar = {
       {id:"residencial", label:"سكني", ic:"🏠"},{id:"comercial", label:"تجاري", ic:"🏬"},
       {id:"industrial", label:"صناعي", ic:"🏭"},{id:"inversion", label:"استثمار", ic:"📈"}
     ]},
-    terrenoSuperficie:{q:"ما المساحة التي تبحث عنها (م²)؟"},
+    terrenoSuperficie:{q:"ما المساحة التي تبحث عنها (م²)؟", opts:[{id:"s1", label:"أقل من 50 م²"}, {id:"s2", label:"50 – 100 م²"}, {id:"s3", label:"100 – 200 م²"}, {id:"s4", label:"200 – 500 م²"}, {id:"s5", label:"أكثر من 500 م²"}, {id:"s6", label:"لست متأكدًا بعد"}]},
     terrenoTitulado:{q:"هل يجب أن تكون الأرض مسجلة؟", opts:[
       {id:"si", label:"نعم، ضروري"},{id:"no", label:"غير ضروري"},{id:"no_seguro", label:"لست متأكداً"}
     ]},
@@ -1385,7 +1246,7 @@ I18N.ar = {
       {id:"local", label:"محل تجاري", ic:"🏬"},{id:"oficina", label:"مكتب", ic:"🏢"},
       {id:"nave", label:"مستودع", ic:"🏭"},{id:"edificio_rendimiento", label:"عقار مدر للدخل", ic:"🏗️"}
     ]},
-    comercialSuperficie:{q:"ما المساحة التي تحتاجها (م²)؟"},
+    comercialSuperficie:{q:"ما المساحة التي تحتاجها (م²)؟", opts:[{id:"s1", label:"أقل من 50 م²"}, {id:"s2", label:"50 – 100 م²"}, {id:"s3", label:"100 – 200 م²"}, {id:"s4", label:"200 – 500 م²"}, {id:"s5", label:"أكثر من 500 م²"}, {id:"s6", label:"لست متأكدًا بعد"}]},
     comercialPlanta:{q:"أي موقع تفضل؟", opts:[
       {id:"baja", label:"الطابق الأرضي"},{id:"alta", label:"طابق علوي"},{id:"independiente", label:"مبنى مستقل"}
     ]},
@@ -1426,265 +1287,7 @@ I18N.ar = {
   }
 };
 
-I18N.zh = {
-  dir:"ltr", name:"中文",
-  ui:{
-    headerTitle:"摩洛哥房地产", headerSubtitle:"您的虚拟房产顾问",
-    resetBtn:"重置", resetConfirm:"确定要重置对话吗？已输入的数据将丢失。",
-    yes:"是，重置", no:"取消", back:"返回", send:"发送", next:"继续",
-    edit:"编辑回答", confirmSend:"确认并通过WhatsApp发送",
-    resumeTitle:"您有一个未完成的对话", resumeText:"是否要从上次中断的地方继续？",
-    resumeContinue:"继续", resumeRestart:"重新开始",
-    otherOption:"其他", otherPlaceholder:"在此输入...",
-    errName:"请输入有效姓名（仅限字母，至少2个字符）。",
-    errEmail:"请输入有效的电子邮件。",
-    errPhone:"请输入有效的电话号码（至少8位数字）。",
-    errZone:"请输入有效的区域。",
-    errRequired:"此字段为必填项。",
-    placeholderZone:"输入城市或区域...",
-    placeholderSuperficie:"面积（平方米）...",
-    placeholderName:"您的全名...",
-    placeholderEmail:"you@email.com",
-    placeholderPhone:"+86 138 0000 0000",
-    summaryTitle:"您的请求摘要",
-    progressStep:"步骤", progressOf:"共",
-    whatsappFallback:"如果WhatsApp没有自动打开，请复制以下信息：",
-    copy:"复制信息", copied:"已复制！",
-    welcomeMsg:"您好！我是摩洛哥房地产的虚拟助手。我会问您几个简短的问题，以了解您的需求并让您与我们的团队取得联系。",
-    startBtn:"开始", selectMultiHint:"您可以选择多个选项",
-    confirmMulti:"确认选择",
-    whatsappBtn:"通过WhatsApp发送",
-    typing:"正在输入..."
-  },
-  q:{
-    objetivo:{q:"您的目标是什么？", opts:[
-      {id:"comprar_vivienda", label:"购买住宅", ic:"🏠"},
-      {id:"comprar_terreno", label:"购买土地", ic:"🗺️"},
-      {id:"alquilar", label:"租赁房产", ic:"🔑"},
-      {id:"vender", label:"出售房产", ic:"💰"},
-      {id:"invertir", label:"投资（租金收益）", ic:"📈"},
-      {id:"estimacion", label:"免费评估", ic:"📋"},
-      {id:"gestion_locativa", label:"租赁管理", ic:"🗂️"},
-      {id:"asesoria", label:"法律/行政咨询", ic:"⚖️"}
-    ]},
-    tipoPropiedad:{q:"您对哪种类型的房产感兴趣？", opts:[
-      {id:"vivienda", label:"住宅", ic:"🏠"},
-      {id:"terreno", label:"土地", ic:"🗺️"},
-      {id:"comercial", label:"商业用房", ic:"🏢"},
-      {id:"garaje", label:"车库", ic:"🚗"}
-    ]},
-    zona:{q:"您在摩洛哥的哪个城市或地区寻找？"},
-    presupuesto:{q:"您的大致预算是多少？", opts:[
-      {id:"b1", label:"低于5万欧元"},
-      {id:"b2", label:"5万-10万欧元"},
-      {id:"b3", label:"10万-20万欧元"},
-      {id:"b4", label:"20万-50万欧元"},
-      {id:"b5", label:"超过50万欧元"},
-      {id:"b6", label:"稍后再说明"}
-    ]},
-    viviendaSubtipo:{q:"您在寻找哪种类型的住宅？", opts:[
-      {id:"casa_villa", label:"独栋房屋/别墅", ic:"🏡"},
-      {id:"apartamento", label:"公寓", ic:"🏢"},
-      {id:"riad", label:"里亚德庭院宅", ic:"🕌"},
-      {id:"edificio", label:"收益型房产", ic:"🏗️"}
-    ]},
-    viviendaHabitaciones:{q:"您需要几间卧室？", opts:[
-      {id:"1", label:"1间卧室"},{id:"2", label:"2间卧室"},{id:"3", label:"3间卧室"},{id:"4", label:"4间卧室"},{id:"5+", label:"5间或以上"}
-    ]},
-    viviendaBanos:{q:"需要几个浴室？", opts:[
-      {id:"1", label:"1个浴室"},{id:"2", label:"2个浴室"},{id:"3", label:"3个浴室"},{id:"4+", label:"4个或以上"}
-    ]},
-    viviendaSuperficie:{q:"您需要多大面积（平方米）？"},
-    viviendaExtras:{q:"您对哪些特色感兴趣？", opts:[
-      {id:"piscina", label:"游泳池", ic:"🏊"},{id:"jardin", label:"花园", ic:"🌳"},{id:"terraza", label:"露台", ic:"🌇"},
-      {id:"garaje_incl", label:"车库", ic:"🚗"},{id:"ascensor", label:"电梯", ic:"🛗"},{id:"amueblado", label:"带家具", ic:"🛋️"},
-      {id:"aire_acondicionado", label:"空调", ic:"❄️"},{id:"seguridad", label:"24小时安保", ic:"🔒"}
-    ]},
-    viviendaEstado:{q:"新建还是二手？", opts:[
-      {id:"nueva", label:"新建"},{id:"reventa", label:"二手"},{id:"indiferente", label:"无所谓"}
-    ]},
-    terrenoUso:{q:"土地的用途是什么？", opts:[
-      {id:"residencial", label:"住宅用途", ic:"🏠"},{id:"comercial", label:"商业用途", ic:"🏬"},
-      {id:"industrial", label:"工业用途", ic:"🏭"},{id:"inversion", label:"投资用途", ic:"📈"}
-    ]},
-    terrenoSuperficie:{q:"您需要多大面积（平方米）？"},
-    terrenoTitulado:{q:"土地是否需要有产权登记？", opts:[
-      {id:"si", label:"是，必须要有"},{id:"no", label:"不需要"},{id:"no_seguro", label:"不确定"}
-    ]},
-    comercialSubtipo:{q:"您在寻找哪种类型的商业用房？", opts:[
-      {id:"local", label:"商铺", ic:"🏬"},{id:"oficina", label:"办公室", ic:"🏢"},
-      {id:"nave", label:"仓库", ic:"🏭"},{id:"edificio_rendimiento", label:"收益型建筑", ic:"🏗️"}
-    ]},
-    comercialSuperficie:{q:"您需要多大面积（平方米）？"},
-    comercialPlanta:{q:"您偏好哪种位置？", opts:[
-      {id:"baja", label:"一楼"},{id:"alta", label:"高层"},{id:"independiente", label:"独立建筑"}
-    ]},
-    garajePlazas:{q:"您需要几个车位？", opts:[
-      {id:"1", label:"1个车位"},{id:"2", label:"2个车位"},{id:"3+", label:"3个或以上"}
-    ]},
-    garajeTipo:{q:"有顶棚还是露天？", opts:[
-      {id:"cubierto", label:"有顶棚"},{id:"descubierto", label:"露天"},{id:"indiferente", label:"无所谓"}
-    ]},
-    garajeUbicacion:{q:"您希望车库位于哪里？", opts:[
-      {id:"en_residencia", label:"住宅小区内"},{id:"independiente", label:"独立/街边"}
-    ]},
-    plazo:{q:"您希望在多长时间内完成？", opts:[
-      {id:"inmediato", label:"立即"},{id:"1_3_meses", label:"1至3个月"},
-      {id:"3_6_meses", label:"3至6个月"},{id:"mas_6_meses", label:"6个月以上"},{id:"solo_info", label:"只是想了解信息"}
-    ]},
-    gestion:{q:"您是否希望获得全程协助（搜寻、法律及行政手续）？", opts:[
-      {id:"acompanamiento_completo", label:"是，需要全程协助"},
-      {id:"solo_info", label:"不需要，只要信息"},
-      {id:"ya_tengo_agente", label:"我已经有代理人"}
-    ]},
-    nacionalidad:{q:"您的国籍是？", chips:["摩洛哥","西班牙","法国","比利时","德国","荷兰","意大利","葡萄牙","中国","俄罗斯"], other:"其他"},
-    nombre:{q:"请问您的全名是？"},
-    email:{q:"请问您的电子邮箱是？"},
-    telefono:{q:"请问您的电话号码是（含国家代码）？"}
-  },
-  labels:{
-    objetivo:"目标", tipoPropiedad:"房产类型", subtipo:"子类型", zona:"区域", presupuesto:"预算",
-    habitaciones:"卧室数", banos:"浴室数", superficie:"面积", extras:"特色", estado:"状态",
-    uso:"用途", titulado:"产权登记", planta:"位置", plazas:"车位数", tipoGaraje:"有顶棚/露天",
-    ubicacionGaraje:"位置", plazo:"时限", gestion:"协助", nacionalidad:"国籍",
-    nombre:"姓名", email:"邮箱", telefono:"电话"
-  },
-  wa:{
-    title:"新的房产咨询请求", origin:"摩洛哥房地产网站", date:"日期",
-    sectionRequest:"请求详情", sectionProperty:"房产详情", sectionContact:"联系方式",
-    footer:"此请求由网站聊天机器人自动生成。"
-  }
-};
 
-I18N.ru = {
-  dir:"ltr", name:"Русский",
-  ui:{
-    headerTitle:"Недвижимость Марокко", headerSubtitle:"Ваш виртуальный консультант по недвижимости",
-    resetBtn:"Сбросить", resetConfirm:"Вы уверены, что хотите сбросить разговор? Введённые данные будут утеряны.",
-    yes:"Да, сбросить", no:"Отмена", back:"Назад", send:"Отправить", next:"Продолжить",
-    edit:"Изменить ответы", confirmSend:"Подтвердить и отправить через WhatsApp",
-    resumeTitle:"У вас есть незавершённый разговор", resumeText:"Хотите продолжить с того места, где остановились?",
-    resumeContinue:"Продолжить", resumeRestart:"Начать заново",
-    otherOption:"Другое", otherPlaceholder:"Введите здесь...",
-    errName:"Введите корректное имя (только буквы, минимум 2 символа).",
-    errEmail:"Введите корректный email.",
-    errPhone:"Введите корректный номер телефона (минимум 8 цифр).",
-    errZone:"Введите корректный район.",
-    errRequired:"Это поле обязательно.",
-    placeholderZone:"Введите город или район...",
-    placeholderSuperficie:"Площадь в м²...",
-    placeholderName:"Ваше полное имя...",
-    placeholderEmail:"you@email.com",
-    placeholderPhone:"+7 900 000 00 00",
-    summaryTitle:"Сводка вашего запроса",
-    progressStep:"Шаг", progressOf:"из",
-    whatsappFallback:"Если WhatsApp не открылся автоматически, скопируйте сообщение:",
-    copy:"Скопировать сообщение", copied:"Скопировано!",
-    welcomeMsg:"Здравствуйте! Я виртуальный ассистент компании «Недвижимость Марокко». Задам несколько коротких вопросов, чтобы понять, что вы ищете, и связать вас с нашей командой.",
-    startBtn:"Начать", selectMultiHint:"Можно выбрать несколько вариантов",
-    confirmMulti:"Подтвердить выбор",
-    whatsappBtn:"Отправить через WhatsApp",
-    typing:"Печатает..."
-  },
-  q:{
-    objetivo:{q:"Какова ваша цель?", opts:[
-      {id:"comprar_vivienda", label:"Купить жильё", ic:"🏠"},
-      {id:"comprar_terreno", label:"Купить участок", ic:"🗺️"},
-      {id:"alquilar", label:"Арендовать недвижимость", ic:"🔑"},
-      {id:"vender", label:"Продать недвижимость", ic:"💰"},
-      {id:"invertir", label:"Инвестировать (доходность аренды)", ic:"📈"},
-      {id:"estimacion", label:"Бесплатная оценка", ic:"📋"},
-      {id:"gestion_locativa", label:"Управление арендой", ic:"🗂️"},
-      {id:"asesoria", label:"Юридическая/административная консультация", ic:"⚖️"}
-    ]},
-    tipoPropiedad:{q:"Какой тип недвижимости вас интересует?", opts:[
-      {id:"vivienda", label:"Жильё", ic:"🏠"},
-      {id:"terreno", label:"Участок", ic:"🗺️"},
-      {id:"comercial", label:"Коммерческое помещение", ic:"🏢"},
-      {id:"garaje", label:"Гараж", ic:"🚗"}
-    ]},
-    zona:{q:"В каком городе или районе Марокко вы ищете?"},
-    presupuesto:{q:"Какой у вас примерный бюджет?", opts:[
-      {id:"b1", label:"Менее 50 000 €"},
-      {id:"b2", label:"50 000 € – 100 000 €"},
-      {id:"b3", label:"100 000 € – 200 000 €"},
-      {id:"b4", label:"200 000 € – 500 000 €"},
-      {id:"b5", label:"Более 500 000 €"},
-      {id:"b6", label:"Укажу позже"}
-    ]},
-    viviendaSubtipo:{q:"Какой тип жилья вы ищете?", opts:[
-      {id:"casa_villa", label:"Дом / Вилла", ic:"🏡"},
-      {id:"apartamento", label:"Квартира", ic:"🏢"},
-      {id:"riad", label:"Риад", ic:"🕌"},
-      {id:"edificio", label:"Доходная недвижимость", ic:"🏗️"}
-    ]},
-    viviendaHabitaciones:{q:"Сколько спален вам нужно?", opts:[
-      {id:"1", label:"1 спальня"},{id:"2", label:"2 спальни"},{id:"3", label:"3 спальни"},{id:"4", label:"4 спальни"},{id:"5+", label:"5 и более"}
-    ]},
-    viviendaBanos:{q:"Сколько ванных комнат?", opts:[
-      {id:"1", label:"1 ванная"},{id:"2", label:"2 ванные"},{id:"3", label:"3 ванные"},{id:"4+", label:"4 и более"}
-    ]},
-    viviendaSuperficie:{q:"Какую площадь вы ищете (м²)?"},
-    viviendaExtras:{q:"Какие особенности вас интересуют?", opts:[
-      {id:"piscina", label:"Бассейн", ic:"🏊"},{id:"jardin", label:"Сад", ic:"🌳"},{id:"terraza", label:"Терраса", ic:"🌇"},
-      {id:"garaje_incl", label:"Гараж", ic:"🚗"},{id:"ascensor", label:"Лифт", ic:"🛗"},{id:"amueblado", label:"С мебелью", ic:"🛋️"},
-      {id:"aire_acondicionado", label:"Кондиционер", ic:"❄️"},{id:"seguridad", label:"Охрана 24ч", ic:"🔒"}
-    ]},
-    viviendaEstado:{q:"Новостройка или вторичное жильё?", opts:[
-      {id:"nueva", label:"Новостройка"},{id:"reventa", label:"Вторичное жильё"},{id:"indiferente", label:"Без разницы"}
-    ]},
-    terrenoUso:{q:"Каково назначение участка?", opts:[
-      {id:"residencial", label:"Жилое", ic:"🏠"},{id:"comercial", label:"Коммерческое", ic:"🏬"},
-      {id:"industrial", label:"Промышленное", ic:"🏭"},{id:"inversion", label:"Инвестиции", ic:"📈"}
-    ]},
-    terrenoSuperficie:{q:"Какую площадь вы ищете (м²)?"},
-    terrenoTitulado:{q:"Должен ли участок иметь оформленный титул (регистрацию)?", opts:[
-      {id:"si", label:"Да, обязательно"},{id:"no", label:"Не обязательно"},{id:"no_seguro", label:"Не уверен"}
-    ]},
-    comercialSubtipo:{q:"Какой тип коммерческого помещения вы ищете?", opts:[
-      {id:"local", label:"Торговое помещение", ic:"🏬"},{id:"oficina", label:"Офис", ic:"🏢"},
-      {id:"nave", label:"Склад", ic:"🏭"},{id:"edificio_rendimiento", label:"Доходное здание", ic:"🏗️"}
-    ]},
-    comercialSuperficie:{q:"Какая площадь вам нужна (м²)?"},
-    comercialPlanta:{q:"Какое расположение вы предпочитаете?", opts:[
-      {id:"baja", label:"Первый этаж"},{id:"alta", label:"Верхний этаж"},{id:"independiente", label:"Отдельное здание"}
-    ]},
-    garajePlazas:{q:"Сколько мест вам нужно?", opts:[
-      {id:"1", label:"1 место"},{id:"2", label:"2 места"},{id:"3+", label:"3 и более"}
-    ]},
-    garajeTipo:{q:"Крытый или открытый?", opts:[
-      {id:"cubierto", label:"Крытый"},{id:"descubierto", label:"Открытый"},{id:"indiferente", label:"Без разницы"}
-    ]},
-    garajeUbicacion:{q:"Где вы предпочитаете?", opts:[
-      {id:"en_residencia", label:"Внутри жилого комплекса"},{id:"independiente", label:"Отдельно / на улице"}
-    ]},
-    plazo:{q:"В какие сроки вы хотите реализовать это?", opts:[
-      {id:"inmediato", label:"Немедленно"},{id:"1_3_meses", label:"1–3 месяца"},
-      {id:"3_6_meses", label:"3–6 месяцев"},{id:"mas_6_meses", label:"Более 6 месяцев"},{id:"solo_info", label:"Просто интересуюсь"}
-    ]},
-    gestion:{q:"Нужна ли вам помощь в процессе (поиск, юридические и административные вопросы)?", opts:[
-      {id:"acompanamiento_completo", label:"Да, полное сопровождение"},
-      {id:"solo_info", label:"Нет, только информация"},
-      {id:"ya_tengo_agente", label:"У меня уже есть агент"}
-    ]},
-    nacionalidad:{q:"Какое у вас гражданство?", chips:["Марокканское","Испанское","Французское","Бельгийское","Немецкое","Голландское","Итальянское","Португальское","Китайское","Российское"], other:"Другое"},
-    nombre:{q:"Как вас зовут (полное имя)?"},
-    email:{q:"Какой у вас email?"},
-    telefono:{q:"Какой у вас номер телефона (с кодом страны)?"}
-  },
-  labels:{
-    objetivo:"Цель", tipoPropiedad:"Тип недвижимости", subtipo:"Подтип", zona:"Район", presupuesto:"Бюджет",
-    habitaciones:"Спальни", banos:"Ванные", superficie:"Площадь", extras:"Особенности", estado:"Состояние",
-    uso:"Назначение", titulado:"Оформленный участок", planta:"Расположение", plazas:"Места", tipoGaraje:"Крытый/открытый",
-    ubicacionGaraje:"Расположение", plazo:"Срок", gestion:"Сопровождение", nacionalidad:"Гражданство",
-    nombre:"Имя", email:"Email", telefono:"Телефон"
-  },
-  wa:{
-    title:"НОВЫЙ ЗАПРОС НА НЕДВИЖИМОСТЬ", origin:"Сайт «Недвижимость Марокко»", date:"Дата",
-    sectionRequest:"ДЕТАЛИ ЗАПРОСА", sectionProperty:"ДЕТАЛИ ОБЪЕКТА", sectionContact:"КОНТАКТНЫЕ ДАННЫЕ",
-    footer:"Запрос сформирован автоматически через чат-бот сайта."
-  }
-};
 
 /* =========================================================
    STATE
@@ -1760,19 +1363,24 @@ const BASE_STEPS_1 = ["objetivo","tipoPropiedad"];
 const BASE_STEPS_2 = ["zona","presupuesto"];
 const DETAIL_STEPS = {
   vivienda: ["viviendaSubtipo","viviendaHabitaciones","viviendaBanos","viviendaSuperficie","viviendaExtras","viviendaEstado"],
+  villas: ["viviendaHabitaciones","viviendaBanos","viviendaSuperficie","viviendaExtras","viviendaEstado"],
+  apartamentos: ["viviendaHabitaciones","viviendaBanos","viviendaSuperficie","viviendaExtras","viviendaEstado"],
   terreno: ["terrenoUso","terrenoSuperficie","terrenoTitulado"],
   comercial: ["comercialSubtipo","comercialSuperficie","comercialPlanta"],
   garaje: ["garajePlazas","garajeTipo","garajeUbicacion"]
 };
+// tipoPropiedad ids that pre-select a viviendaSubtipo (so we skip re-asking it)
+const TIPO_SUBTIPO_PRESET = { villas:"casa_villa", apartamentos:"apartamento" };
 const TAIL_STEPS = ["plazo","gestion","nacionalidad","nombre","email","telefono","resumen"];
 
 const CHOICE_STEPS = new Set([
   "objetivo","tipoPropiedad","presupuesto","viviendaSubtipo","viviendaHabitaciones","viviendaBanos",
   "viviendaEstado","terrenoUso","terrenoTitulado","comercialSubtipo","comercialPlanta",
-  "garajePlazas","garajeTipo","garajeUbicacion","plazo","gestion"
+  "garajePlazas","garajeTipo","garajeUbicacion","plazo","gestion",
+  "viviendaSuperficie","terrenoSuperficie","comercialSuperficie"
 ]);
 const MULTI_STEPS = new Set(["viviendaExtras"]);
-const TEXT_STEPS = new Set(["viviendaSuperficie","terrenoSuperficie","comercialSuperficie","nombre","email","telefono"]);
+const TEXT_STEPS = new Set(["nombre","email","telefono"]);
 const ZONE_STEP = "zona";
 const NATION_STEP = "nacionalidad";
 const SUMMARY_STEP = "resumen";
@@ -1836,6 +1444,14 @@ function startFlow(fresh){
 
 function extendStepsAfterTipo(tipo){
   state.steps = BASE_STEPS_1.concat(BASE_STEPS_2, DETAIL_STEPS[tipo] || [], TAIL_STEPS);
+  const presetId = TIPO_SUBTIPO_PRESET[tipo];
+  if(presetId){
+    const opt = (t().q.viviendaSubtipo.opts || []).find(o=>o.id===presetId);
+    if(opt){
+      state.answers.viviendaSubtipo = opt.id;
+      state.answerDisplay.viviendaSubtipo = opt.label;
+    }
+  }
 }
 
 function renderCurrentStep(){
@@ -2093,6 +1709,11 @@ function renderFinalSend(){
 
   addBotMessage(escapeHtml(t().ui.confirmSend));
   area.innerHTML = "";
+
+  // Open WhatsApp straight away (this runs synchronously inside the user's
+  // click, so browsers won't block it as a pop-up). The button + copy
+  // fallback below still cover cases where it doesn't open automatically.
+  window.open(url, "_blank");
 
   const waBtn = el("button","whatsBtn", "<svg viewBox='0 0 24 24' fill='currentColor'><path d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.148-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.148-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z'/><path d='M12.012 2C6.494 2 2.014 6.48 2.014 12c0 1.977.577 3.822 1.573 5.373L2 22l4.767-1.554A9.94 9.94 0 0012.012 22C17.53 22 22 17.52 22 12S17.53 2 12.012 2zm0 18.2a8.18 8.18 0 01-4.166-1.14l-.299-.177-2.828.922.93-2.756-.194-.283A8.19 8.19 0 013.81 12c0-4.522 3.68-8.2 8.202-8.2 4.523 0 8.2 3.678 8.2 8.2 0 4.523-3.677 8.2-8.2 8.2z'/></svg> " + escapeHtml(t().ui.whatsappBtn));
   waBtn.onclick = ()=>{ window.open(url, "_blank"); };
