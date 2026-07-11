@@ -1,0 +1,2229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Inmobiliaria Marruecos — Asistente Virtual</title>
+<style>
+  :root{
+    --gold:#c9a961;
+    --gold-light:#e0c785;
+    --gold-dark:#a8863f;
+    --brown:#2c1810;
+    --brown-light:#4a2c1a;
+    --brown-soft:#3d2416;
+    --cream:#f7f2e9;
+    --white:#fffdf9;
+    --gray:#8a7a68;
+    --error:#c0392b;
+    --success:#3c7a4f;
+    --radius:14px;
+    --shadow:0 8px 30px rgba(44,24,16,.18);
+    --shadow-sm:0 2px 10px rgba(44,24,16,.12);
+    --font-display:'Playfair Display', Georgia, 'Times New Roman', serif;
+    --font-body:'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:var(--font-body);
+    background:linear-gradient(160deg,#efe6d3 0%, #e5d7ba 45%, #d9c69a 100%);
+    color:var(--brown);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    padding:24px;
+  }
+  body[dir="rtl"]{direction:rtl;}
+
+  #app{
+    width:100%;
+    max-width:480px;
+    height:min(880px, 94vh);
+    background:var(--white);
+    border-radius:22px;
+    box-shadow:var(--shadow);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    border:1px solid rgba(201,169,97,.35);
+    position:relative;
+  }
+
+  /* HEADER */
+  #header{
+    background:linear-gradient(135deg, var(--brown) 0%, var(--brown-light) 60%, var(--brown-soft) 100%);
+    color:var(--cream);
+    padding:16px 18px;
+    position:relative;
+    flex-shrink:0;
+  }
+  #header::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:0; height:3px;
+    background:linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold-light) 50%, var(--gold) 80%, transparent);
+  }
+  #headerTop{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  #brand{display:flex; align-items:center; gap:10px; min-width:0;}
+  #brandMark{
+    width:38px; height:38px; border-radius:10px;
+    background:linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display); font-weight:700; color:var(--brown); font-size:18px;
+    flex-shrink:0;
+    box-shadow:0 2px 8px rgba(0,0,0,.25);
+  }
+  #brandText{min-width:0;}
+  #brandText h1{
+    font-family:var(--font-display);
+    font-size:16.5px; font-weight:700; letter-spacing:.2px; color:var(--gold-light);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  #brandText p{font-size:11px; color:#d8c8ae; opacity:.85; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  #headerActions{display:flex; align-items:center; gap:8px; flex-shrink:0;}
+  #resetBtn{
+    background:rgba(201,169,97,.15);
+    border:1px solid rgba(201,169,97,.5);
+    color:var(--gold-light);
+    border-radius:8px;
+    padding:7px 10px;
+    font-size:12px;
+    cursor:pointer;
+    display:flex; align-items:center; gap:5px;
+    transition:.2s ease;
+    font-family:var(--font-body);
+  }
+  #resetBtn:hover{background:rgba(201,169,97,.3); transform:translateY(-1px);}
+  #resetBtn svg{width:13px; height:13px;}
+
+  #langRow{
+    display:flex; gap:6px; margin-top:12px; overflow-x:auto; padding-bottom:2px;
+    scrollbar-width:thin;
+  }
+  #langRow::-webkit-scrollbar{height:4px;}
+  #langRow::-webkit-scrollbar-thumb{background:rgba(201,169,97,.4); border-radius:4px;}
+  .langBtn{
+    flex-shrink:0;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(201,169,97,.3);
+    border-radius:8px;
+    padding:5px 9px;
+    font-size:16px;
+    cursor:pointer;
+    transition:.18s ease;
+    line-height:1;
+    display:flex; align-items:center; gap:5px;
+  }
+  .langBtn span.code{font-size:9.5px; color:#d8c8ae; font-weight:600; letter-spacing:.3px;}
+  .langBtn:hover{background:rgba(201,169,97,.2); transform:translateY(-1px);}
+  .langBtn.active{background:var(--gold); border-color:var(--gold-light);}
+  .langBtn.active span.code{color:var(--brown);}
+
+  #progressWrap{height:4px; background:rgba(0,0,0,.15); flex-shrink:0;}
+  #progressBar{height:100%; width:0%; background:linear-gradient(90deg, var(--gold-dark), var(--gold-light)); transition:width .4s ease;}
+
+  /* CHAT AREA */
+  #chatArea{
+    flex:1;
+    overflow-y:auto;
+    padding:18px 16px 8px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(201,169,97,.06), transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(201,169,97,.05), transparent 40%),
+      var(--cream);
+  }
+  #chatArea::-webkit-scrollbar{width:6px;}
+  #chatArea::-webkit-scrollbar-thumb{background:rgba(201,169,97,.5); border-radius:6px;}
+
+  .msgRow{display:flex; animation:slideIn .35s ease;}
+  .msgRow.bot{justify-content:flex-start;}
+  .msgRow.user{justify-content:flex-end;}
+  @keyframes slideIn{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
+
+  .bubble{
+    max-width:82%;
+    padding:11px 14px;
+    border-radius:16px;
+    font-size:14.5px;
+    line-height:1.5;
+    box-shadow:var(--shadow-sm);
+    white-space:pre-line;
+  }
+  .msgRow.bot .bubble{
+    background:var(--white);
+    border:1px solid rgba(201,169,97,.35);
+    border-bottom-left-radius:4px;
+    color:var(--brown);
+  }
+  body[dir="rtl"] .msgRow.bot .bubble{border-bottom-left-radius:16px; border-bottom-right-radius:4px;}
+  .msgRow.user .bubble{
+    background:linear-gradient(135deg, var(--brown), var(--brown-light));
+    color:var(--cream);
+    border-bottom-right-radius:4px;
+  }
+  body[dir="rtl"] .msgRow.user .bubble{border-bottom-right-radius:16px; border-bottom-left-radius:4px;}
+  .bubble b{color:var(--gold-dark);}
+  .msgRow.user .bubble b{color:var(--gold-light);}
+
+  .typingBubble{display:flex; gap:4px; padding:14px 16px;}
+  .typingBubble span{width:6px; height:6px; border-radius:50%; background:var(--gold-dark); opacity:.5; animation:blink 1.2s infinite;}
+  .typingBubble span:nth-child(2){animation-delay:.2s;}
+  .typingBubble span:nth-child(3){animation-delay:.4s;}
+  @keyframes blink{0%,80%,100%{opacity:.25; transform:scale(.85);} 40%{opacity:1; transform:scale(1);}}
+
+  /* INPUT AREA */
+  #inputArea{
+    border-top:1px solid rgba(201,169,97,.3);
+    background:var(--white);
+    padding:12px 14px 14px;
+    flex-shrink:0;
+    max-height:46vh;
+    overflow-y:auto;
+  }
+  .optionsGrid{display:flex; flex-wrap:wrap; gap:8px;}
+  .optBtn{
+    flex:1 1 auto;
+    min-width:calc(50% - 4px);
+    background:var(--cream);
+    border:1.5px solid rgba(201,169,97,.5);
+    color:var(--brown);
+    padding:10px 12px;
+    border-radius:11px;
+    font-size:13.5px;
+    cursor:pointer;
+    transition:.18s ease;
+    font-family:var(--font-body);
+    display:flex; align-items:center; gap:8px;
+    text-align:start;
+  }
+  .optBtn .ic{font-size:16px; flex-shrink:0;}
+  .optBtn:hover{background:var(--gold); border-color:var(--gold-dark); transform:translateY(-2px); box-shadow:0 4px 10px rgba(201,169,97,.4);}
+  .optBtn.wide{min-width:100%;}
+  .optBtn.selected{background:var(--gold); border-color:var(--gold-dark); font-weight:600;}
+  .optBtn.selected::after{content:" ✓"; margin-inline-start:auto;}
+
+  .chipsRow{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px;}
+  .chip{
+    background:rgba(201,169,97,.15);
+    border:1px solid rgba(201,169,97,.5);
+    color:var(--brown-light);
+    padding:6px 11px;
+    border-radius:20px;
+    font-size:12.5px;
+    cursor:pointer;
+    transition:.15s ease;
+  }
+  .chip:hover{background:var(--gold); color:var(--brown);}
+
+  .textInputRow{display:flex; gap:8px; align-items:flex-end;}
+  .textInputRow input{
+    flex:1;
+    border:1.5px solid rgba(201,169,97,.5);
+    border-radius:11px;
+    padding:11px 13px;
+    font-size:14.5px;
+    font-family:var(--font-body);
+    color:var(--brown);
+    background:var(--cream);
+    outline:none;
+    transition:.15s ease;
+  }
+  .textInputRow input:focus{border-color:var(--gold-dark); box-shadow:0 0 0 3px rgba(201,169,97,.2);}
+  .sendBtn{
+    background:linear-gradient(135deg, var(--gold-dark), var(--gold));
+    border:none;
+    color:var(--brown);
+    width:44px; height:44px;
+    border-radius:11px;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    transition:.18s ease;
+    font-weight:700;
+  }
+  .sendBtn:hover{transform:translateY(-2px) scale(1.03); box-shadow:0 4px 12px rgba(201,169,97,.5);}
+  .sendBtn svg{width:19px; height:19px;}
+  body[dir="rtl"] .sendBtn svg{transform:scaleX(-1);}
+
+  .errMsg{color:var(--error); font-size:12px; margin-top:6px; display:none; align-items:center; gap:5px;}
+  .errMsg.show{display:flex;}
+
+  .rowBtns{display:flex; gap:8px; margin-top:10px;}
+  .btnPrimary,.btnGhost{
+    flex:1;
+    padding:11px 14px;
+    border-radius:11px;
+    font-size:13.5px;
+    cursor:pointer;
+    font-weight:600;
+    font-family:var(--font-body);
+    transition:.18s ease;
+    border:none;
+  }
+  .btnPrimary{background:linear-gradient(135deg, var(--gold-dark), var(--gold)); color:var(--brown);}
+  .btnPrimary:hover{transform:translateY(-2px); box-shadow:0 4px 12px rgba(201,169,97,.5);}
+  .btnGhost{background:transparent; border:1.5px solid rgba(201,169,97,.5); color:var(--brown-light);}
+  .btnGhost:hover{background:rgba(201,169,97,.1);}
+
+  .backLink{
+    display:inline-flex; align-items:center; gap:4px;
+    font-size:12px; color:var(--gray); cursor:pointer; margin-bottom:10px; background:none; border:none; font-family:var(--font-body);
+  }
+  .backLink:hover{color:var(--brown);}
+
+  .hint{font-size:11.5px; color:var(--gray); margin-bottom:8px;}
+
+  .summaryCard{background:var(--cream); border:1px solid rgba(201,169,97,.4); border-radius:12px; padding:12px 14px; margin-bottom:6px;}
+  .summaryRow{display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px dashed rgba(201,169,97,.35); font-size:12.5px;}
+  .summaryRow:last-child{border-bottom:none;}
+  .summaryRow .k{color:var(--gray); flex-shrink:0;}
+  .summaryRow .v{font-weight:600; text-align:end;}
+
+  .whatsBtn{
+    display:flex; align-items:center; justify-content:center; gap:9px;
+    background:linear-gradient(135deg, #25D366, #1eb956);
+    color:#fff; padding:13px; border-radius:12px; border:none;
+    font-size:14.5px; font-weight:700; cursor:pointer; width:100%;
+    transition:.18s ease; margin-top:4px;
+  }
+  .whatsBtn:hover{transform:translateY(-2px); box-shadow:0 6px 16px rgba(37,211,102,.4);}
+  .whatsBtn svg{width:20px; height:20px;}
+
+  .copyRow{margin-top:10px; display:flex; gap:8px;}
+  .copyBox{
+    background:var(--cream); border:1px solid rgba(201,169,97,.4); border-radius:10px; padding:10px; font-size:11.5px; color:var(--gray); margin-top:8px; max-height:110px; overflow-y:auto; white-space:pre-wrap; display:none;
+  }
+  .copyBox.show{display:block;}
+
+  #resumeBanner{
+    position:absolute; inset:0; background:rgba(44,24,16,.55); backdrop-filter:blur(2px);
+    display:flex; align-items:center; justify-content:center; z-index:20; padding:24px;
+  }
+  #resumeCard{background:var(--white); border-radius:16px; padding:22px; max-width:340px; text-align:center; box-shadow:var(--shadow);}
+  #resumeCard h3{font-family:var(--font-display); color:var(--brown); margin-bottom:8px; font-size:18px;}
+  #resumeCard p{font-size:13.5px; color:var(--gray); margin-bottom:16px;}
+
+  @media (max-width:600px){
+    body{padding:0;}
+    #app{max-width:100%; height:100vh; height:100dvh; border-radius:0; border:none;}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div id="header">
+    <div id="headerTop">
+      <div id="brand">
+        <div id="brandMark">IM</div>
+        <div id="brandText">
+          <h1 id="tHeaderTitle">Inmobiliaria Marruecos</h1>
+          <p id="tHeaderSubtitle">Tu asesor inmobiliario virtual</p>
+        </div>
+      </div>
+      <div id="headerActions">
+        <button id="resetBtn" title="Reiniciar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+          <span id="tResetBtn">Reiniciar</span>
+        </button>
+      </div>
+    </div>
+    <div id="langRow"></div>
+  </div>
+
+  <div id="progressWrap"><div id="progressBar"></div></div>
+
+  <div id="chatArea"></div>
+
+  <div id="inputArea"></div>
+
+  <div id="resumeBanner" style="display:none;">
+    <div id="resumeCard">
+      <h3 id="tResumeTitle">Tienes una conversación sin terminar</h3>
+      <p id="tResumeText">¿Quieres continuar donde lo dejaste?</p>
+      <div class="rowBtns">
+        <button class="btnGhost" id="resumeRestartBtn">Empezar de nuevo</button>
+        <button class="btnPrimary" id="resumeContinueBtn">Continuar</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* =========================================================
+   CONFIG
+========================================================= */
+const WHATSAPP_NUMBER = "212690157092";
+const STORAGE_KEY = "inmobot_marruecos_state_v1";
+
+const LANGS = [
+  {code:"es", flag:"🇪🇸", label:"ES"},
+  {code:"fr", flag:"🇫🇷", label:"FR"},
+  {code:"en", flag:"🇬🇧", label:"EN"},
+  {code:"nl", flag:"🇳🇱", label:"NL"},
+  {code:"de", flag:"🇩🇪", label:"DE"},
+  {code:"it", flag:"🇮🇹", label:"IT"},
+  {code:"pt", flag:"🇵🇹", label:"PT"},
+  {code:"ar", flag:"🇸🇦", label:"AR"},
+  {code:"zh", flag:"🇨🇳", label:"ZH"},
+  {code:"ru", flag:"🇷🇺", label:"RU"}
+];
+
+const CITY_CHIPS = ["Casablanca","Rabat","Marrakech","Tánger","Agadir","Fès","Meknès","Tétouan","Essaouira","Chefchaouen"];
+
+/* =========================================================
+   I18N DATA
+========================================================= */
+const I18N = {};
+
+I18N.es = {
+  dir:"ltr", name:"Español",
+  ui:{
+    headerTitle:"Inmobiliaria Marruecos", headerSubtitle:"Tu asesor inmobiliario virtual",
+    resetBtn:"Reiniciar", resetConfirm:"¿Seguro que quieres reiniciar la conversación? Se perderán los datos introducidos.",
+    yes:"Sí, reiniciar", no:"Cancelar", back:"Atrás", send:"Enviar", next:"Continuar",
+    edit:"Editar respuestas", confirmSend:"Confirmar y enviar por WhatsApp",
+    resumeTitle:"Tienes una conversación sin terminar", resumeText:"¿Quieres continuar donde lo dejaste?",
+    resumeContinue:"Continuar", resumeRestart:"Empezar de nuevo",
+    otherOption:"Otra", otherPlaceholder:"Escribe aquí...",
+    errName:"Introduce un nombre válido (solo letras, mínimo 2 caracteres).",
+    errEmail:"Introduce un email válido.",
+    errPhone:"Introduce un teléfono válido (mínimo 8 dígitos).",
+    errZone:"Introduce una zona válida.",
+    errRequired:"Este campo es obligatorio.",
+    placeholderZone:"Escribe una ciudad o zona...",
+    placeholderSuperficie:"Superficie en m²...",
+    placeholderName:"Tu nombre completo...",
+    placeholderEmail:"tu@email.com",
+    placeholderPhone:"+34 600 000 000",
+    summaryTitle:"Resumen de tu solicitud",
+    progressStep:"Paso", progressOf:"de",
+    whatsappFallback:"Si no se abrió WhatsApp automáticamente, copia el mensaje:",
+    copy:"Copiar mensaje", copied:"¡Copiado!",
+    welcomeMsg:"¡Hola! Soy el asistente virtual de Inmobiliaria Marruecos. Te haré unas preguntas rápidas para entender qué buscas y ponerte en contacto con nuestro equipo.",
+    startBtn:"Comenzar", selectMultiHint:"Puedes elegir varias opciones",
+    confirmMulti:"Confirmar selección",
+    whatsappBtn:"Enviar por WhatsApp",
+    typing:"Escribiendo..."
+  },
+  q:{
+    objetivo:{q:"¿Cuál es tu objetivo?", opts:[
+      {id:"comprar_vivienda", label:"Comprar una vivienda", ic:"🏠"},
+      {id:"comprar_terreno", label:"Comprar un terreno", ic:"🗺️"},
+      {id:"alquilar", label:"Alquilar una propiedad", ic:"🔑"},
+      {id:"vender", label:"Vender una propiedad", ic:"💰"},
+      {id:"invertir", label:"Invertir (rentabilidad locativa)", ic:"📈"},
+      {id:"estimacion", label:"Estimación gratuita", ic:"📋"},
+      {id:"gestion_locativa", label:"Gestión locativa", ic:"🗂️"},
+      {id:"asesoria", label:"Asesoramiento jurídico/administrativo", ic:"⚖️"}
+    ]},
+    tipoPropiedad:{q:"¿Qué tipo de propiedad te interesa?", opts:[
+      {id:"vivienda", label:"Vivienda", ic:"🏠"},
+      {id:"terreno", label:"Terreno", ic:"🗺️"},
+      {id:"comercial", label:"Local comercial", ic:"🏢"},
+      {id:"garaje", label:"Garaje", ic:"🚗"}
+    ]},
+    zona:{q:"¿En qué ciudad o zona de Marruecos buscas?"},
+    presupuesto:{q:"¿Cuál es tu presupuesto aproximado?", opts:[
+      {id:"b1", label:"Menos de 50.000 €"},
+      {id:"b2", label:"50.000 € – 100.000 €"},
+      {id:"b3", label:"100.000 € – 200.000 €"},
+      {id:"b4", label:"200.000 € – 500.000 €"},
+      {id:"b5", label:"Más de 500.000 €"},
+      {id:"b6", label:"Prefiero indicarlo más adelante"}
+    ]},
+    viviendaSubtipo:{q:"¿Qué tipo de vivienda buscas?", opts:[
+      {id:"casa_villa", label:"Casa / Villa", ic:"🏡"},
+      {id:"apartamento", label:"Apartamento", ic:"🏢"},
+      {id:"riad", label:"Riad", ic:"🕌"},
+      {id:"edificio", label:"Inmueble de rendimiento", ic:"🏗️"}
+    ]},
+    viviendaHabitaciones:{q:"¿Cuántas habitaciones necesitas?", opts:[
+      {id:"1", label:"1 habitación"},{id:"2", label:"2 habitaciones"},{id:"3", label:"3 habitaciones"},{id:"4", label:"4 habitaciones"},{id:"5+", label:"5 o más"}
+    ]},
+    viviendaBanos:{q:"¿Cuántos baños?", opts:[
+      {id:"1", label:"1 baño"},{id:"2", label:"2 baños"},{id:"3", label:"3 baños"},{id:"4+", label:"4 o más"}
+    ]},
+    viviendaSuperficie:{q:"¿Qué superficie aproximada buscas (m²)?"},
+    viviendaExtras:{q:"¿Qué características te interesan?", opts:[
+      {id:"piscina", label:"Piscina", ic:"🏊"},{id:"jardin", label:"Jardín", ic:"🌳"},{id:"terraza", label:"Terraza", ic:"🌇"},
+      {id:"garaje_incl", label:"Garaje", ic:"🚗"},{id:"ascensor", label:"Ascensor", ic:"🛗"},{id:"amueblado", label:"Amueblado", ic:"🛋️"},
+      {id:"aire_acondicionado", label:"Aire acondicionado", ic:"❄️"},{id:"seguridad", label:"Seguridad 24h", ic:"🔒"}
+    ]},
+    viviendaEstado:{q:"¿Prefieres obra nueva o segunda mano?", opts:[
+      {id:"nueva", label:"Nueva construcción"},{id:"reventa", label:"Segunda mano"},{id:"indiferente", label:"Indiferente"}
+    ]},
+    terrenoUso:{q:"¿Qué uso tendrá el terreno?", opts:[
+      {id:"residencial", label:"Residencial", ic:"🏠"},{id:"comercial", label:"Comercial", ic:"🏬"},
+      {id:"industrial", label:"Industrial", ic:"🏭"},{id:"inversion", label:"Inversión", ic:"📈"}
+    ]},
+    terrenoSuperficie:{q:"¿Qué superficie buscas (m²)?"},
+    terrenoTitulado:{q:"¿El terreno debe estar titulado (registrado)?", opts:[
+      {id:"si", label:"Sí, imprescindible"},{id:"no", label:"No es necesario"},{id:"no_seguro", label:"No estoy seguro"}
+    ]},
+    comercialSubtipo:{q:"¿Qué tipo de local comercial buscas?", opts:[
+      {id:"local", label:"Local comercial", ic:"🏬"},{id:"oficina", label:"Oficina", ic:"🏢"},
+      {id:"nave", label:"Nave industrial", ic:"🏭"},{id:"edificio_rendimiento", label:"Edificio de rendimiento", ic:"🏗️"}
+    ]},
+    comercialSuperficie:{q:"¿Qué superficie necesitas (m²)?"},
+    comercialPlanta:{q:"¿Qué ubicación prefieres?", opts:[
+      {id:"baja", label:"Planta baja"},{id:"alta", label:"Planta alta"},{id:"independiente", label:"Edificio independiente"}
+    ]},
+    garajePlazas:{q:"¿Cuántas plazas necesitas?", opts:[
+      {id:"1", label:"1 plaza"},{id:"2", label:"2 plazas"},{id:"3+", label:"3 o más"}
+    ]},
+    garajeTipo:{q:"¿Cubierto o descubierto?", opts:[
+      {id:"cubierto", label:"Cubierto"},{id:"descubierto", label:"Descubierto"},{id:"indiferente", label:"Indiferente"}
+    ]},
+    garajeUbicacion:{q:"¿Dónde lo prefieres?", opts:[
+      {id:"en_residencia", label:"Dentro de una residencia"},{id:"independiente", label:"Independiente / en la calle"}
+    ]},
+    plazo:{q:"¿En qué plazo quieres concretarlo?", opts:[
+      {id:"inmediato", label:"Inmediato"},{id:"1_3_meses", label:"1 a 3 meses"},
+      {id:"3_6_meses", label:"3 a 6 meses"},{id:"mas_6_meses", label:"Más de 6 meses"},{id:"solo_info", label:"Solo quiero información"}
+    ]},
+    gestion:{q:"¿Deseas acompañamiento en el proceso (búsqueda, trámites legales y administrativos)?", opts:[
+      {id:"acompanamiento_completo", label:"Sí, quiero acompañamiento completo"},
+      {id:"solo_info", label:"No, solo busco información"},
+      {id:"ya_tengo_agente", label:"Ya tengo un agente/gestor"}
+    ]},
+    nacionalidad:{q:"¿Cuál es tu nacionalidad?", chips:["Marroquí","Española","Francesa","Belga","Alemana","Holandesa","Italiana","Portuguesa","China","Rusa"], other:"Otra"},
+    nombre:{q:"¿Cuál es tu nombre completo?"},
+    email:{q:"¿Cuál es tu correo electrónico?"},
+    telefono:{q:"¿Cuál es tu número de teléfono (con prefijo de país)?"}
+  },
+  labels:{
+    objetivo:"Objetivo", tipoPropiedad:"Tipo de propiedad", subtipo:"Subtipo", zona:"Zona", presupuesto:"Presupuesto",
+    habitaciones:"Habitaciones", banos:"Baños", superficie:"Superficie", extras:"Características", estado:"Estado",
+    uso:"Uso", titulado:"Terreno titulado", planta:"Ubicación", plazas:"Plazas", tipoGaraje:"Cubierto/descubierto",
+    ubicacionGaraje:"Ubicación", plazo:"Plazo", gestion:"Acompañamiento", nacionalidad:"Nacionalidad",
+    nombre:"Nombre", email:"Email", telefono:"Teléfono"
+  },
+  wa:{
+    title:"NUEVA SOLICITUD INMOBILIARIA", origin:"Web Inmobiliaria Marruecos", date:"Fecha",
+    sectionRequest:"DATOS DE LA SOLICITUD", sectionProperty:"DETALLES DE LA PROPIEDAD", sectionContact:"DATOS DE CONTACTO",
+    footer:"Solicitud generada automáticamente desde el chatbot web."
+  }
+};
+
+I18N.fr = {
+  dir:"ltr", name:"Français",
+  ui:{
+    headerTitle:"Immobilier Maroc", headerSubtitle:"Votre conseiller immobilier virtuel",
+    resetBtn:"Réinitialiser", resetConfirm:"Voulez-vous vraiment réinitialiser la conversation ? Les données saisies seront perdues.",
+    yes:"Oui, réinitialiser", no:"Annuler", back:"Retour", send:"Envoyer", next:"Continuer",
+    edit:"Modifier les réponses", confirmSend:"Confirmer et envoyer par WhatsApp",
+    resumeTitle:"Vous avez une conversation en cours", resumeText:"Voulez-vous continuer où vous en étiez ?",
+    resumeContinue:"Continuer", resumeRestart:"Recommencer",
+    otherOption:"Autre", otherPlaceholder:"Écrivez ici...",
+    errName:"Veuillez saisir un nom valide (lettres uniquement, 2 caractères minimum).",
+    errEmail:"Veuillez saisir un email valide.",
+    errPhone:"Veuillez saisir un téléphone valide (8 chiffres minimum).",
+    errZone:"Veuillez saisir une zone valide.",
+    errRequired:"Ce champ est obligatoire.",
+    placeholderZone:"Écrivez une ville ou une zone...",
+    placeholderSuperficie:"Superficie en m²...",
+    placeholderName:"Votre nom complet...",
+    placeholderEmail:"vous@email.com",
+    placeholderPhone:"+33 6 00 00 00 00",
+    summaryTitle:"Résumé de votre demande",
+    progressStep:"Étape", progressOf:"sur",
+    whatsappFallback:"Si WhatsApp ne s'est pas ouvert automatiquement, copiez le message :",
+    copy:"Copier le message", copied:"Copié !",
+    welcomeMsg:"Bonjour ! Je suis l'assistant virtuel d'Immobilier Maroc. Je vais vous poser quelques questions rapides pour comprendre votre recherche et vous mettre en relation avec notre équipe.",
+    startBtn:"Commencer", selectMultiHint:"Vous pouvez choisir plusieurs options",
+    confirmMulti:"Confirmer la sélection",
+    whatsappBtn:"Envoyer par WhatsApp",
+    typing:"En train d'écrire..."
+  },
+  q:{
+    objetivo:{q:"Quel est votre objectif ?", opts:[
+      {id:"comprar_vivienda", label:"Acheter un logement", ic:"🏠"},
+      {id:"comprar_terreno", label:"Acheter un terrain", ic:"🗺️"},
+      {id:"alquilar", label:"Louer un bien", ic:"🔑"},
+      {id:"vender", label:"Vendre un bien", ic:"💰"},
+      {id:"invertir", label:"Investir (rentabilité locative)", ic:"📈"},
+      {id:"estimacion", label:"Estimation gratuite", ic:"📋"},
+      {id:"gestion_locativa", label:"Gestion locative", ic:"🗂️"},
+      {id:"asesoria", label:"Conseils juridiques/administratifs", ic:"⚖️"}
+    ]},
+    tipoPropiedad:{q:"Quel type de bien vous intéresse ?", opts:[
+      {id:"vivienda", label:"Logement", ic:"🏠"},
+      {id:"terreno", label:"Terrain", ic:"🗺️"},
+      {id:"comercial", label:"Local commercial", ic:"🏢"},
+      {id:"garaje", label:"Garage", ic:"🚗"}
+    ]},
+    zona:{q:"Dans quelle ville ou zone du Maroc cherchez-vous ?"},
+    presupuesto:{q:"Quel est votre budget approximatif ?", opts:[
+      {id:"b1", label:"Moins de 50 000 €"},
+      {id:"b2", label:"50 000 € – 100 000 €"},
+      {id:"b3", label:"100 000 € – 200 000 €"},
+      {id:"b4", label:"200 000 € – 500 000 €"},
+      {id:"b5", label:"Plus de 500 000 €"},
+      {id:"b6", label:"Je préfère l'indiquer plus tard"}
+    ]},
+    viviendaSubtipo:{q:"Quel type de logement recherchez-vous ?", opts:[
+      {id:"casa_villa", label:"Maison / Villa", ic:"🏡"},
+      {id:"apartamento", label:"Appartement", ic:"🏢"},
+      {id:"riad", label:"Riad", ic:"🕌"},
+      {id:"edificio", label:"Immeuble de rapport", ic:"🏗️"}
+    ]},
+    viviendaHabitaciones:{q:"Combien de chambres souhaitez-vous ?", opts:[
+      {id:"1", label:"1 chambre"},{id:"2", label:"2 chambres"},{id:"3", label:"3 chambres"},{id:"4", label:"4 chambres"},{id:"5+", label:"5 ou plus"}
+    ]},
+    viviendaBanos:{q:"Combien de salles de bain ?", opts:[
+      {id:"1", label:"1 salle de bain"},{id:"2", label:"2 salles de bain"},{id:"3", label:"3 salles de bain"},{id:"4+", label:"4 ou plus"}
+    ]},
+    viviendaSuperficie:{q:"Quelle superficie recherchez-vous (m²) ?"},
+    viviendaExtras:{q:"Quelles caractéristiques vous intéressent ?", opts:[
+      {id:"piscina", label:"Piscine", ic:"🏊"},{id:"jardin", label:"Jardin", ic:"🌳"},{id:"terraza", label:"Terrasse", ic:"🌇"},
+      {id:"garaje_incl", label:"Garage", ic:"🚗"},{id:"ascensor", label:"Ascenseur", ic:"🛗"},{id:"amueblado", label:"Meublé", ic:"🛋️"},
+      {id:"aire_acondicionado", label:"Climatisation", ic:"❄️"},{id:"seguridad", label:"Sécurité 24h/24", ic:"🔒"}
+    ]},
+    viviendaEstado:{q:"Neuf ou ancien ?", opts:[
+      {id:"nueva", label:"Neuf"},{id:"reventa", label:"Ancien"},{id:"indiferente", label:"Peu importe"}
+    ]},
+    terrenoUso:{q:"Quel usage pour le terrain ?", opts:[
+      {id:"residencial", label:"Résidentiel", ic:"🏠"},{id:"comercial", label:"Commercial", ic:"🏬"},
+      {id:"industrial", label:"Industriel", ic:"🏭"},{id:"inversion", label:"Investissement", ic:"📈"}
+    ]},
+    terrenoSuperficie:{q:"Quelle superficie recherchez-vous (m²) ?"},
+    terrenoTitulado:{q:"Le terrain doit-il être titré (immatriculé) ?", opts:[
+      {id:"si", label:"Oui, indispensable"},{id:"no", label:"Ce n'est pas nécessaire"},{id:"no_seguro", label:"Je ne suis pas sûr"}
+    ]},
+    comercialSubtipo:{q:"Quel type de local commercial recherchez-vous ?", opts:[
+      {id:"local", label:"Local commercial", ic:"🏬"},{id:"oficina", label:"Bureau", ic:"🏢"},
+      {id:"nave", label:"Entrepôt", ic:"🏭"},{id:"edificio_rendimiento", label:"Immeuble de rapport", ic:"🏗️"}
+    ]},
+    comercialSuperficie:{q:"Quelle superficie vous faut-il (m²) ?"},
+    comercialPlanta:{q:"Quel emplacement préférez-vous ?", opts:[
+      {id:"baja", label:"Rez-de-chaussée"},{id:"alta", label:"Étage"},{id:"independiente", label:"Immeuble indépendant"}
+    ]},
+    garajePlazas:{q:"Combien de places vous faut-il ?", opts:[
+      {id:"1", label:"1 place"},{id:"2", label:"2 places"},{id:"3+", label:"3 ou plus"}
+    ]},
+    garajeTipo:{q:"Couvert ou découvert ?", opts:[
+      {id:"cubierto", label:"Couvert"},{id:"descubierto", label:"Découvert"},{id:"indiferente", label:"Peu importe"}
+    ]},
+    garajeUbicacion:{q:"Où le préférez-vous ?", opts:[
+      {id:"en_residencia", label:"Dans une résidence"},{id:"independiente", label:"Indépendant / dans la rue"}
+    ]},
+    plazo:{q:"Dans quel délai souhaitez-vous concrétiser ?", opts:[
+      {id:"inmediato", label:"Immédiat"},{id:"1_3_meses", label:"1 à 3 mois"},
+      {id:"3_6_meses", label:"3 à 6 mois"},{id:"mas_6_meses", label:"Plus de 6 mois"},{id:"solo_info", label:"Je veux juste des informations"}
+    ]},
+    gestion:{q:"Souhaitez-vous un accompagnement (recherche, démarches légales et administratives) ?", opts:[
+      {id:"acompanamiento_completo", label:"Oui, accompagnement complet"},
+      {id:"solo_info", label:"Non, juste des informations"},
+      {id:"ya_tengo_agente", label:"J'ai déjà un agent"}
+    ]},
+    nacionalidad:{q:"Quelle est votre nationalité ?", chips:["Marocaine","Espagnole","Française","Belge","Allemande","Néerlandaise","Italienne","Portugaise","Chinoise","Russe"], other:"Autre"},
+    nombre:{q:"Quel est votre nom complet ?"},
+    email:{q:"Quelle est votre adresse email ?"},
+    telefono:{q:"Quel est votre numéro de téléphone (avec indicatif) ?"}
+  },
+  labels:{
+    objetivo:"Objectif", tipoPropiedad:"Type de bien", subtipo:"Sous-type", zona:"Zone", presupuesto:"Budget",
+    habitaciones:"Chambres", banos:"Salles de bain", superficie:"Superficie", extras:"Caractéristiques", estado:"État",
+    uso:"Usage", titulado:"Terrain titré", planta:"Emplacement", plazas:"Places", tipoGaraje:"Couvert/découvert",
+    ubicacionGaraje:"Emplacement", plazo:"Délai", gestion:"Accompagnement", nacionalidad:"Nationalité",
+    nombre:"Nom", email:"Email", telefono:"Téléphone"
+  },
+  wa:{
+    title:"NOUVELLE DEMANDE IMMOBILIÈRE", origin:"Site Immobilier Maroc", date:"Date",
+    sectionRequest:"DÉTAILS DE LA DEMANDE", sectionProperty:"DÉTAILS DU BIEN", sectionContact:"COORDONNÉES",
+    footer:"Demande générée automatiquement depuis le chatbot du site."
+  }
+};
+
+I18N.en = {
+  dir:"ltr", name:"English",
+  ui:{
+    headerTitle:"Real Estate Morocco", headerSubtitle:"Your virtual property advisor",
+    resetBtn:"Reset", resetConfirm:"Are you sure you want to reset the conversation? Entered data will be lost.",
+    yes:"Yes, reset", no:"Cancel", back:"Back", send:"Send", next:"Continue",
+    edit:"Edit answers", confirmSend:"Confirm and send via WhatsApp",
+    resumeTitle:"You have an unfinished conversation", resumeText:"Would you like to continue where you left off?",
+    resumeContinue:"Continue", resumeRestart:"Start over",
+    otherOption:"Other", otherPlaceholder:"Type here...",
+    errName:"Please enter a valid name (letters only, minimum 2 characters).",
+    errEmail:"Please enter a valid email.",
+    errPhone:"Please enter a valid phone number (minimum 8 digits).",
+    errZone:"Please enter a valid area.",
+    errRequired:"This field is required.",
+    placeholderZone:"Type a city or area...",
+    placeholderSuperficie:"Surface area in m²...",
+    placeholderName:"Your full name...",
+    placeholderEmail:"you@email.com",
+    placeholderPhone:"+1 555 000 0000",
+    summaryTitle:"Summary of your request",
+    progressStep:"Step", progressOf:"of",
+    whatsappFallback:"If WhatsApp did not open automatically, copy the message:",
+    copy:"Copy message", copied:"Copied!",
+    welcomeMsg:"Hello! I'm the virtual assistant for Real Estate Morocco. I'll ask a few quick questions to understand what you're looking for and connect you with our team.",
+    startBtn:"Start", selectMultiHint:"You can choose several options",
+    confirmMulti:"Confirm selection",
+    whatsappBtn:"Send via WhatsApp",
+    typing:"Typing..."
+  },
+  q:{
+    objetivo:{q:"What is your goal?", opts:[
+      {id:"comprar_vivienda", label:"Buy a home", ic:"🏠"},
+      {id:"comprar_terreno", label:"Buy land", ic:"🗺️"},
+      {id:"alquilar", label:"Rent a property", ic:"🔑"},
+      {id:"vender", label:"Sell a property", ic:"💰"},
+      {id:"invertir", label:"Invest (rental yield)", ic:"📈"},
+      {id:"estimacion", label:"Free valuation", ic:"📋"},
+      {id:"gestion_locativa", label:"Rental management", ic:"🗂️"},
+      {id:"asesoria", label:"Legal/administrative advice", ic:"⚖️"}
+    ]},
+    tipoPropiedad:{q:"What type of property are you interested in?", opts:[
+      {id:"vivienda", label:"Home", ic:"🏠"},
+      {id:"terreno", label:"Land", ic:"🗺️"},
+      {id:"comercial", label:"Commercial premises", ic:"🏢"},
+      {id:"garaje", label:"Garage", ic:"🚗"}
+    ]},
+    zona:{q:"Which city or area of Morocco are you looking in?"},
+    presupuesto:{q:"What is your approximate budget?", opts:[
+      {id:"b1", label:"Under €50,000"},
+      {id:"b2", label:"€50,000 – €100,000"},
+      {id:"b3", label:"€100,000 – €200,000"},
+      {id:"b4", label:"€200,000 – €500,000"},
+      {id:"b5", label:"Over €500,000"},
+      {id:"b6", label:"I'll specify later"}
+    ]},
+    viviendaSubtipo:{q:"What type of home are you looking for?", opts:[
+      {id:"casa_villa", label:"House / Villa", ic:"🏡"},
+      {id:"apartamento", label:"Apartment", ic:"🏢"},
+      {id:"riad", label:"Riad", ic:"🕌"},
+      {id:"edificio", label:"Income property", ic:"🏗️"}
+    ]},
+    viviendaHabitaciones:{q:"How many bedrooms do you need?", opts:[
+      {id:"1", label:"1 bedroom"},{id:"2", label:"2 bedrooms"},{id:"3", label:"3 bedrooms"},{id:"4", label:"4 bedrooms"},{id:"5+", label:"5 or more"}
+    ]},
+    viviendaBanos:{q:"How many bathrooms?", opts:[
+      {id:"1", label:"1 bathroom"},{id:"2", label:"2 bathrooms"},{id:"3", label:"3 bathrooms"},{id:"4+", label:"4 or more"}
+    ]},
+    viviendaSuperficie:{q:"What surface area are you looking for (m²)?"},
+    viviendaExtras:{q:"Which features interest you?", opts:[
+      {id:"piscina", label:"Pool", ic:"🏊"},{id:"jardin", label:"Garden", ic:"🌳"},{id:"terraza", label:"Terrace", ic:"🌇"},
+      {id:"garaje_incl", label:"Garage", ic:"🚗"},{id:"ascensor", label:"Elevator", ic:"🛗"},{id:"amueblado", label:"Furnished", ic:"🛋️"},
+      {id:"aire_acondicionado", label:"Air conditioning", ic:"❄️"},{id:"seguridad", label:"24h security", ic:"🔒"}
+    ]},
+    viviendaEstado:{q:"New build or resale?", opts:[
+      {id:"nueva", label:"New build"},{id:"reventa", label:"Resale"},{id:"indiferente", label:"No preference"}
+    ]},
+    terrenoUso:{q:"What will the land be used for?", opts:[
+      {id:"residencial", label:"Residential", ic:"🏠"},{id:"comercial", label:"Commercial", ic:"🏬"},
+      {id:"industrial", label:"Industrial", ic:"🏭"},{id:"inversion", label:"Investment", ic:"📈"}
+    ]},
+    terrenoSuperficie:{q:"What surface area are you looking for (m²)?"},
+    terrenoTitulado:{q:"Does the land need to be titled (registered)?", opts:[
+      {id:"si", label:"Yes, essential"},{id:"no", label:"Not necessary"},{id:"no_seguro", label:"Not sure"}
+    ]},
+    comercialSubtipo:{q:"What type of commercial premises are you looking for?", opts:[
+      {id:"local", label:"Retail unit", ic:"🏬"},{id:"oficina", label:"Office", ic:"🏢"},
+      {id:"nave", label:"Warehouse", ic:"🏭"},{id:"edificio_rendimiento", label:"Income building", ic:"🏗️"}
+    ]},
+    comercialSuperficie:{q:"What surface area do you need (m²)?"},
+    comercialPlanta:{q:"What location do you prefer?", opts:[
+      {id:"baja", label:"Ground floor"},{id:"alta", label:"Upper floor"},{id:"independiente", label:"Standalone building"}
+    ]},
+    garajePlazas:{q:"How many spaces do you need?", opts:[
+      {id:"1", label:"1 space"},{id:"2", label:"2 spaces"},{id:"3+", label:"3 or more"}
+    ]},
+    garajeTipo:{q:"Covered or uncovered?", opts:[
+      {id:"cubierto", label:"Covered"},{id:"descubierto", label:"Uncovered"},{id:"indiferente", label:"No preference"}
+    ]},
+    garajeUbicacion:{q:"Where do you prefer it?", opts:[
+      {id:"en_residencia", label:"Inside a residence"},{id:"independiente", label:"Standalone / on the street"}
+    ]},
+    plazo:{q:"What is your timeframe?", opts:[
+      {id:"inmediato", label:"Immediate"},{id:"1_3_meses", label:"1 to 3 months"},
+      {id:"3_6_meses", label:"3 to 6 months"},{id:"mas_6_meses", label:"More than 6 months"},{id:"solo_info", label:"Just gathering information"}
+    ]},
+    gestion:{q:"Would you like assistance with the process (search, legal and administrative steps)?", opts:[
+      {id:"acompanamiento_completo", label:"Yes, full assistance"},
+      {id:"solo_info", label:"No, just information"},
+      {id:"ya_tengo_agente", label:"I already have an agent"}
+    ]},
+    nacionalidad:{q:"What is your nationality?", chips:["Moroccan","Spanish","French","Belgian","German","Dutch","Italian","Portuguese","Chinese","Russian"], other:"Other"},
+    nombre:{q:"What is your full name?"},
+    email:{q:"What is your email address?"},
+    telefono:{q:"What is your phone number (with country code)?"}
+  },
+  labels:{
+    objetivo:"Goal", tipoPropiedad:"Property type", subtipo:"Subtype", zona:"Area", presupuesto:"Budget",
+    habitaciones:"Bedrooms", banos:"Bathrooms", superficie:"Surface area", extras:"Features", estado:"Condition",
+    uso:"Use", titulado:"Titled land", planta:"Location", plazas:"Spaces", tipoGaraje:"Covered/uncovered",
+    ubicacionGaraje:"Location", plazo:"Timeframe", gestion:"Assistance", nacionalidad:"Nationality",
+    nombre:"Name", email:"Email", telefono:"Phone"
+  },
+  wa:{
+    title:"NEW REAL ESTATE REQUEST", origin:"Real Estate Morocco Website", date:"Date",
+    sectionRequest:"REQUEST DETAILS", sectionProperty:"PROPERTY DETAILS", sectionContact:"CONTACT DETAILS",
+    footer:"Request generated automatically from the web chatbot."
+  }
+};
+
+I18N.nl = {
+  dir:"ltr", name:"Nederlands",
+  ui:{
+    headerTitle:"Vastgoed Marokko", headerSubtitle:"Uw virtuele vastgoedadviseur",
+    resetBtn:"Opnieuw", resetConfirm:"Weet u zeker dat u het gesprek wilt resetten? Ingevoerde gegevens gaan verloren.",
+    yes:"Ja, resetten", no:"Annuleren", back:"Terug", send:"Verzenden", next:"Doorgaan",
+    edit:"Antwoorden bewerken", confirmSend:"Bevestigen en verzenden via WhatsApp",
+    resumeTitle:"U heeft een onvoltooid gesprek", resumeText:"Wilt u verdergaan waar u gebleven was?",
+    resumeContinue:"Doorgaan", resumeRestart:"Opnieuw beginnen",
+    otherOption:"Anders", otherPlaceholder:"Typ hier...",
+    errName:"Voer een geldige naam in (alleen letters, minimaal 2 tekens).",
+    errEmail:"Voer een geldig e-mailadres in.",
+    errPhone:"Voer een geldig telefoonnummer in (minimaal 8 cijfers).",
+    errZone:"Voer een geldig gebied in.",
+    errRequired:"Dit veld is verplicht.",
+    placeholderZone:"Typ een stad of gebied...",
+    placeholderSuperficie:"Oppervlakte in m²...",
+    placeholderName:"Uw volledige naam...",
+    placeholderEmail:"u@email.com",
+    placeholderPhone:"+31 6 00000000",
+    summaryTitle:"Overzicht van uw aanvraag",
+    progressStep:"Stap", progressOf:"van",
+    whatsappFallback:"Als WhatsApp niet automatisch opende, kopieer het bericht:",
+    copy:"Bericht kopiëren", copied:"Gekopieerd!",
+    welcomeMsg:"Hallo! Ik ben de virtuele assistent van Vastgoed Marokko. Ik stel u enkele korte vragen om te begrijpen wat u zoekt en u met ons team in contact te brengen.",
+    startBtn:"Beginnen", selectMultiHint:"U kunt meerdere opties kiezen",
+    confirmMulti:"Selectie bevestigen",
+    whatsappBtn:"Verzenden via WhatsApp",
+    typing:"Aan het typen..."
+  },
+  q:{
+    objetivo:{q:"Wat is uw doel?", opts:[
+      {id:"comprar_vivienda", label:"Een woning kopen", ic:"🏠"},
+      {id:"comprar_terreno", label:"Grond kopen", ic:"🗺️"},
+      {id:"alquilar", label:"Een woning huren", ic:"🔑"},
+      {id:"vender", label:"Een woning verkopen", ic:"💰"},
+      {id:"invertir", label:"Investeren (huurrendement)", ic:"📈"},
+      {id:"estimacion", label:"Gratis taxatie", ic:"📋"},
+      {id:"gestion_locativa", label:"Verhuurbeheer", ic:"🗂️"},
+      {id:"asesoria", label:"Juridisch/administratief advies", ic:"⚖️"}
+    ]},
+    tipoPropiedad:{q:"In welk type woning bent u geïnteresseerd?", opts:[
+      {id:"vivienda", label:"Woning", ic:"🏠"},
+      {id:"terreno", label:"Grond", ic:"🗺️"},
+      {id:"comercial", label:"Bedrijfspand", ic:"🏢"},
+      {id:"garaje", label:"Garage", ic:"🚗"}
+    ]},
+    zona:{q:"In welke stad of regio van Marokko zoekt u?"},
+    presupuesto:{q:"Wat is uw ongeveer budget?", opts:[
+      {id:"b1", label:"Minder dan €50.000"},
+      {id:"b2", label:"€50.000 – €100.000"},
+      {id:"b3", label:"€100.000 – €200.000"},
+      {id:"b4", label:"€200.000 – €500.000"},
+      {id:"b5", label:"Meer dan €500.000"},
+      {id:"b6", label:"Ik geef dit later door"}
+    ]},
+    viviendaSubtipo:{q:"Welk type woning zoekt u?", opts:[
+      {id:"casa_villa", label:"Huis / Villa", ic:"🏡"},
+      {id:"apartamento", label:"Appartement", ic:"🏢"},
+      {id:"riad", label:"Riad", ic:"🕌"},
+      {id:"edificio", label:"Beleggingspand", ic:"🏗️"}
+    ]},
+    viviendaHabitaciones:{q:"Hoeveel slaapkamers heeft u nodig?", opts:[
+      {id:"1", label:"1 slaapkamer"},{id:"2", label:"2 slaapkamers"},{id:"3", label:"3 slaapkamers"},{id:"4", label:"4 slaapkamers"},{id:"5+", label:"5 of meer"}
+    ]},
+    viviendaBanos:{q:"Hoeveel badkamers?", opts:[
+      {id:"1", label:"1 badkamer"},{id:"2", label:"2 badkamers"},{id:"3", label:"3 badkamers"},{id:"4+", label:"4 of meer"}
+    ]},
+    viviendaSuperficie:{q:"Welke oppervlakte zoekt u (m²)?"},
+    viviendaExtras:{q:"Welke kenmerken interesseren u?", opts:[
+      {id:"piscina", label:"Zwembad", ic:"🏊"},{id:"jardin", label:"Tuin", ic:"🌳"},{id:"terraza", label:"Terras", ic:"🌇"},
+      {id:"garaje_incl", label:"Garage", ic:"🚗"},{id:"ascensor", label:"Lift", ic:"🛗"},{id:"amueblado", label:"Gemeubileerd", ic:"🛋️"},
+      {id:"aire_acondicionado", label:"Airconditioning", ic:"❄️"},{id:"seguridad", label:"24-uurs beveiliging", ic:"🔒"}
+    ]},
+    viviendaEstado:{q:"Nieuwbouw of bestaande bouw?", opts:[
+      {id:"nueva", label:"Nieuwbouw"},{id:"reventa", label:"Bestaande bouw"},{id:"indiferente", label:"Maakt niet uit"}
+    ]},
+    terrenoUso:{q:"Waarvoor wordt de grond gebruikt?", opts:[
+      {id:"residencial", label:"Residentieel", ic:"🏠"},{id:"comercial", label:"Commercieel", ic:"🏬"},
+      {id:"industrial", label:"Industrieel", ic:"🏭"},{id:"inversion", label:"Investering", ic:"📈"}
+    ]},
+    terrenoSuperficie:{q:"Welke oppervlakte zoekt u (m²)?"},
+    terrenoTitulado:{q:"Moet de grond geregistreerd zijn?", opts:[
+      {id:"si", label:"Ja, essentieel"},{id:"no", label:"Niet noodzakelijk"},{id:"no_seguro", label:"Niet zeker"}
+    ]},
+    comercialSubtipo:{q:"Welk type bedrijfspand zoekt u?", opts:[
+      {id:"local", label:"Winkelruimte", ic:"🏬"},{id:"oficina", label:"Kantoor", ic:"🏢"},
+      {id:"nave", label:"Loods", ic:"🏭"},{id:"edificio_rendimiento", label:"Beleggingspand", ic:"🏗️"}
+    ]},
+    comercialSuperficie:{q:"Welke oppervlakte heeft u nodig (m²)?"},
+    comercialPlanta:{q:"Welke locatie heeft uw voorkeur?", opts:[
+      {id:"baja", label:"Begane grond"},{id:"alta", label:"Bovenverdieping"},{id:"independiente", label:"Vrijstaand gebouw"}
+    ]},
+    garajePlazas:{q:"Hoeveel plaatsen heeft u nodig?", opts:[
+      {id:"1", label:"1 plaats"},{id:"2", label:"2 plaatsen"},{id:"3+", label:"3 of meer"}
+    ]},
+    garajeTipo:{q:"Overdekt of open?", opts:[
+      {id:"cubierto", label:"Overdekt"},{id:"descubierto", label:"Open"},{id:"indiferente", label:"Maakt niet uit"}
+    ]},
+    garajeUbicacion:{q:"Waar heeft u het liefst?", opts:[
+      {id:"en_residencia", label:"Binnen een wooncomplex"},{id:"independiente", label:"Vrijstaand / op straat"}
+    ]},
+    plazo:{q:"Binnen welke termijn wilt u dit realiseren?", opts:[
+      {id:"inmediato", label:"Onmiddellijk"},{id:"1_3_meses", label:"1 tot 3 maanden"},
+      {id:"3_6_meses", label:"3 tot 6 maanden"},{id:"mas_6_meses", label:"Meer dan 6 maanden"},{id:"solo_info", label:"Alleen informatie"}
+    ]},
+    gestion:{q:"Wilt u begeleiding bij het proces (zoeken, juridische en administratieve stappen)?", opts:[
+      {id:"acompanamiento_completo", label:"Ja, volledige begeleiding"},
+      {id:"solo_info", label:"Nee, alleen informatie"},
+      {id:"ya_tengo_agente", label:"Ik heb al een agent"}
+    ]},
+    nacionalidad:{q:"Wat is uw nationaliteit?", chips:["Marokkaans","Spaans","Frans","Belgisch","Duits","Nederlands","Italiaans","Portugees","Chinees","Russisch"], other:"Anders"},
+    nombre:{q:"Wat is uw volledige naam?"},
+    email:{q:"Wat is uw e-mailadres?"},
+    telefono:{q:"Wat is uw telefoonnummer (met landcode)?"}
+  },
+  labels:{
+    objetivo:"Doel", tipoPropiedad:"Type woning", subtipo:"Subtype", zona:"Gebied", presupuesto:"Budget",
+    habitaciones:"Slaapkamers", banos:"Badkamers", superficie:"Oppervlakte", extras:"Kenmerken", estado:"Staat",
+    uso:"Gebruik", titulado:"Geregistreerde grond", planta:"Locatie", plazas:"Plaatsen", tipoGaraje:"Overdekt/open",
+    ubicacionGaraje:"Locatie", plazo:"Termijn", gestion:"Begeleiding", nacionalidad:"Nationaliteit",
+    nombre:"Naam", email:"E-mail", telefono:"Telefoon"
+  },
+  wa:{
+    title:"NIEUWE VASTGOEDAANVRAAG", origin:"Website Vastgoed Marokko", date:"Datum",
+    sectionRequest:"AANVRAAGGEGEVENS", sectionProperty:"WONINGDETAILS", sectionContact:"CONTACTGEGEVENS",
+    footer:"Aanvraag automatisch gegenereerd via de webchatbot."
+  }
+};
+
+I18N.de = {
+  dir:"ltr", name:"Deutsch",
+  ui:{
+    headerTitle:"Immobilien Marokko", headerSubtitle:"Ihr virtueller Immobilienberater",
+    resetBtn:"Zurücksetzen", resetConfirm:"Möchten Sie das Gespräch wirklich zurücksetzen? Eingegebene Daten gehen verloren.",
+    yes:"Ja, zurücksetzen", no:"Abbrechen", back:"Zurück", send:"Senden", next:"Weiter",
+    edit:"Antworten bearbeiten", confirmSend:"Bestätigen und per WhatsApp senden",
+    resumeTitle:"Sie haben ein unvollendetes Gespräch", resumeText:"Möchten Sie dort weitermachen, wo Sie aufgehört haben?",
+    resumeContinue:"Fortsetzen", resumeRestart:"Neu beginnen",
+    otherOption:"Andere", otherPlaceholder:"Hier eingeben...",
+    errName:"Bitte geben Sie einen gültigen Namen ein (nur Buchstaben, mind. 2 Zeichen).",
+    errEmail:"Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+    errPhone:"Bitte geben Sie eine gültige Telefonnummer ein (mind. 8 Ziffern).",
+    errZone:"Bitte geben Sie ein gültiges Gebiet ein.",
+    errRequired:"Dieses Feld ist erforderlich.",
+    placeholderZone:"Stadt oder Gebiet eingeben...",
+    placeholderSuperficie:"Fläche in m²...",
+    placeholderName:"Ihr vollständiger Name...",
+    placeholderEmail:"sie@email.com",
+    placeholderPhone:"+49 151 00000000",
+    summaryTitle:"Zusammenfassung Ihrer Anfrage",
+    progressStep:"Schritt", progressOf:"von",
+    whatsappFallback:"Falls WhatsApp nicht automatisch geöffnet wurde, kopieren Sie die Nachricht:",
+    copy:"Nachricht kopieren", copied:"Kopiert!",
+    welcomeMsg:"Hallo! Ich bin der virtuelle Assistent von Immobilien Marokko. Ich stelle Ihnen ein paar kurze Fragen, um zu verstehen, wonach Sie suchen, und Sie mit unserem Team zu verbinden.",
+    startBtn:"Starten", selectMultiHint:"Sie können mehrere Optionen wählen",
+    confirmMulti:"Auswahl bestätigen",
+    whatsappBtn:"Per WhatsApp senden",
+    typing:"Schreibt..."
+  },
+  q:{
+    objetivo:{q:"Was ist Ihr Ziel?", opts:[
+      {id:"comprar_vivienda", label:"Eine Immobilie kaufen", ic:"🏠"},
+      {id:"comprar_terreno", label:"Grundstück kaufen", ic:"🗺️"},
+      {id:"alquilar", label:"Eine Immobilie mieten", ic:"🔑"},
+      {id:"vender", label:"Eine Immobilie verkaufen", ic:"💰"},
+      {id:"invertir", label:"Investieren (Mietrendite)", ic:"📈"},
+      {id:"estimacion", label:"Kostenlose Bewertung", ic:"📋"},
+      {id:"gestion_locativa", label:"Mietverwaltung", ic:"🗂️"},
+      {id:"asesoria", label:"Rechtliche/administrative Beratung", ic:"⚖️"}
+    ]},
+    tipoPropiedad:{q:"An welcher Art von Immobilie sind Sie interessiert?", opts:[
+      {id:"vivienda", label:"Wohnimmobilie", ic:"🏠"},
+      {id:"terreno", label:"Grundstück", ic:"🗺️"},
+      {id:"comercial", label:"Gewerbefläche", ic:"🏢"},
+      {id:"garaje", label:"Garage", ic:"🚗"}
+    ]},
+    zona:{q:"In welcher Stadt oder Region Marokkos suchen Sie?"},
+    presupuesto:{q:"Wie hoch ist Ihr ungefähres Budget?", opts:[
+      {id:"b1", label:"Unter 50.000 €"},
+      {id:"b2", label:"50.000 € – 100.000 €"},
+      {id:"b3", label:"100.000 € – 200.000 €"},
+      {id:"b4", label:"200.000 € – 500.000 €"},
+      {id:"b5", label:"Über 500.000 €"},
+      {id:"b6", label:"Ich gebe es später an"}
+    ]},
+    viviendaSubtipo:{q:"Welche Art von Wohnimmobilie suchen Sie?", opts:[
+      {id:"casa_villa", label:"Haus / Villa", ic:"🏡"},
+      {id:"apartamento", label:"Wohnung", ic:"🏢"},
+      {id:"riad", label:"Riad", ic:"🕌"},
+      {id:"edificio", label:"Renditeobjekt", ic:"🏗️"}
+    ]},
+    viviendaHabitaciones:{q:"Wie viele Schlafzimmer benötigen Sie?", opts:[
+      {id:"1", label:"1 Schlafzimmer"},{id:"2", label:"2 Schlafzimmer"},{id:"3", label:"3 Schlafzimmer"},{id:"4", label:"4 Schlafzimmer"},{id:"5+", label:"5 oder mehr"}
+    ]},
+    viviendaBanos:{q:"Wie viele Badezimmer?", opts:[
+      {id:"1", label:"1 Badezimmer"},{id:"2", label:"2 Badezimmer"},{id:"3", label:"3 Badezimmer"},{id:"4+", label:"4 oder mehr"}
+    ]},
+    viviendaSuperficie:{q:"Welche Fläche suchen Sie (m²)?"},
+    viviendaExtras:{q:"Welche Merkmale interessieren Sie?", opts:[
+      {id:"piscina", label:"Pool", ic:"🏊"},{id:"jardin", label:"Garten", ic:"🌳"},{id:"terraza", label:"Terrasse", ic:"🌇"},
+      {id:"garaje_incl", label:"Garage", ic:"🚗"},{id:"ascensor", label:"Aufzug", ic:"🛗"},{id:"amueblado", label:"Möbliert", ic:"🛋️"},
+      {id:"aire_acondicionado", label:"Klimaanlage", ic:"❄️"},{id:"seguridad", label:"24h-Sicherheit", ic:"🔒"}
+    ]},
+    viviendaEstado:{q:"Neubau oder Bestandsimmobilie?", opts:[
+      {id:"nueva", label:"Neubau"},{id:"reventa", label:"Bestandsimmobilie"},{id:"indiferente", label:"Egal"}
+    ]},
+    terrenoUso:{q:"Wofür wird das Grundstück genutzt?", opts:[
+      {id:"residencial", label:"Wohnnutzung", ic:"🏠"},{id:"comercial", label:"Gewerblich", ic:"🏬"},
+      {id:"industrial", label:"Industriell", ic:"🏭"},{id:"inversion", label:"Investition", ic:"📈"}
+    ]},
+    terrenoSuperficie:{q:"Welche Fläche suchen Sie (m²)?"},
+    terrenoTitulado:{q:"Muss das Grundstück im Grundbuch eingetragen sein?", opts:[
+      {id:"si", label:"Ja, unerlässlich"},{id:"no", label:"Nicht notwendig"},{id:"no_seguro", label:"Nicht sicher"}
+    ]},
+    comercialSubtipo:{q:"Welche Art von Gewerbefläche suchen Sie?", opts:[
+      {id:"local", label:"Ladenlokal", ic:"🏬"},{id:"oficina", label:"Büro", ic:"🏢"},
+      {id:"nave", label:"Lagerhalle", ic:"🏭"},{id:"edificio_rendimiento", label:"Renditeobjekt", ic:"🏗️"}
+    ]},
+    comercialSuperficie:{q:"Welche Fläche benötigen Sie (m²)?"},
+    comercialPlanta:{q:"Welche Lage bevorzugen Sie?", opts:[
+      {id:"baja", label:"Erdgeschoss"},{id:"alta", label:"Obergeschoss"},{id:"independiente", label:"Freistehendes Gebäude"}
+    ]},
+    garajePlazas:{q:"Wie viele Stellplätze benötigen Sie?", opts:[
+      {id:"1", label:"1 Stellplatz"},{id:"2", label:"2 Stellplätze"},{id:"3+", label:"3 oder mehr"}
+    ]},
+    garajeTipo:{q:"Überdacht oder offen?", opts:[
+      {id:"cubierto", label:"Überdacht"},{id:"descubierto", label:"Offen"},{id:"indiferente", label:"Egal"}
+    ]},
+    garajeUbicacion:{q:"Wo bevorzugen Sie es?", opts:[
+      {id:"en_residencia", label:"Innerhalb einer Wohnanlage"},{id:"independiente", label:"Freistehend / auf der Straße"}
+    ]},
+    plazo:{q:"In welchem Zeitrahmen möchten Sie dies umsetzen?", opts:[
+      {id:"inmediato", label:"Sofort"},{id:"1_3_meses", label:"1 bis 3 Monate"},
+      {id:"3_6_meses", label:"3 bis 6 Monate"},{id:"mas_6_meses", label:"Mehr als 6 Monate"},{id:"solo_info", label:"Nur Information"}
+    ]},
+    gestion:{q:"Möchten Sie Unterstützung beim Prozess (Suche, rechtliche und administrative Schritte)?", opts:[
+      {id:"acompanamiento_completo", label:"Ja, vollständige Betreuung"},
+      {id:"solo_info", label:"Nein, nur Information"},
+      {id:"ya_tengo_agente", label:"Ich habe bereits einen Makler"}
+    ]},
+    nacionalidad:{q:"Welche Staatsangehörigkeit haben Sie?", chips:["Marokkanisch","Spanisch","Französisch","Belgisch","Deutsch","Niederländisch","Italienisch","Portugiesisch","Chinesisch","Russisch"], other:"Andere"},
+    nombre:{q:"Wie lautet Ihr vollständiger Name?"},
+    email:{q:"Wie lautet Ihre E-Mail-Adresse?"},
+    telefono:{q:"Wie lautet Ihre Telefonnummer (mit Landesvorwahl)?"}
+  },
+  labels:{
+    objetivo:"Ziel", tipoPropiedad:"Immobilientyp", subtipo:"Subtyp", zona:"Gebiet", presupuesto:"Budget",
+    habitaciones:"Schlafzimmer", banos:"Badezimmer", superficie:"Fläche", extras:"Merkmale", estado:"Zustand",
+    uso:"Nutzung", titulado:"Grundbucheintrag", planta:"Lage", plazas:"Stellplätze", tipoGaraje:"Überdacht/offen",
+    ubicacionGaraje:"Lage", plazo:"Zeitrahmen", gestion:"Betreuung", nacionalidad:"Staatsangehörigkeit",
+    nombre:"Name", email:"E-Mail", telefono:"Telefon"
+  },
+  wa:{
+    title:"NEUE IMMOBILIENANFRAGE", origin:"Website Immobilien Marokko", date:"Datum",
+    sectionRequest:"ANFRAGEDETAILS", sectionProperty:"IMMOBILIENDETAILS", sectionContact:"KONTAKTDATEN",
+    footer:"Automatisch generierte Anfrage über den Web-Chatbot."
+  }
+};
+
+I18N.it = {
+  dir:"ltr", name:"Italiano",
+  ui:{
+    headerTitle:"Immobiliare Marocco", headerSubtitle:"Il tuo consulente immobiliare virtuale",
+    resetBtn:"Reimposta", resetConfirm:"Sei sicuro di voler reimpostare la conversazione? I dati inseriti andranno persi.",
+    yes:"Sì, reimposta", no:"Annulla", back:"Indietro", send:"Invia", next:"Continua",
+    edit:"Modifica risposte", confirmSend:"Conferma e invia via WhatsApp",
+    resumeTitle:"Hai una conversazione non terminata", resumeText:"Vuoi continuare da dove avevi interrotto?",
+    resumeContinue:"Continua", resumeRestart:"Ricomincia",
+    otherOption:"Altro", otherPlaceholder:"Scrivi qui...",
+    errName:"Inserisci un nome valido (solo lettere, minimo 2 caratteri).",
+    errEmail:"Inserisci un'email valida.",
+    errPhone:"Inserisci un numero di telefono valido (minimo 8 cifre).",
+    errZone:"Inserisci una zona valida.",
+    errRequired:"Questo campo è obbligatorio.",
+    placeholderZone:"Scrivi una città o zona...",
+    placeholderSuperficie:"Superficie in m²...",
+    placeholderName:"Il tuo nome completo...",
+    placeholderEmail:"tu@email.com",
+    placeholderPhone:"+39 320 0000000",
+    summaryTitle:"Riepilogo della tua richiesta",
+    progressStep:"Passo", progressOf:"di",
+    whatsappFallback:"Se WhatsApp non si è aperto automaticamente, copia il messaggio:",
+    copy:"Copia messaggio", copied:"Copiato!",
+    welcomeMsg:"Ciao! Sono l'assistente virtuale di Immobiliare Marocco. Ti farò alcune domande rapide per capire cosa cerchi e metterti in contatto con il nostro team.",
+    startBtn:"Inizia", selectMultiHint:"Puoi scegliere più opzioni",
+    confirmMulti:"Conferma selezione",
+    whatsappBtn:"Invia via WhatsApp",
+    typing:"Sta scrivendo..."
+  },
+  q:{
+    objetivo:{q:"Qual è il tuo obiettivo?", opts:[
+      {id:"comprar_vivienda", label:"Comprare una casa", ic:"🏠"},
+      {id:"comprar_terreno", label:"Comprare un terreno", ic:"🗺️"},
+      {id:"alquilar", label:"Affittare una proprietà", ic:"🔑"},
+      {id:"vender", label:"Vendere una proprietà", ic:"💰"},
+      {id:"invertir", label:"Investire (rendita locativa)", ic:"📈"},
+      {id:"estimacion", label:"Stima gratuita", ic:"📋"},
+      {id:"gestion_locativa", label:"Gestione locativa", ic:"🗂️"},
+      {id:"asesoria", label:"Consulenza legale/amministrativa", ic:"⚖️"}
+    ]},
+    tipoPropiedad:{q:"A che tipo di proprietà sei interessato?", opts:[
+      {id:"vivienda", label:"Casa", ic:"🏠"},
+      {id:"terreno", label:"Terreno", ic:"🗺️"},
+      {id:"comercial", label:"Locale commerciale", ic:"🏢"},
+      {id:"garaje", label:"Garage", ic:"🚗"}
+    ]},
+    zona:{q:"In quale città o zona del Marocco stai cercando?"},
+    presupuesto:{q:"Qual è il tuo budget approssimativo?", opts:[
+      {id:"b1", label:"Meno di 50.000 €"},
+      {id:"b2", label:"50.000 € – 100.000 €"},
+      {id:"b3", label:"100.000 € – 200.000 €"},
+      {id:"b4", label:"200.000 € – 500.000 €"},
+      {id:"b5", label:"Oltre 500.000 €"},
+      {id:"b6", label:"Preferisco indicarlo più avanti"}
+    ]},
+    viviendaSubtipo:{q:"Che tipo di casa stai cercando?", opts:[
+      {id:"casa_villa", label:"Casa / Villa", ic:"🏡"},
+      {id:"apartamento", label:"Appartamento", ic:"🏢"},
+      {id:"riad", label:"Riad", ic:"🕌"},
+      {id:"edificio", label:"Immobile da reddito", ic:"🏗️"}
+    ]},
+    viviendaHabitaciones:{q:"Quante camere da letto ti servono?", opts:[
+      {id:"1", label:"1 camera"},{id:"2", label:"2 camere"},{id:"3", label:"3 camere"},{id:"4", label:"4 camere"},{id:"5+", label:"5 o più"}
+    ]},
+    viviendaBanos:{q:"Quanti bagni?", opts:[
+      {id:"1", label:"1 bagno"},{id:"2", label:"2 bagni"},{id:"3", label:"3 bagni"},{id:"4+", label:"4 o più"}
+    ]},
+    viviendaSuperficie:{q:"Che superficie stai cercando (m²)?"},
+    viviendaExtras:{q:"Quali caratteristiche ti interessano?", opts:[
+      {id:"piscina", label:"Piscina", ic:"🏊"},{id:"jardin", label:"Giardino", ic:"🌳"},{id:"terraza", label:"Terrazza", ic:"🌇"},
+      {id:"garaje_incl", label:"Garage", ic:"🚗"},{id:"ascensor", label:"Ascensore", ic:"🛗"},{id:"amueblado", label:"Arredato", ic:"🛋️"},
+      {id:"aire_acondicionado", label:"Aria condizionata", ic:"❄️"},{id:"seguridad", label:"Sicurezza 24h", ic:"🔒"}
+    ]},
+    viviendaEstado:{q:"Nuova costruzione o usato?", opts:[
+      {id:"nueva", label:"Nuova costruzione"},{id:"reventa", label:"Usato"},{id:"indiferente", label:"Indifferente"}
+    ]},
+    terrenoUso:{q:"Quale sarà l'uso del terreno?", opts:[
+      {id:"residencial", label:"Residenziale", ic:"🏠"},{id:"comercial", label:"Commerciale", ic:"🏬"},
+      {id:"industrial", label:"Industriale", ic:"🏭"},{id:"inversion", label:"Investimento", ic:"📈"}
+    ]},
+    terrenoSuperficie:{q:"Che superficie stai cercando (m²)?"},
+    terrenoTitulado:{q:"Il terreno deve essere accatastato/registrato?", opts:[
+      {id:"si", label:"Sì, indispensabile"},{id:"no", label:"Non necessario"},{id:"no_seguro", label:"Non sono sicuro"}
+    ]},
+    comercialSubtipo:{q:"Che tipo di locale commerciale stai cercando?", opts:[
+      {id:"local", label:"Negozio", ic:"🏬"},{id:"oficina", label:"Ufficio", ic:"🏢"},
+      {id:"nave", label:"Capannone", ic:"🏭"},{id:"edificio_rendimiento", label:"Immobile da reddito", ic:"🏗️"}
+    ]},
+    comercialSuperficie:{q:"Che superficie ti serve (m²)?"},
+    comercialPlanta:{q:"Quale posizione preferisci?", opts:[
+      {id:"baja", label:"Piano terra"},{id:"alta", label:"Piano alto"},{id:"independiente", label:"Edificio indipendente"}
+    ]},
+    garajePlazas:{q:"Quanti posti auto ti servono?", opts:[
+      {id:"1", label:"1 posto"},{id:"2", label:"2 posti"},{id:"3+", label:"3 o più"}
+    ]},
+    garajeTipo:{q:"Coperto o scoperto?", opts:[
+      {id:"cubierto", label:"Coperto"},{id:"descubierto", label:"Scoperto"},{id:"indiferente", label:"Indifferente"}
+    ]},
+    garajeUbicacion:{q:"Dove lo preferisci?", opts:[
+      {id:"en_residencia", label:"All'interno di una residenza"},{id:"independiente", label:"Indipendente / su strada"}
+    ]},
+    plazo:{q:"In quali tempi vuoi concretizzare?", opts:[
+      {id:"inmediato", label:"Immediato"},{id:"1_3_meses", label:"1 a 3 mesi"},
+      {id:"3_6_meses", label:"3 a 6 mesi"},{id:"mas_6_meses", label:"Più di 6 mesi"},{id:"solo_info", label:"Voglio solo informazioni"}
+    ]},
+    gestion:{q:"Desideri assistenza nel processo (ricerca, pratiche legali e amministrative)?", opts:[
+      {id:"acompanamiento_completo", label:"Sì, assistenza completa"},
+      {id:"solo_info", label:"No, solo informazioni"},
+      {id:"ya_tengo_agente", label:"Ho già un agente"}
+    ]},
+    nacionalidad:{q:"Qual è la tua nazionalità?", chips:["Marocchina","Spagnola","Francese","Belga","Tedesca","Olandese","Italiana","Portoghese","Cinese","Russa"], other:"Altra"},
+    nombre:{q:"Qual è il tuo nome completo?"},
+    email:{q:"Qual è il tuo indirizzo email?"},
+    telefono:{q:"Qual è il tuo numero di telefono (con prefisso internazionale)?"}
+  },
+  labels:{
+    objetivo:"Obiettivo", tipoPropiedad:"Tipo di proprietà", subtipo:"Sottotipo", zona:"Zona", presupuesto:"Budget",
+    habitaciones:"Camere", banos:"Bagni", superficie:"Superficie", extras:"Caratteristiche", estado:"Stato",
+    uso:"Uso", titulado:"Terreno registrato", planta:"Posizione", plazas:"Posti auto", tipoGaraje:"Coperto/scoperto",
+    ubicacionGaraje:"Posizione", plazo:"Tempistica", gestion:"Assistenza", nacionalidad:"Nazionalità",
+    nombre:"Nome", email:"Email", telefono:"Telefono"
+  },
+  wa:{
+    title:"NUOVA RICHIESTA IMMOBILIARE", origin:"Sito Immobiliare Marocco", date:"Data",
+    sectionRequest:"DETTAGLI DELLA RICHIESTA", sectionProperty:"DETTAGLI DELLA PROPRIETÀ", sectionContact:"DATI DI CONTATTO",
+    footer:"Richiesta generata automaticamente dal chatbot del sito."
+  }
+};
+
+I18N.pt = {
+  dir:"ltr", name:"Português",
+  ui:{
+    headerTitle:"Imobiliária Marrocos", headerSubtitle:"O seu consultor imobiliário virtual",
+    resetBtn:"Reiniciar", resetConfirm:"Tem certeza de que deseja reiniciar a conversa? Os dados inseridos serão perdidos.",
+    yes:"Sim, reiniciar", no:"Cancelar", back:"Voltar", send:"Enviar", next:"Continuar",
+    edit:"Editar respostas", confirmSend:"Confirmar e enviar por WhatsApp",
+    resumeTitle:"Tem uma conversa por terminar", resumeText:"Deseja continuar de onde parou?",
+    resumeContinue:"Continuar", resumeRestart:"Começar de novo",
+    otherOption:"Outra", otherPlaceholder:"Escreva aqui...",
+    errName:"Introduza um nome válido (apenas letras, mínimo 2 caracteres).",
+    errEmail:"Introduza um email válido.",
+    errPhone:"Introduza um número de telefone válido (mínimo 8 dígitos).",
+    errZone:"Introduza uma zona válida.",
+    errRequired:"Este campo é obrigatório.",
+    placeholderZone:"Escreva uma cidade ou zona...",
+    placeholderSuperficie:"Área em m²...",
+    placeholderName:"O seu nome completo...",
+    placeholderEmail:"voce@email.com",
+    placeholderPhone:"+351 900 000 000",
+    summaryTitle:"Resumo do seu pedido",
+    progressStep:"Passo", progressOf:"de",
+    whatsappFallback:"Se o WhatsApp não abriu automaticamente, copie a mensagem:",
+    copy:"Copiar mensagem", copied:"Copiado!",
+    welcomeMsg:"Olá! Sou o assistente virtual da Imobiliária Marrocos. Vou fazer-lhe algumas perguntas rápidas para entender o que procura e colocá-lo em contacto com a nossa equipa.",
+    startBtn:"Começar", selectMultiHint:"Pode escolher várias opções",
+    confirmMulti:"Confirmar seleção",
+    whatsappBtn:"Enviar por WhatsApp",
+    typing:"A escrever..."
+  },
+  q:{
+    objetivo:{q:"Qual é o seu objetivo?", opts:[
+      {id:"comprar_vivienda", label:"Comprar uma casa", ic:"🏠"},
+      {id:"comprar_terreno", label:"Comprar um terreno", ic:"🗺️"},
+      {id:"alquilar", label:"Arrendar um imóvel", ic:"🔑"},
+      {id:"vender", label:"Vender um imóvel", ic:"💰"},
+      {id:"invertir", label:"Investir (rentabilidade de arrendamento)", ic:"📈"},
+      {id:"estimacion", label:"Avaliação gratuita", ic:"📋"},
+      {id:"gestion_locativa", label:"Gestão de arrendamento", ic:"🗂️"},
+      {id:"asesoria", label:"Aconselhamento jurídico/administrativo", ic:"⚖️"}
+    ]},
+    tipoPropiedad:{q:"Em que tipo de imóvel está interessado?", opts:[
+      {id:"vivienda", label:"Casa", ic:"🏠"},
+      {id:"terreno", label:"Terreno", ic:"🗺️"},
+      {id:"comercial", label:"Espaço comercial", ic:"🏢"},
+      {id:"garaje", label:"Garagem", ic:"🚗"}
+    ]},
+    zona:{q:"Em que cidade ou zona de Marrocos está a procurar?"},
+    presupuesto:{q:"Qual é o seu orçamento aproximado?", opts:[
+      {id:"b1", label:"Menos de 50.000 €"},
+      {id:"b2", label:"50.000 € – 100.000 €"},
+      {id:"b3", label:"100.000 € – 200.000 €"},
+      {id:"b4", label:"200.000 € – 500.000 €"},
+      {id:"b5", label:"Mais de 500.000 €"},
+      {id:"b6", label:"Prefiro indicar mais tarde"}
+    ]},
+    viviendaSubtipo:{q:"Que tipo de casa procura?", opts:[
+      {id:"casa_villa", label:"Casa / Vivenda", ic:"🏡"},
+      {id:"apartamento", label:"Apartamento", ic:"🏢"},
+      {id:"riad", label:"Riad", ic:"🕌"},
+      {id:"edificio", label:"Imóvel de rendimento", ic:"🏗️"}
+    ]},
+    viviendaHabitaciones:{q:"Quantos quartos precisa?", opts:[
+      {id:"1", label:"1 quarto"},{id:"2", label:"2 quartos"},{id:"3", label:"3 quartos"},{id:"4", label:"4 quartos"},{id:"5+", label:"5 ou mais"}
+    ]},
+    viviendaBanos:{q:"Quantas casas de banho?", opts:[
+      {id:"1", label:"1 casa de banho"},{id:"2", label:"2 casas de banho"},{id:"3", label:"3 casas de banho"},{id:"4+", label:"4 ou mais"}
+    ]},
+    viviendaSuperficie:{q:"Que área procura (m²)?"},
+    viviendaExtras:{q:"Que características lhe interessam?", opts:[
+      {id:"piscina", label:"Piscina", ic:"🏊"},{id:"jardin", label:"Jardim", ic:"🌳"},{id:"terraza", label:"Terraço", ic:"🌇"},
+      {id:"garaje_incl", label:"Garagem", ic:"🚗"},{id:"ascensor", label:"Elevador", ic:"🛗"},{id:"amueblado", label:"Mobilado", ic:"🛋️"},
+      {id:"aire_acondicionado", label:"Ar condicionado", ic:"❄️"},{id:"seguridad", label:"Segurança 24h", ic:"🔒"}
+    ]},
+    viviendaEstado:{q:"Nova construção ou usado?", opts:[
+      {id:"nueva", label:"Nova construção"},{id:"reventa", label:"Usado"},{id:"indiferente", label:"Indiferente"}
+    ]},
+    terrenoUso:{q:"Qual será o uso do terreno?", opts:[
+      {id:"residencial", label:"Residencial", ic:"🏠"},{id:"comercial", label:"Comercial", ic:"🏬"},
+      {id:"industrial", label:"Industrial", ic:"🏭"},{id:"inversion", label:"Investimento", ic:"📈"}
+    ]},
+    terrenoSuperficie:{q:"Que área procura (m²)?"},
+    terrenoTitulado:{q:"O terreno precisa de estar registado?", opts:[
+      {id:"si", label:"Sim, essencial"},{id:"no", label:"Não é necessário"},{id:"no_seguro", label:"Não tenho certeza"}
+    ]},
+    comercialSubtipo:{q:"Que tipo de espaço comercial procura?", opts:[
+      {id:"local", label:"Loja", ic:"🏬"},{id:"oficina", label:"Escritório", ic:"🏢"},
+      {id:"nave", label:"Armazém", ic:"🏭"},{id:"edificio_rendimiento", label:"Imóvel de rendimento", ic:"🏗️"}
+    ]},
+    comercialSuperficie:{q:"Que área precisa (m²)?"},
+    comercialPlanta:{q:"Que localização prefere?", opts:[
+      {id:"baja", label:"Rés-do-chão"},{id:"alta", label:"Andar superior"},{id:"independiente", label:"Edifício independente"}
+    ]},
+    garajePlazas:{q:"Quantos lugares precisa?", opts:[
+      {id:"1", label:"1 lugar"},{id:"2", label:"2 lugares"},{id:"3+", label:"3 ou mais"}
+    ]},
+    garajeTipo:{q:"Coberto ou descoberto?", opts:[
+      {id:"cubierto", label:"Coberto"},{id:"descubierto", label:"Descoberto"},{id:"indiferente", label:"Indiferente"}
+    ]},
+    garajeUbicacion:{q:"Onde prefere?", opts:[
+      {id:"en_residencia", label:"Dentro de uma residência"},{id:"independiente", label:"Independente / na rua"}
+    ]},
+    plazo:{q:"Em que prazo pretende concretizar?", opts:[
+      {id:"inmediato", label:"Imediato"},{id:"1_3_meses", label:"1 a 3 meses"},
+      {id:"3_6_meses", label:"3 a 6 meses"},{id:"mas_6_meses", label:"Mais de 6 meses"},{id:"solo_info", label:"Só quero informação"}
+    ]},
+    gestion:{q:"Deseja acompanhamento no processo (procura, trâmites legais e administrativos)?", opts:[
+      {id:"acompanamiento_completo", label:"Sim, acompanhamento completo"},
+      {id:"solo_info", label:"Não, só informação"},
+      {id:"ya_tengo_agente", label:"Já tenho um agente"}
+    ]},
+    nacionalidad:{q:"Qual é a sua nacionalidade?", chips:["Marroquina","Espanhola","Francesa","Belga","Alemã","Holandesa","Italiana","Portuguesa","Chinesa","Russa"], other:"Outra"},
+    nombre:{q:"Qual é o seu nome completo?"},
+    email:{q:"Qual é o seu email?"},
+    telefono:{q:"Qual é o seu número de telefone (com indicativo)?"}
+  },
+  labels:{
+    objetivo:"Objetivo", tipoPropiedad:"Tipo de imóvel", subtipo:"Subtipo", zona:"Zona", presupuesto:"Orçamento",
+    habitaciones:"Quartos", banos:"Casas de banho", superficie:"Área", extras:"Características", estado:"Estado",
+    uso:"Uso", titulado:"Terreno registado", planta:"Localização", plazas:"Lugares", tipoGaraje:"Coberto/descoberto",
+    ubicacionGaraje:"Localização", plazo:"Prazo", gestion:"Acompanhamento", nacionalidad:"Nacionalidade",
+    nombre:"Nome", email:"Email", telefono:"Telefone"
+  },
+  wa:{
+    title:"NOVO PEDIDO IMOBILIÁRIO", origin:"Site Imobiliária Marrocos", date:"Data",
+    sectionRequest:"DETALHES DO PEDIDO", sectionProperty:"DETALHES DO IMÓVEL", sectionContact:"DADOS DE CONTACTO",
+    footer:"Pedido gerado automaticamente a partir do chatbot do site."
+  }
+};
+
+I18N.ar = {
+  dir:"rtl", name:"العربية",
+  ui:{
+    headerTitle:"عقارات المغرب", headerSubtitle:"مستشارك العقاري الافتراضي",
+    resetBtn:"إعادة تعيين", resetConfirm:"هل أنت متأكد أنك تريد إعادة تعيين المحادثة؟ ستفقد البيانات المدخلة.",
+    yes:"نعم، إعادة تعيين", no:"إلغاء", back:"رجوع", send:"إرسال", next:"متابعة",
+    edit:"تعديل الإجابات", confirmSend:"تأكيد والإرسال عبر واتساب",
+    resumeTitle:"لديك محادثة غير مكتملة", resumeText:"هل تريد المتابعة من حيث توقفت؟",
+    resumeContinue:"متابعة", resumeRestart:"البدء من جديد",
+    otherOption:"أخرى", otherPlaceholder:"اكتب هنا...",
+    errName:"يرجى إدخال اسم صحيح (حروف فقط، حرفان على الأقل).",
+    errEmail:"يرجى إدخال بريد إلكتروني صحيح.",
+    errPhone:"يرجى إدخال رقم هاتف صحيح (8 أرقام على الأقل).",
+    errZone:"يرجى إدخال منطقة صحيحة.",
+    errRequired:"هذا الحقل إلزامي.",
+    placeholderZone:"اكتب مدينة أو منطقة...",
+    placeholderSuperficie:"المساحة بالمتر المربع...",
+    placeholderName:"اسمك الكامل...",
+    placeholderEmail:"you@email.com",
+    placeholderPhone:"+212 6 00 00 00 00",
+    summaryTitle:"ملخص طلبك",
+    progressStep:"خطوة", progressOf:"من",
+    whatsappFallback:"إذا لم يفتح واتساب تلقائياً، انسخ الرسالة:",
+    copy:"نسخ الرسالة", copied:"تم النسخ!",
+    welcomeMsg:"مرحباً! أنا المساعد الافتراضي لعقارات المغرب. سأطرح عليك بعض الأسئلة السريعة لفهم ما تبحث عنه وربطك بفريقنا.",
+    startBtn:"ابدأ", selectMultiHint:"يمكنك اختيار عدة خيارات",
+    confirmMulti:"تأكيد الاختيار",
+    whatsappBtn:"إرسال عبر واتساب",
+    typing:"يكتب..."
+  },
+  q:{
+    objetivo:{q:"ما هو هدفك؟", opts:[
+      {id:"comprar_vivienda", label:"شراء سكن", ic:"🏠"},
+      {id:"comprar_terreno", label:"شراء أرض", ic:"🗺️"},
+      {id:"alquilar", label:"استئجار عقار", ic:"🔑"},
+      {id:"vender", label:"بيع عقار", ic:"💰"},
+      {id:"invertir", label:"الاستثمار (عائد إيجاري)", ic:"📈"},
+      {id:"estimacion", label:"تقييم مجاني", ic:"📋"},
+      {id:"gestion_locativa", label:"إدارة الإيجار", ic:"🗂️"},
+      {id:"asesoria", label:"استشارة قانونية/إدارية", ic:"⚖️"}
+    ]},
+    tipoPropiedad:{q:"ما نوع العقار الذي يهمك؟", opts:[
+      {id:"vivienda", label:"سكن", ic:"🏠"},
+      {id:"terreno", label:"أرض", ic:"🗺️"},
+      {id:"comercial", label:"محل تجاري", ic:"🏢"},
+      {id:"garaje", label:"مرآب", ic:"🚗"}
+    ]},
+    zona:{q:"في أي مدينة أو منطقة بالمغرب تبحث؟"},
+    presupuesto:{q:"ما هي ميزانيتك التقريبية؟", opts:[
+      {id:"b1", label:"أقل من 50,000 يورو"},
+      {id:"b2", label:"50,000 – 100,000 يورو"},
+      {id:"b3", label:"100,000 – 200,000 يورو"},
+      {id:"b4", label:"200,000 – 500,000 يورو"},
+      {id:"b5", label:"أكثر من 500,000 يورو"},
+      {id:"b6", label:"أفضل تحديدها لاحقاً"}
+    ]},
+    viviendaSubtipo:{q:"ما نوع السكن الذي تبحث عنه؟", opts:[
+      {id:"casa_villa", label:"منزل / فيلا", ic:"🏡"},
+      {id:"apartamento", label:"شقة", ic:"🏢"},
+      {id:"riad", label:"رياض", ic:"🕌"},
+      {id:"edificio", label:"عقار مدر للدخل", ic:"🏗️"}
+    ]},
+    viviendaHabitaciones:{q:"كم عدد الغرف التي تحتاجها؟", opts:[
+      {id:"1", label:"غرفة واحدة"},{id:"2", label:"غرفتان"},{id:"3", label:"3 غرف"},{id:"4", label:"4 غرف"},{id:"5+", label:"5 أو أكثر"}
+    ]},
+    viviendaBanos:{q:"كم عدد الحمامات؟", opts:[
+      {id:"1", label:"حمام واحد"},{id:"2", label:"حمامان"},{id:"3", label:"3 حمامات"},{id:"4+", label:"4 أو أكثر"}
+    ]},
+    viviendaSuperficie:{q:"ما المساحة التي تبحث عنها (م²)؟"},
+    viviendaExtras:{q:"ما الميزات التي تهمك؟", opts:[
+      {id:"piscina", label:"مسبح", ic:"🏊"},{id:"jardin", label:"حديقة", ic:"🌳"},{id:"terraza", label:"شرفة", ic:"🌇"},
+      {id:"garaje_incl", label:"مرآب", ic:"🚗"},{id:"ascensor", label:"مصعد", ic:"🛗"},{id:"amueblado", label:"مفروش", ic:"🛋️"},
+      {id:"aire_acondicionado", label:"تكييف هواء", ic:"❄️"},{id:"seguridad", label:"أمن 24 ساعة", ic:"🔒"}
+    ]},
+    viviendaEstado:{q:"بناء جديد أم قديم؟", opts:[
+      {id:"nueva", label:"بناء جديد"},{id:"reventa", label:"قديم"},{id:"indiferente", label:"لا يهم"}
+    ]},
+    terrenoUso:{q:"ما استخدام الأرض؟", opts:[
+      {id:"residencial", label:"سكني", ic:"🏠"},{id:"comercial", label:"تجاري", ic:"🏬"},
+      {id:"industrial", label:"صناعي", ic:"🏭"},{id:"inversion", label:"استثمار", ic:"📈"}
+    ]},
+    terrenoSuperficie:{q:"ما المساحة التي تبحث عنها (م²)؟"},
+    terrenoTitulado:{q:"هل يجب أن تكون الأرض مسجلة؟", opts:[
+      {id:"si", label:"نعم، ضروري"},{id:"no", label:"غير ضروري"},{id:"no_seguro", label:"لست متأكداً"}
+    ]},
+    comercialSubtipo:{q:"ما نوع المحل التجاري الذي تبحث عنه؟", opts:[
+      {id:"local", label:"محل تجاري", ic:"🏬"},{id:"oficina", label:"مكتب", ic:"🏢"},
+      {id:"nave", label:"مستودع", ic:"🏭"},{id:"edificio_rendimiento", label:"عقار مدر للدخل", ic:"🏗️"}
+    ]},
+    comercialSuperficie:{q:"ما المساحة التي تحتاجها (م²)؟"},
+    comercialPlanta:{q:"أي موقع تفضل؟", opts:[
+      {id:"baja", label:"الطابق الأرضي"},{id:"alta", label:"طابق علوي"},{id:"independiente", label:"مبنى مستقل"}
+    ]},
+    garajePlazas:{q:"كم عدد الأماكن التي تحتاجها؟", opts:[
+      {id:"1", label:"مكان واحد"},{id:"2", label:"مكانان"},{id:"3+", label:"3 أو أكثر"}
+    ]},
+    garajeTipo:{q:"مغطى أم مكشوف؟", opts:[
+      {id:"cubierto", label:"مغطى"},{id:"descubierto", label:"مكشوف"},{id:"indiferente", label:"لا يهم"}
+    ]},
+    garajeUbicacion:{q:"أين تفضله؟", opts:[
+      {id:"en_residencia", label:"داخل مجمع سكني"},{id:"independiente", label:"مستقل / في الشارع"}
+    ]},
+    plazo:{q:"في أي مدة تريد إتمام ذلك؟", opts:[
+      {id:"inmediato", label:"فوري"},{id:"1_3_meses", label:"1 إلى 3 أشهر"},
+      {id:"3_6_meses", label:"3 إلى 6 أشهر"},{id:"mas_6_meses", label:"أكثر من 6 أشهر"},{id:"solo_info", label:"أريد معلومات فقط"}
+    ]},
+    gestion:{q:"هل ترغب في مرافقة خلال العملية (بحث، إجراءات قانونية وإدارية)؟", opts:[
+      {id:"acompanamiento_completo", label:"نعم، مرافقة كاملة"},
+      {id:"solo_info", label:"لا، معلومات فقط"},
+      {id:"ya_tengo_agente", label:"لدي وكيل بالفعل"}
+    ]},
+    nacionalidad:{q:"ما هي جنسيتك؟", chips:["مغربية","إسبانية","فرنسية","بلجيكية","ألمانية","هولندية","إيطالية","برتغالية","صينية","روسية"], other:"أخرى"},
+    nombre:{q:"ما هو اسمك الكامل؟"},
+    email:{q:"ما هو بريدك الإلكتروني؟"},
+    telefono:{q:"ما هو رقم هاتفك (مع رمز البلد)؟"}
+  },
+  labels:{
+    objetivo:"الهدف", tipoPropiedad:"نوع العقار", subtipo:"النوع الفرعي", zona:"المنطقة", presupuesto:"الميزانية",
+    habitaciones:"الغرف", banos:"الحمامات", superficie:"المساحة", extras:"الميزات", estado:"الحالة",
+    uso:"الاستخدام", titulado:"أرض مسجلة", planta:"الموقع", plazas:"الأماكن", tipoGaraje:"مغطى/مكشوف",
+    ubicacionGaraje:"الموقع", plazo:"المدة", gestion:"المرافقة", nacionalidad:"الجنسية",
+    nombre:"الاسم", email:"البريد الإلكتروني", telefono:"الهاتف"
+  },
+  wa:{
+    title:"طلب عقاري جديد", origin:"موقع عقارات المغرب", date:"التاريخ",
+    sectionRequest:"تفاصيل الطلب", sectionProperty:"تفاصيل العقار", sectionContact:"بيانات الاتصال",
+    footer:"تم إنشاء الطلب تلقائياً من الشات بوت الخاص بالموقع."
+  }
+};
+
+I18N.zh = {
+  dir:"ltr", name:"中文",
+  ui:{
+    headerTitle:"摩洛哥房地产", headerSubtitle:"您的虚拟房产顾问",
+    resetBtn:"重置", resetConfirm:"确定要重置对话吗？已输入的数据将丢失。",
+    yes:"是，重置", no:"取消", back:"返回", send:"发送", next:"继续",
+    edit:"编辑回答", confirmSend:"确认并通过WhatsApp发送",
+    resumeTitle:"您有一个未完成的对话", resumeText:"是否要从上次中断的地方继续？",
+    resumeContinue:"继续", resumeRestart:"重新开始",
+    otherOption:"其他", otherPlaceholder:"在此输入...",
+    errName:"请输入有效姓名（仅限字母，至少2个字符）。",
+    errEmail:"请输入有效的电子邮件。",
+    errPhone:"请输入有效的电话号码（至少8位数字）。",
+    errZone:"请输入有效的区域。",
+    errRequired:"此字段为必填项。",
+    placeholderZone:"输入城市或区域...",
+    placeholderSuperficie:"面积（平方米）...",
+    placeholderName:"您的全名...",
+    placeholderEmail:"you@email.com",
+    placeholderPhone:"+86 138 0000 0000",
+    summaryTitle:"您的请求摘要",
+    progressStep:"步骤", progressOf:"共",
+    whatsappFallback:"如果WhatsApp没有自动打开，请复制以下信息：",
+    copy:"复制信息", copied:"已复制！",
+    welcomeMsg:"您好！我是摩洛哥房地产的虚拟助手。我会问您几个简短的问题，以了解您的需求并让您与我们的团队取得联系。",
+    startBtn:"开始", selectMultiHint:"您可以选择多个选项",
+    confirmMulti:"确认选择",
+    whatsappBtn:"通过WhatsApp发送",
+    typing:"正在输入..."
+  },
+  q:{
+    objetivo:{q:"您的目标是什么？", opts:[
+      {id:"comprar_vivienda", label:"购买住宅", ic:"🏠"},
+      {id:"comprar_terreno", label:"购买土地", ic:"🗺️"},
+      {id:"alquilar", label:"租赁房产", ic:"🔑"},
+      {id:"vender", label:"出售房产", ic:"💰"},
+      {id:"invertir", label:"投资（租金收益）", ic:"📈"},
+      {id:"estimacion", label:"免费评估", ic:"📋"},
+      {id:"gestion_locativa", label:"租赁管理", ic:"🗂️"},
+      {id:"asesoria", label:"法律/行政咨询", ic:"⚖️"}
+    ]},
+    tipoPropiedad:{q:"您对哪种类型的房产感兴趣？", opts:[
+      {id:"vivienda", label:"住宅", ic:"🏠"},
+      {id:"terreno", label:"土地", ic:"🗺️"},
+      {id:"comercial", label:"商业用房", ic:"🏢"},
+      {id:"garaje", label:"车库", ic:"🚗"}
+    ]},
+    zona:{q:"您在摩洛哥的哪个城市或地区寻找？"},
+    presupuesto:{q:"您的大致预算是多少？", opts:[
+      {id:"b1", label:"低于5万欧元"},
+      {id:"b2", label:"5万-10万欧元"},
+      {id:"b3", label:"10万-20万欧元"},
+      {id:"b4", label:"20万-50万欧元"},
+      {id:"b5", label:"超过50万欧元"},
+      {id:"b6", label:"稍后再说明"}
+    ]},
+    viviendaSubtipo:{q:"您在寻找哪种类型的住宅？", opts:[
+      {id:"casa_villa", label:"独栋房屋/别墅", ic:"🏡"},
+      {id:"apartamento", label:"公寓", ic:"🏢"},
+      {id:"riad", label:"里亚德庭院宅", ic:"🕌"},
+      {id:"edificio", label:"收益型房产", ic:"🏗️"}
+    ]},
+    viviendaHabitaciones:{q:"您需要几间卧室？", opts:[
+      {id:"1", label:"1间卧室"},{id:"2", label:"2间卧室"},{id:"3", label:"3间卧室"},{id:"4", label:"4间卧室"},{id:"5+", label:"5间或以上"}
+    ]},
+    viviendaBanos:{q:"需要几个浴室？", opts:[
+      {id:"1", label:"1个浴室"},{id:"2", label:"2个浴室"},{id:"3", label:"3个浴室"},{id:"4+", label:"4个或以上"}
+    ]},
+    viviendaSuperficie:{q:"您需要多大面积（平方米）？"},
+    viviendaExtras:{q:"您对哪些特色感兴趣？", opts:[
+      {id:"piscina", label:"游泳池", ic:"🏊"},{id:"jardin", label:"花园", ic:"🌳"},{id:"terraza", label:"露台", ic:"🌇"},
+      {id:"garaje_incl", label:"车库", ic:"🚗"},{id:"ascensor", label:"电梯", ic:"🛗"},{id:"amueblado", label:"带家具", ic:"🛋️"},
+      {id:"aire_acondicionado", label:"空调", ic:"❄️"},{id:"seguridad", label:"24小时安保", ic:"🔒"}
+    ]},
+    viviendaEstado:{q:"新建还是二手？", opts:[
+      {id:"nueva", label:"新建"},{id:"reventa", label:"二手"},{id:"indiferente", label:"无所谓"}
+    ]},
+    terrenoUso:{q:"土地的用途是什么？", opts:[
+      {id:"residencial", label:"住宅用途", ic:"🏠"},{id:"comercial", label:"商业用途", ic:"🏬"},
+      {id:"industrial", label:"工业用途", ic:"🏭"},{id:"inversion", label:"投资用途", ic:"📈"}
+    ]},
+    terrenoSuperficie:{q:"您需要多大面积（平方米）？"},
+    terrenoTitulado:{q:"土地是否需要有产权登记？", opts:[
+      {id:"si", label:"是，必须要有"},{id:"no", label:"不需要"},{id:"no_seguro", label:"不确定"}
+    ]},
+    comercialSubtipo:{q:"您在寻找哪种类型的商业用房？", opts:[
+      {id:"local", label:"商铺", ic:"🏬"},{id:"oficina", label:"办公室", ic:"🏢"},
+      {id:"nave", label:"仓库", ic:"🏭"},{id:"edificio_rendimiento", label:"收益型建筑", ic:"🏗️"}
+    ]},
+    comercialSuperficie:{q:"您需要多大面积（平方米）？"},
+    comercialPlanta:{q:"您偏好哪种位置？", opts:[
+      {id:"baja", label:"一楼"},{id:"alta", label:"高层"},{id:"independiente", label:"独立建筑"}
+    ]},
+    garajePlazas:{q:"您需要几个车位？", opts:[
+      {id:"1", label:"1个车位"},{id:"2", label:"2个车位"},{id:"3+", label:"3个或以上"}
+    ]},
+    garajeTipo:{q:"有顶棚还是露天？", opts:[
+      {id:"cubierto", label:"有顶棚"},{id:"descubierto", label:"露天"},{id:"indiferente", label:"无所谓"}
+    ]},
+    garajeUbicacion:{q:"您希望车库位于哪里？", opts:[
+      {id:"en_residencia", label:"住宅小区内"},{id:"independiente", label:"独立/街边"}
+    ]},
+    plazo:{q:"您希望在多长时间内完成？", opts:[
+      {id:"inmediato", label:"立即"},{id:"1_3_meses", label:"1至3个月"},
+      {id:"3_6_meses", label:"3至6个月"},{id:"mas_6_meses", label:"6个月以上"},{id:"solo_info", label:"只是想了解信息"}
+    ]},
+    gestion:{q:"您是否希望获得全程协助（搜寻、法律及行政手续）？", opts:[
+      {id:"acompanamiento_completo", label:"是，需要全程协助"},
+      {id:"solo_info", label:"不需要，只要信息"},
+      {id:"ya_tengo_agente", label:"我已经有代理人"}
+    ]},
+    nacionalidad:{q:"您的国籍是？", chips:["摩洛哥","西班牙","法国","比利时","德国","荷兰","意大利","葡萄牙","中国","俄罗斯"], other:"其他"},
+    nombre:{q:"请问您的全名是？"},
+    email:{q:"请问您的电子邮箱是？"},
+    telefono:{q:"请问您的电话号码是（含国家代码）？"}
+  },
+  labels:{
+    objetivo:"目标", tipoPropiedad:"房产类型", subtipo:"子类型", zona:"区域", presupuesto:"预算",
+    habitaciones:"卧室数", banos:"浴室数", superficie:"面积", extras:"特色", estado:"状态",
+    uso:"用途", titulado:"产权登记", planta:"位置", plazas:"车位数", tipoGaraje:"有顶棚/露天",
+    ubicacionGaraje:"位置", plazo:"时限", gestion:"协助", nacionalidad:"国籍",
+    nombre:"姓名", email:"邮箱", telefono:"电话"
+  },
+  wa:{
+    title:"新的房产咨询请求", origin:"摩洛哥房地产网站", date:"日期",
+    sectionRequest:"请求详情", sectionProperty:"房产详情", sectionContact:"联系方式",
+    footer:"此请求由网站聊天机器人自动生成。"
+  }
+};
+
+I18N.ru = {
+  dir:"ltr", name:"Русский",
+  ui:{
+    headerTitle:"Недвижимость Марокко", headerSubtitle:"Ваш виртуальный консультант по недвижимости",
+    resetBtn:"Сбросить", resetConfirm:"Вы уверены, что хотите сбросить разговор? Введённые данные будут утеряны.",
+    yes:"Да, сбросить", no:"Отмена", back:"Назад", send:"Отправить", next:"Продолжить",
+    edit:"Изменить ответы", confirmSend:"Подтвердить и отправить через WhatsApp",
+    resumeTitle:"У вас есть незавершённый разговор", resumeText:"Хотите продолжить с того места, где остановились?",
+    resumeContinue:"Продолжить", resumeRestart:"Начать заново",
+    otherOption:"Другое", otherPlaceholder:"Введите здесь...",
+    errName:"Введите корректное имя (только буквы, минимум 2 символа).",
+    errEmail:"Введите корректный email.",
+    errPhone:"Введите корректный номер телефона (минимум 8 цифр).",
+    errZone:"Введите корректный район.",
+    errRequired:"Это поле обязательно.",
+    placeholderZone:"Введите город или район...",
+    placeholderSuperficie:"Площадь в м²...",
+    placeholderName:"Ваше полное имя...",
+    placeholderEmail:"you@email.com",
+    placeholderPhone:"+7 900 000 00 00",
+    summaryTitle:"Сводка вашего запроса",
+    progressStep:"Шаг", progressOf:"из",
+    whatsappFallback:"Если WhatsApp не открылся автоматически, скопируйте сообщение:",
+    copy:"Скопировать сообщение", copied:"Скопировано!",
+    welcomeMsg:"Здравствуйте! Я виртуальный ассистент компании «Недвижимость Марокко». Задам несколько коротких вопросов, чтобы понять, что вы ищете, и связать вас с нашей командой.",
+    startBtn:"Начать", selectMultiHint:"Можно выбрать несколько вариантов",
+    confirmMulti:"Подтвердить выбор",
+    whatsappBtn:"Отправить через WhatsApp",
+    typing:"Печатает..."
+  },
+  q:{
+    objetivo:{q:"Какова ваша цель?", opts:[
+      {id:"comprar_vivienda", label:"Купить жильё", ic:"🏠"},
+      {id:"comprar_terreno", label:"Купить участок", ic:"🗺️"},
+      {id:"alquilar", label:"Арендовать недвижимость", ic:"🔑"},
+      {id:"vender", label:"Продать недвижимость", ic:"💰"},
+      {id:"invertir", label:"Инвестировать (доходность аренды)", ic:"📈"},
+      {id:"estimacion", label:"Бесплатная оценка", ic:"📋"},
+      {id:"gestion_locativa", label:"Управление арендой", ic:"🗂️"},
+      {id:"asesoria", label:"Юридическая/административная консультация", ic:"⚖️"}
+    ]},
+    tipoPropiedad:{q:"Какой тип недвижимости вас интересует?", opts:[
+      {id:"vivienda", label:"Жильё", ic:"🏠"},
+      {id:"terreno", label:"Участок", ic:"🗺️"},
+      {id:"comercial", label:"Коммерческое помещение", ic:"🏢"},
+      {id:"garaje", label:"Гараж", ic:"🚗"}
+    ]},
+    zona:{q:"В каком городе или районе Марокко вы ищете?"},
+    presupuesto:{q:"Какой у вас примерный бюджет?", opts:[
+      {id:"b1", label:"Менее 50 000 €"},
+      {id:"b2", label:"50 000 € – 100 000 €"},
+      {id:"b3", label:"100 000 € – 200 000 €"},
+      {id:"b4", label:"200 000 € – 500 000 €"},
+      {id:"b5", label:"Более 500 000 €"},
+      {id:"b6", label:"Укажу позже"}
+    ]},
+    viviendaSubtipo:{q:"Какой тип жилья вы ищете?", opts:[
+      {id:"casa_villa", label:"Дом / Вилла", ic:"🏡"},
+      {id:"apartamento", label:"Квартира", ic:"🏢"},
+      {id:"riad", label:"Риад", ic:"🕌"},
+      {id:"edificio", label:"Доходная недвижимость", ic:"🏗️"}
+    ]},
+    viviendaHabitaciones:{q:"Сколько спален вам нужно?", opts:[
+      {id:"1", label:"1 спальня"},{id:"2", label:"2 спальни"},{id:"3", label:"3 спальни"},{id:"4", label:"4 спальни"},{id:"5+", label:"5 и более"}
+    ]},
+    viviendaBanos:{q:"Сколько ванных комнат?", opts:[
+      {id:"1", label:"1 ванная"},{id:"2", label:"2 ванные"},{id:"3", label:"3 ванные"},{id:"4+", label:"4 и более"}
+    ]},
+    viviendaSuperficie:{q:"Какую площадь вы ищете (м²)?"},
+    viviendaExtras:{q:"Какие особенности вас интересуют?", opts:[
+      {id:"piscina", label:"Бассейн", ic:"🏊"},{id:"jardin", label:"Сад", ic:"🌳"},{id:"terraza", label:"Терраса", ic:"🌇"},
+      {id:"garaje_incl", label:"Гараж", ic:"🚗"},{id:"ascensor", label:"Лифт", ic:"🛗"},{id:"amueblado", label:"С мебелью", ic:"🛋️"},
+      {id:"aire_acondicionado", label:"Кондиционер", ic:"❄️"},{id:"seguridad", label:"Охрана 24ч", ic:"🔒"}
+    ]},
+    viviendaEstado:{q:"Новостройка или вторичное жильё?", opts:[
+      {id:"nueva", label:"Новостройка"},{id:"reventa", label:"Вторичное жильё"},{id:"indiferente", label:"Без разницы"}
+    ]},
+    terrenoUso:{q:"Каково назначение участка?", opts:[
+      {id:"residencial", label:"Жилое", ic:"🏠"},{id:"comercial", label:"Коммерческое", ic:"🏬"},
+      {id:"industrial", label:"Промышленное", ic:"🏭"},{id:"inversion", label:"Инвестиции", ic:"📈"}
+    ]},
+    terrenoSuperficie:{q:"Какую площадь вы ищете (м²)?"},
+    terrenoTitulado:{q:"Должен ли участок иметь оформленный титул (регистрацию)?", opts:[
+      {id:"si", label:"Да, обязательно"},{id:"no", label:"Не обязательно"},{id:"no_seguro", label:"Не уверен"}
+    ]},
+    comercialSubtipo:{q:"Какой тип коммерческого помещения вы ищете?", opts:[
+      {id:"local", label:"Торговое помещение", ic:"🏬"},{id:"oficina", label:"Офис", ic:"🏢"},
+      {id:"nave", label:"Склад", ic:"🏭"},{id:"edificio_rendimiento", label:"Доходное здание", ic:"🏗️"}
+    ]},
+    comercialSuperficie:{q:"Какая площадь вам нужна (м²)?"},
+    comercialPlanta:{q:"Какое расположение вы предпочитаете?", opts:[
+      {id:"baja", label:"Первый этаж"},{id:"alta", label:"Верхний этаж"},{id:"independiente", label:"Отдельное здание"}
+    ]},
+    garajePlazas:{q:"Сколько мест вам нужно?", opts:[
+      {id:"1", label:"1 место"},{id:"2", label:"2 места"},{id:"3+", label:"3 и более"}
+    ]},
+    garajeTipo:{q:"Крытый или открытый?", opts:[
+      {id:"cubierto", label:"Крытый"},{id:"descubierto", label:"Открытый"},{id:"indiferente", label:"Без разницы"}
+    ]},
+    garajeUbicacion:{q:"Где вы предпочитаете?", opts:[
+      {id:"en_residencia", label:"Внутри жилого комплекса"},{id:"independiente", label:"Отдельно / на улице"}
+    ]},
+    plazo:{q:"В какие сроки вы хотите реализовать это?", opts:[
+      {id:"inmediato", label:"Немедленно"},{id:"1_3_meses", label:"1–3 месяца"},
+      {id:"3_6_meses", label:"3–6 месяцев"},{id:"mas_6_meses", label:"Более 6 месяцев"},{id:"solo_info", label:"Просто интересуюсь"}
+    ]},
+    gestion:{q:"Нужна ли вам помощь в процессе (поиск, юридические и административные вопросы)?", opts:[
+      {id:"acompanamiento_completo", label:"Да, полное сопровождение"},
+      {id:"solo_info", label:"Нет, только информация"},
+      {id:"ya_tengo_agente", label:"У меня уже есть агент"}
+    ]},
+    nacionalidad:{q:"Какое у вас гражданство?", chips:["Марокканское","Испанское","Французское","Бельгийское","Немецкое","Голландское","Итальянское","Португальское","Китайское","Российское"], other:"Другое"},
+    nombre:{q:"Как вас зовут (полное имя)?"},
+    email:{q:"Какой у вас email?"},
+    telefono:{q:"Какой у вас номер телефона (с кодом страны)?"}
+  },
+  labels:{
+    objetivo:"Цель", tipoPropiedad:"Тип недвижимости", subtipo:"Подтип", zona:"Район", presupuesto:"Бюджет",
+    habitaciones:"Спальни", banos:"Ванные", superficie:"Площадь", extras:"Особенности", estado:"Состояние",
+    uso:"Назначение", titulado:"Оформленный участок", planta:"Расположение", plazas:"Места", tipoGaraje:"Крытый/открытый",
+    ubicacionGaraje:"Расположение", plazo:"Срок", gestion:"Сопровождение", nacionalidad:"Гражданство",
+    nombre:"Имя", email:"Email", telefono:"Телефон"
+  },
+  wa:{
+    title:"НОВЫЙ ЗАПРОС НА НЕДВИЖИМОСТЬ", origin:"Сайт «Недвижимость Марокко»", date:"Дата",
+    sectionRequest:"ДЕТАЛИ ЗАПРОСА", sectionProperty:"ДЕТАЛИ ОБЪЕКТА", sectionContact:"КОНТАКТНЫЕ ДАННЫЕ",
+    footer:"Запрос сформирован автоматически через чат-бот сайта."
+  }
+};
+
+/* =========================================================
+   STATE
+========================================================= */
+let state = {
+  lang: "es",
+  answers: {},
+  answerDisplay: {}, // human-readable labels for summary/whatsapp
+  steps: [],
+  stepIndex: 0,
+  finished: false
+};
+
+/* =========================================================
+   HELPERS
+========================================================= */
+function t(){ return I18N[state.lang]; }
+function $(sel){ return document.querySelector(sel); }
+function el(tag, cls, html){ const e=document.createElement(tag); if(cls) e.className=cls; if(html!==undefined) e.innerHTML=html; return e; }
+function escapeHtml(str){ return String(str).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+function saveState(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      lang: state.lang, answers: state.answers, answerDisplay: state.answerDisplay,
+      steps: state.steps, stepIndex: state.stepIndex, finished: state.finished,
+      chatHTML: $("#chatArea").innerHTML
+    }));
+  }catch(e){}
+}
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return null;
+    return JSON.parse(raw);
+  }catch(e){ return null; }
+}
+function clearState(){
+  try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+}
+
+/* =========================================================
+   VALIDATIONS
+========================================================= */
+function validateName(v){
+  const s = v.trim();
+  if(s.length < 2 || s.length > 60) return false;
+  return /^[\p{L}\s'’.-]+$/u.test(s);
+}
+function validateEmail(v){
+  const s = v.trim();
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s);
+}
+function validatePhone(v){
+  const s = v.trim().replace(/[\s()-]/g,'');
+  return /^\+?[0-9]{8,15}$/.test(s);
+}
+function validateZone(v){
+  const s = v.trim();
+  if(s.length < 2 || s.length > 60) return false;
+  return /^[\p{L}\s'’.,-]+$/u.test(s);
+}
+function validateNumberish(v){
+  const s = v.trim();
+  if(s.length < 1 || s.length > 20) return false;
+  return /^[0-9]+([.,][0-9]+)?\s*(m2|m²)?$/i.test(s) || /^[\p{L}0-9\s.,²m-]+$/u.test(s);
+}
+
+/* =========================================================
+   STEP DEFINITIONS (order + logic)
+========================================================= */
+const BASE_STEPS_1 = ["objetivo","tipoPropiedad"];
+const BASE_STEPS_2 = ["zona","presupuesto"];
+const DETAIL_STEPS = {
+  vivienda: ["viviendaSubtipo","viviendaHabitaciones","viviendaBanos","viviendaSuperficie","viviendaExtras","viviendaEstado"],
+  terreno: ["terrenoUso","terrenoSuperficie","terrenoTitulado"],
+  comercial: ["comercialSubtipo","comercialSuperficie","comercialPlanta"],
+  garaje: ["garajePlazas","garajeTipo","garajeUbicacion"]
+};
+const TAIL_STEPS = ["plazo","gestion","nacionalidad","nombre","email","telefono","resumen"];
+
+const CHOICE_STEPS = new Set([
+  "objetivo","tipoPropiedad","presupuesto","viviendaSubtipo","viviendaHabitaciones","viviendaBanos",
+  "viviendaEstado","terrenoUso","terrenoTitulado","comercialSubtipo","comercialPlanta",
+  "garajePlazas","garajeTipo","garajeUbicacion","plazo","gestion"
+]);
+const MULTI_STEPS = new Set(["viviendaExtras"]);
+const TEXT_STEPS = new Set(["viviendaSuperficie","terrenoSuperficie","comercialSuperficie","nombre","email","telefono"]);
+const ZONE_STEP = "zona";
+const NATION_STEP = "nacionalidad";
+const SUMMARY_STEP = "resumen";
+
+/* =========================================================
+   RENDER: CHAT MESSAGES
+========================================================= */
+function addBotMessage(html){
+  const row = el("div","msgRow bot");
+  const bubble = el("div","bubble", html);
+  row.appendChild(bubble);
+  $("#chatArea").appendChild(row);
+  scrollChatBottom();
+  return row;
+}
+function addUserMessage(text){
+  const row = el("div","msgRow user");
+  const bubble = el("div","bubble", escapeHtml(text));
+  row.appendChild(bubble);
+  $("#chatArea").appendChild(row);
+  scrollChatBottom();
+}
+function scrollChatBottom(){
+  requestAnimationFrame(()=>{ $("#chatArea").scrollTop = $("#chatArea").scrollHeight; });
+}
+function showTyping(cb){
+  const row = el("div","msgRow bot");
+  const bubble = el("div","bubble typingBubble","<span></span><span></span><span></span>");
+  row.appendChild(bubble);
+  $("#chatArea").appendChild(row);
+  scrollChatBottom();
+  setTimeout(()=>{ row.remove(); cb(); }, 480);
+}
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+function updateProgress(){
+  const total = state.steps.length || 1;
+  const idx = Math.min(state.stepIndex, total);
+  const pct = Math.round((idx/total)*100);
+  $("#progressBar").style.width = pct + "%";
+}
+
+/* =========================================================
+   FLOW ENGINE
+========================================================= */
+function startFlow(fresh){
+  if(fresh){
+    state.answers = {};
+    state.answerDisplay = {};
+    state.stepIndex = 0;
+    state.steps = BASE_STEPS_1.slice();
+    state.finished = false;
+    $("#chatArea").innerHTML = "";
+    addBotMessage(escapeHtml(t().ui.welcomeMsg));
+    saveState();
+  }
+  renderCurrentStep();
+}
+
+function extendStepsAfterTipo(tipo){
+  state.steps = BASE_STEPS_1.concat(BASE_STEPS_2, DETAIL_STEPS[tipo] || [], TAIL_STEPS);
+}
+
+function renderCurrentStep(){
+  updateProgress();
+  const stepId = state.steps[state.stepIndex];
+  if(!stepId){ return; }
+  if(stepId === SUMMARY_STEP){
+    renderSummaryStep();
+    return;
+  }
+  const qData = t().q[stepId];
+  showTyping(()=>{
+    addBotMessage(escapeHtml(qData.q));
+    renderInputForStep(stepId, qData);
+  });
+}
+
+function renderInputForStep(stepId, qData){
+  const area = $("#inputArea");
+  area.innerHTML = "";
+
+  // back link (not on first step)
+  if(state.stepIndex > 0){
+    const back = el("button","backLink", "&larr; " + escapeHtml(t().ui.back));
+    back.onclick = goBack;
+    area.appendChild(back);
+  }
+
+  if(CHOICE_STEPS.has(stepId)){
+    const grid = el("div","optionsGrid");
+    qData.opts.forEach(opt=>{
+      const btn = el("button","optBtn "+(qData.opts.length<=3?"wide":""), (opt.ic? `<span class="ic">${opt.ic}</span>`:"") + escapeHtml(opt.label));
+      btn.onclick = ()=> submitAnswer(stepId, opt.id, opt.label);
+      grid.appendChild(btn);
+    });
+    area.appendChild(grid);
+    return;
+  }
+
+  if(MULTI_STEPS.has(stepId)){
+    const hint = el("div","hint", escapeHtml(t().ui.selectMultiHint));
+    area.appendChild(hint);
+    const grid = el("div","optionsGrid");
+    const selected = new Set();
+    qData.opts.forEach(opt=>{
+      const btn = el("button","optBtn", (opt.ic? `<span class="ic">${opt.ic}</span>`:"") + escapeHtml(opt.label));
+      btn.onclick = ()=>{
+        if(selected.has(opt.id)){ selected.delete(opt.id); btn.classList.remove("selected"); }
+        else{ selected.add(opt.id); btn.classList.add("selected"); }
+      };
+      grid.appendChild(btn);
+    });
+    area.appendChild(grid);
+    const confirmBtn = el("button","btnPrimary", escapeHtml(t().ui.confirmMulti));
+    confirmBtn.style.marginTop="10px"; confirmBtn.style.width="100%";
+    confirmBtn.onclick = ()=>{
+      const ids = Array.from(selected);
+      const labels = qData.opts.filter(o=>ids.includes(o.id)).map(o=>o.label);
+      const displayText = labels.length? labels.join(", ") : (state.lang==='ar'?"لا شيء":"—");
+      submitAnswer(stepId, ids, displayText);
+    };
+    area.appendChild(confirmBtn);
+    return;
+  }
+
+  if(stepId === ZONE_STEP){
+    const chipsRow = el("div","chipsRow");
+    CITY_CHIPS.forEach(city=>{
+      const chip = el("button","chip", escapeHtml(city));
+      chip.onclick = ()=> submitAnswer(stepId, city, city);
+      chipsRow.appendChild(chip);
+    });
+    area.appendChild(chipsRow);
+    buildTextInput(area, stepId, t().ui.placeholderZone, validateZone, t().ui.errZone);
+    return;
+  }
+
+  if(stepId === NATION_STEP){
+    const chipsRow = el("div","chipsRow");
+    qData.chips.forEach(nat=>{
+      const chip = el("button","chip", escapeHtml(nat));
+      chip.onclick = ()=> submitAnswer(stepId, nat, nat);
+      chipsRow.appendChild(chip);
+    });
+    const otherChip = el("button","chip", escapeHtml(qData.other));
+    chipsRow.appendChild(otherChip);
+    area.appendChild(chipsRow);
+    const inputWrap = buildTextInput(area, stepId, t().ui.otherPlaceholder, (v)=>v.trim().length>=2, t().ui.errRequired);
+    otherChip.onclick = ()=>{ inputWrap.input.focus(); };
+    return;
+  }
+
+  if(TEXT_STEPS.has(stepId)){
+    let placeholder, validator, errMsg;
+    if(stepId === "nombre"){ placeholder=t().ui.placeholderName; validator=validateName; errMsg=t().ui.errName; }
+    else if(stepId === "email"){ placeholder=t().ui.placeholderEmail; validator=validateEmail; errMsg=t().ui.errEmail; }
+    else if(stepId === "telefono"){ placeholder=t().ui.placeholderPhone; validator=validatePhone; errMsg=t().ui.errPhone; }
+    else { placeholder=t().ui.placeholderSuperficie; validator=validateNumberish; errMsg=t().ui.errRequired; }
+    buildTextInput(area, stepId, placeholder, validator, errMsg, stepId==="telefono"?"tel":(stepId==="email"?"email":"text"));
+    return;
+  }
+}
+
+function buildTextInput(area, stepId, placeholder, validator, errMsg, type){
+  const row = el("div","textInputRow");
+  const input = document.createElement("input");
+  input.type = type || "text";
+  input.placeholder = placeholder;
+  input.autocomplete = "off";
+  row.appendChild(input);
+  const sendBtn = el("button","sendBtn","<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><line x1='22' y1='2' x2='11' y2='13'/><polygon points='22 2 15 22 11 13 2 9 22 2'/></svg>");
+  row.appendChild(sendBtn);
+  area.appendChild(row);
+  const err = el("div","errMsg", "⚠ " + escapeHtml(errMsg));
+  area.appendChild(err);
+
+  function trySubmit(){
+    const val = input.value.trim();
+    if(!val || !validator(val)){
+      err.classList.add("show");
+      input.focus();
+      return;
+    }
+    err.classList.remove("show");
+    submitAnswer(stepId, val, val);
+  }
+  sendBtn.onclick = trySubmit;
+  input.addEventListener("keydown", (e)=>{ if(e.key==="Enter"){ e.preventDefault(); trySubmit(); } });
+  setTimeout(()=>input.focus(), 50);
+  return {input, row};
+}
+
+function goBack(){
+  if(state.stepIndex <= 0) return;
+  state.stepIndex -= 1;
+  const stepId = state.steps[state.stepIndex];
+  delete state.answers[stepId];
+  delete state.answerDisplay[stepId];
+  saveState();
+  renderCurrentStep();
+}
+
+function submitAnswer(stepId, value, displayText){
+  state.answers[stepId] = value;
+  state.answerDisplay[stepId] = displayText;
+  addUserMessage(displayText);
+
+  if(stepId === "tipoPropiedad"){
+    extendStepsAfterTipo(value);
+  }
+
+  state.stepIndex += 1;
+  saveState();
+  renderCurrentStep();
+}
+
+/* =========================================================
+   SUMMARY + WHATSAPP
+========================================================= */
+function labelFor(stepId){
+  const L = t().labels;
+  const map = {
+    objetivo:L.objetivo, tipoPropiedad:L.tipoPropiedad, zona:L.zona, presupuesto:L.presupuesto,
+    viviendaSubtipo:L.subtipo, viviendaHabitaciones:L.habitaciones, viviendaBanos:L.banos,
+    viviendaSuperficie:L.superficie, viviendaExtras:L.extras, viviendaEstado:L.estado,
+    terrenoUso:L.uso, terrenoSuperficie:L.superficie, terrenoTitulado:L.titulado,
+    comercialSubtipo:L.subtipo, comercialSuperficie:L.superficie, comercialPlanta:L.planta,
+    garajePlazas:L.plazas, garajeTipo:L.tipoGaraje, garajeUbicacion:L.ubicacionGaraje,
+    plazo:L.plazo, gestion:L.gestion, nacionalidad:L.nacionalidad,
+    nombre:L.nombre, email:L.email, telefono:L.telefono
+  };
+  return map[stepId] || stepId;
+}
+
+function renderSummaryStep(){
+  showTyping(()=>{
+    addBotMessage("<b>" + escapeHtml(t().ui.summaryTitle) + "</b>");
+    const area = $("#inputArea");
+    area.innerHTML = "";
+
+    const back = el("button","backLink", "&larr; " + escapeHtml(t().ui.back));
+    back.onclick = goBack;
+    area.appendChild(back);
+
+    const card = el("div","summaryCard");
+    state.steps.forEach(sid=>{
+      if(sid === SUMMARY_STEP) return;
+      const disp = state.answerDisplay[sid];
+      if(disp === undefined) return;
+      const row = el("div","summaryRow");
+      row.appendChild(el("div","k", escapeHtml(labelFor(sid))));
+      row.appendChild(el("div","v", escapeHtml(disp)));
+      card.appendChild(row);
+    });
+    area.appendChild(card);
+
+    const rowBtns = el("div","rowBtns");
+    const editBtn = el("button","btnGhost", escapeHtml(t().ui.edit));
+    editBtn.onclick = ()=>{ state.stepIndex = 0; state.answers={}; state.answerDisplay={}; state.steps = BASE_STEPS_1.slice(); saveState(); startFlow(true); };
+    const confirmBtn = el("button","btnPrimary", escapeHtml(t().ui.confirmSend));
+    confirmBtn.onclick = renderFinalSend;
+    rowBtns.appendChild(editBtn);
+    rowBtns.appendChild(confirmBtn);
+    area.appendChild(rowBtns);
+
+    state.finished = true;
+    saveState();
+  });
+}
+
+function buildWhatsAppMessage(){
+  const L = t().labels, WA = t().wa, A = state.answerDisplay;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString(state.lang==='ar'?'ar-MA':state.lang, {year:'numeric', month:'2-digit', day:'2-digit'}) + " " + now.toLocaleTimeString(state.lang, {hour:'2-digit', minute:'2-digit'});
+
+  const lines = [];
+  lines.push(`*${WA.title}*`);
+  lines.push(`_${WA.origin}_`);
+  lines.push(`${WA.date}: ${dateStr}`);
+  lines.push("");
+  lines.push(`*${WA.sectionRequest}*`);
+  pushIf(lines, L.objetivo, A.objetivo);
+  pushIf(lines, L.tipoPropiedad, A.tipoPropiedad);
+  pushIf(lines, L.zona, A.zona);
+  pushIf(lines, L.presupuesto, A.presupuesto);
+  lines.push("");
+  lines.push(`*${WA.sectionProperty}*`);
+  ["viviendaSubtipo","viviendaHabitaciones","viviendaBanos","viviendaSuperficie","viviendaExtras","viviendaEstado",
+   "terrenoUso","terrenoSuperficie","terrenoTitulado",
+   "comercialSubtipo","comercialSuperficie","comercialPlanta",
+   "garajePlazas","garajeTipo","garajeUbicacion"].forEach(k=>{
+    if(A[k] !== undefined) pushIf(lines, labelFor(k), A[k]);
+  });
+  pushIf(lines, L.plazo, A.plazo);
+  pushIf(lines, L.gestion, A.gestion);
+  lines.push("");
+  lines.push(`*${WA.sectionContact}*`);
+  pushIf(lines, L.nacionalidad, A.nacionalidad);
+  pushIf(lines, L.nombre, A.nombre);
+  pushIf(lines, L.email, A.email);
+  pushIf(lines, L.telefono, A.telefono);
+  lines.push("");
+  lines.push(`_${WA.footer}_`);
+
+  return lines.join("\n");
+}
+function pushIf(lines, label, value){
+  if(value !== undefined && value !== null && value !== "") lines.push(`*${label}:* ${value}`);
+}
+
+function renderFinalSend(){
+  const area = $("#inputArea");
+  const msg = buildWhatsAppMessage();
+  const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg);
+
+  addBotMessage(escapeHtml(t().ui.confirmSend));
+  area.innerHTML = "";
+
+  const waBtn = el("button","whatsBtn", "<svg viewBox='0 0 24 24' fill='currentColor'><path d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.148-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.148-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z'/><path d='M12.012 2C6.494 2 2.014 6.48 2.014 12c0 1.977.577 3.822 1.573 5.373L2 22l4.767-1.554A9.94 9.94 0 0012.012 22C17.53 22 22 17.52 22 12S17.53 2 12.012 2zm0 18.2a8.18 8.18 0 01-4.166-1.14l-.299-.177-2.828.922.93-2.756-.194-.283A8.19 8.19 0 013.81 12c0-4.522 3.68-8.2 8.202-8.2 4.523 0 8.2 3.678 8.2 8.2 0 4.523-3.677 8.2-8.2 8.2z'/></svg> " + escapeHtml(t().ui.whatsappBtn));
+  waBtn.onclick = ()=>{ window.open(url, "_blank"); };
+  area.appendChild(waBtn);
+
+  const fallback = el("div","hint", escapeHtml(t().ui.whatsappFallback));
+  fallback.style.marginTop = "10px";
+  area.appendChild(fallback);
+
+  const copyRow = el("div","copyRow");
+  const copyBtn = el("button","btnGhost", escapeHtml(t().ui.copy));
+  copyRow.appendChild(copyBtn);
+  area.appendChild(copyRow);
+
+  const box = el("div","copyBox show", escapeHtml(msg));
+  area.appendChild(box);
+
+  copyBtn.onclick = ()=>{
+    navigator.clipboard.writeText(msg).then(()=>{
+      copyBtn.textContent = t().ui.copied;
+      setTimeout(()=>{ copyBtn.textContent = t().ui.copy; }, 1800);
+    }).catch(()=>{});
+  };
+
+  window.open(url, "_blank");
+  saveState();
+}
+
+/* =========================================================
+   LANGUAGE SELECTOR / HEADER
+========================================================= */
+function renderLangRow(){
+  const row = $("#langRow");
+  row.innerHTML = "";
+  LANGS.forEach(l=>{
+    const btn = el("button","langBtn"+(l.code===state.lang?" active":""), `${l.flag} <span class="code">${l.label}</span>`);
+    btn.onclick = ()=> onLanguageChange(l.code);
+    row.appendChild(btn);
+  });
+}
+
+function applyStaticTexts(){
+  const ui = t().ui;
+  document.documentElement.lang = state.lang;
+  document.body.dir = t().dir;
+  document.documentElement.dir = t().dir;
+  $("#tHeaderTitle").textContent = ui.headerTitle;
+  $("#tHeaderSubtitle").textContent = ui.headerSubtitle;
+  $("#tResetBtn").textContent = ui.resetBtn;
+  $("#tResumeTitle").textContent = ui.resumeTitle;
+  $("#tResumeText").textContent = ui.resumeText;
+  $("#resumeRestartBtn").textContent = ui.resumeRestart;
+  $("#resumeContinueBtn").textContent = ui.resumeContinue;
+  document.title = ui.headerTitle + " — " + ui.headerSubtitle;
+}
+
+function onLanguageChange(code){
+  if(code === state.lang) return;
+  state.lang = code;
+  renderLangRow();
+  applyStaticTexts();
+  clearState();
+  startFlow(true);
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+function confirmReset(){
+  const ui = t().ui;
+  const area = $("#inputArea");
+  addBotMessage("⚠ " + escapeHtml(ui.resetConfirm));
+  area.innerHTML = "";
+  const rowBtns = el("div","rowBtns");
+  const cancelBtn = el("button","btnGhost", escapeHtml(ui.no));
+  const okBtn = el("button","btnPrimary", escapeHtml(ui.yes));
+  cancelBtn.onclick = ()=>{ renderCurrentStepAfterCancel(); };
+  okBtn.onclick = ()=>{ clearState(); startFlow(true); };
+  rowBtns.appendChild(cancelBtn);
+  rowBtns.appendChild(okBtn);
+  area.appendChild(rowBtns);
+}
+function renderCurrentStepAfterCancel(){
+  // Re-render input for the step we were on (without repeating bot question bubble)
+  const stepId = state.steps[state.stepIndex];
+  if(!stepId){ return; }
+  if(stepId === SUMMARY_STEP){ renderSummaryStep(); return; }
+  const qData = t().q[stepId];
+  renderInputForStep(stepId, qData);
+}
+
+/* =========================================================
+   INIT
+========================================================= */
+function init(){
+  renderLangRow();
+  applyStaticTexts();
+
+  const saved = loadState();
+  if(saved && saved.steps && saved.steps.length && !saved.finished && saved.stepIndex > 0){
+    state.lang = saved.lang || "es";
+    renderLangRow();
+    applyStaticTexts();
+    $("#resumeBanner").style.display = "flex";
+    $("#resumeContinueBtn").onclick = ()=>{
+      state.answers = saved.answers || {};
+      state.answerDisplay = saved.answerDisplay || {};
+      state.steps = saved.steps || BASE_STEPS_1.slice();
+      state.stepIndex = saved.stepIndex || 0;
+      state.finished = saved.finished || false;
+      $("#chatArea").innerHTML = saved.chatHTML || "";
+      $("#resumeBanner").style.display = "none";
+      scrollChatBottom();
+      updateProgress();
+      if(state.finished){ renderSummaryStep(); } else { renderCurrentStep(); }
+    };
+    $("#resumeRestartBtn").onclick = ()=>{
+      $("#resumeBanner").style.display = "none";
+      clearState();
+      startFlow(true);
+    };
+  } else {
+    clearState();
+    startFlow(true);
+  }
+
+  $("#resetBtn").onclick = confirmReset;
+}
+
+document.addEventListener("DOMContentLoaded", init);
+})();
+</script>
+</body>
+</html>
